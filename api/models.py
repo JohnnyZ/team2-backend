@@ -5,6 +5,7 @@ from datetime import datetime
 # pip install django-enumfield
 from django_enumfield import enum
 from django.utils.translation import gettext as _
+from django_extensions.db.fields import (CreationDateTimeField, ModificationDateTimeField,)
 
 """
 # Puts a time stamp on all models that inherit from it 
