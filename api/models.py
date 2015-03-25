@@ -23,7 +23,7 @@ class TimeStampedModel(models.Model):
 """
 
 # Enum GenderType
-class GenderType(enum.Enum):
+class Gender(enum.Enum):
 	# UNKNOWN
 	UNKNOWN = 0
 	MALE = 1
