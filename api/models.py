@@ -1,6 +1,7 @@
 from django.db import models
 #from djanog.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import User
+from django.db import datetime
 # pip install django-enumfield
 from django_enumfield import enum
 from django.utils.translation import gettext as _
