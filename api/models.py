@@ -60,7 +60,7 @@ class appUser(models.Model):
 	user = models.ForeignKey(User)
 	password = models.CharField(_('password'), max_length=128)
 	birthday = models.DateField(null=True, blank=True)
-	gender = enum.EnumField(GenderType, default=Gender.UNKNOWN)
+	gender = enum.EnumField(Gender, default=Gender.UNKNOWN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	mediation_time = models.DateTimeField()
 	excercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
