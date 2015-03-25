@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # pip install django-enumfield
 from django_enumfield import enum
+from django.utils.translation import gettext as _
 
 """
 # Puts a time stamp on all models that inherit from it 
