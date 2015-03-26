@@ -17,14 +17,22 @@ class appUserAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class MeditationSessionAdmin(admin.ModelAdmin):
-	list_display = ('meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at')
+	list_display = ('meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
 class ExerciseSessionAdmin(admin.ModelAdmin):
-	list_display = ('excercise_id', 'user', 'percent_completed', 'created_at', 'updated_at')
+	list_display = ('excercise_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['excercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
 
 
 # Register your models here.
