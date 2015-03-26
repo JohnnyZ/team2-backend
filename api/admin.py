@@ -13,8 +13,8 @@ class appUserAdmin(admin.ModelAdmin):
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
-       return obj.user_id
-    user_id_display.short_description = 'User ID'
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at')
