@@ -3,11 +3,11 @@ from django.contrib import admin
 
 # TastyPie
 from tastypie.api import Api
-from api.api import MeditationResource, SessionResource, UserResource, appUserResource
+from api.api import MeditationResource, ExerciseResource, UserResource, appUserResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(MeditationResource())
-v1_api.register(SessionResource())
+v1_api.register(ExerciseResource())
 v1_api.register(UserResource())
 v1_api.register(appUserResource())
 

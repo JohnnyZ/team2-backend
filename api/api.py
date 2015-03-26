@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 class MeditationResource(ModelResource):
 	class Meta:
 		queryset = MeditationSession.objects.all()
-		resource_name = 'medsession'
+		resource_name = 'meditation_session'
 
-class SessionResource(ModelResource):
+class ExerciseResource(ModelResource):
 	class Meta:
-		queryset = SessionResource.objects.all()
-		resource_name = 'medsession'
+		queryset = ExerciseSession.objects.all()
+		resource_name = 'exercise_session'
 
 class UserResource(ModelResource):
 	class Meta:
