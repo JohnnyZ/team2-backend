@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics 
 from api.serializers import MeditationSerializers
-from models import MeditationSession
+from api.models import MeditationSession
 
 class MeditationSessionList(generics.ListCreateAPIView):
 	queryset = MeditationSession.objects.all()
