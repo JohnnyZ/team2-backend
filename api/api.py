@@ -26,7 +26,7 @@ class appUserResource(ModelResource):
 		}
 
 class MeditationResource(ModelResource):
-	user = fields.ForeignKey(appUserResource, 'appuser')
+	appuser = fields.ForeignKey(appUserResource, 'appuser')
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
