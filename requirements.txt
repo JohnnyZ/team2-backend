@@ -3,9 +3,12 @@ dj-database-url==0.3.0
 dj-static==0.0.6
 django-enumfield==1.2
 django-extensions==1.5.2
+django-tastypie==0.12.1
 django-toolbelt==0.0.1
 djangorestframework==3.0.5
 gunicorn==19.2.1
 psycopg2==2.6
+python-dateutil==2.4.1
+python-mimeparse==0.1.4
 six==1.9.0
 static3==0.5.1
