@@ -1,15 +1,15 @@
 from django.contrib import admin
 
-from api.models import appUser, MeditationSession, ExcerciseSession
+from api.models import appUser, MeditationSession, ExerciseSession
 
 
 
 class appUserAdmin(admin.ModelAdmin):
 	
-	list_display = ('user_id_display', 'user', 'start_date', 'mediation_time', 'excercise_day_of_week',
-			'excercise_time', 'created_at', 'updated_at')
-	fields = ['user', 'start_date', 'mediation_time', 'excercise_day_of_week',
-			'excercise_time', 'created_at', 'updated_at']
+	list_display = ('user_id_display', 'user', 'start_date', 'mediation_time', 'exercise_day_of_week',
+			'exercise_time', 'created_at', 'updated_at')
+	fields = ['user', 'start_date', 'mediation_time', 'exercise_day_of_week',
+			'exercise_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
@@ -26,8 +26,8 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
-	list_display = ('excercise_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
-	fields = ['excercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	list_display = ('exercise_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
+	fields = ['exercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
@@ -38,5 +38,5 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(appUser, appUserAdmin)
 admin.site.register(MeditationSession, MeditationSessionAdmin)
-admin.site.register(ExcerciseSession, ExerciseSessionAdmin)
+admin.site.register(ExerciseSession, ExerciseSessionAdmin)
 

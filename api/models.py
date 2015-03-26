@@ -64,8 +64,8 @@ class appUser(models.Model):
 	gender = enum.EnumField(Gender, default=Gender.UNKNOWN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	mediation_time = models.DateTimeField()
-	excercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
-	excercise_time = models.DateTimeField()
+	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
+	exercise_time = models.DateTimeField()
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
@@ -76,8 +76,8 @@ class MeditationSession(models.Model):
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
-class ExcerciseSession(models.Model):
-	excercise_id = models.IntegerField()
+class ExerciseSession(models.Model):
+	exercise_id = models.IntegerField()
 	user = models.ForeignKey(User)
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
