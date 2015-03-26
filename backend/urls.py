@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.conf.urls.defaults import *
 from django.contrib import admin
 
 from api.api import MeditationResource
