@@ -18,5 +18,5 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(appUser, appUserAdmin)
 admin.site.register(MeditationSession, MeditationSessionAdmin)
-admin.site.register(ExerciseSession, ExerciseSessionAdmin)
+admin.site.register(ExcerciseSession, ExerciseSessionAdmin)
 
