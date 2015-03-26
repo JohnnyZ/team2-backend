@@ -60,7 +60,6 @@ class appUser(models.Model):
 	#last_name = models.CharField(max_length=150)
 	#email = models.EmailField('email address', unique=True)
 	user = models.ForeignKey(User)
-	password = models.CharField(_('password'), max_length=128)
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.UNKNOWN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
