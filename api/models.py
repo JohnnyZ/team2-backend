@@ -75,9 +75,9 @@ class MeditationSession(models.Model):
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
-	
+
 class ExcerciseSession(models.Model):
-	Excercise_id = models.IntegerField()
+	excercise_id = models.IntegerField()
 	user = models.ForeignKey(User)
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
