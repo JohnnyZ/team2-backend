@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import appUser, ExerciseSession, ExcerciseSession
+from api.models import appUser, ExerciseSession, ExcerciseSession
 from django.contrib.auth.models import User
 
 # Need to make edits to this 
