@@ -18,7 +18,7 @@ class UserResource(ModelResource):
 	class Meta:
 		queryset = User.objects.all()
 		authentication = BasicAuthentication()
-		throttle = CacheDBThrottle(throttle_at=1000)
+		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['email', 'password', 'is_staff', 'is_superuser']
 
