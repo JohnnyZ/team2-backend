@@ -1,5 +1,6 @@
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
+from tastypie.throttle import BaseThrottle
 from tastypie.authentication import BasicAuthentication
 from api.models import * 
 from django.contrib.auth.models import User
