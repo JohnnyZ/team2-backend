@@ -7,4 +7,4 @@ urlpatterns = patterns('',
 		url(r'^api/(?P<pk>[0-9]+)/$', views.MeditationSessionDetail.as_view()),
 		)
 
-urlpatters = format_suffix_patterns(urlpatterns)
+urlpatters = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])
