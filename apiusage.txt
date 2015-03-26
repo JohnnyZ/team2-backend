@@ -1,1 +1,10 @@
-https://secure-headland-8362.herokuapp.com/backend/api/1/
+# All available resources
+https://secure-headland-8362.herokuapp.com/api/v1
+# List of all meditation sessions
+https://secure-headland-8362.herokuapp.com/api/v1/medsession/
+# Specific med session
+https://secure-headland-8362.herokuapp.com/api/v1/medsession/1/
+# A definition of what a meditation session consists of 
+https://secure-headland-8362.herokuapp.com/api/v1/medsession/schema
+# Get multiple meditation sessions 
+https://secure-headland-8362.herokuapp.com/api/v1/medsession/multiple/1;4;5
