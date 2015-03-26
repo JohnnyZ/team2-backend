@@ -2,10 +2,13 @@ from rest_framework import serializers
 from models import appUser, ExerciseSession, ExcerciseSession
 from django.contrib.auth.models import User
 
+# Need to make edits to this 
+"""
 class appUserSerializers(serializers.ModelSerializer):
 	class Meta:
 		model = appUser
 		field = ('user')
+"""
 
 class MeditationSerializers(serializers.ModelSerializer):
 	class Meta:

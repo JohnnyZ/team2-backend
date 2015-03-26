@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics 
-from serializers import MeditationSerializers
+from api.serializers import MeditationSerializers
 from models import MeditationSession
 
 class MeditationSessionList(generics.ListCreateAPIView):
