@@ -5,12 +5,16 @@ from api.models import appUser, MeditationSession, ExcerciseSession
 
 
 class appUserAdmin(admin.ModelAdmin):
-	user_id = user.id
-	list_display = ('user', 'user_id' 'start_date', 'mediation_time', 'excercise_day_of_week',
+	
+	list_display = ('user_id_display', 'user', 'start_date', 'mediation_time', 'excercise_day_of_week',
 			'excercise_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_date', 'mediation_time', 'excercise_day_of_week',
 			'excercise_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
+
+	def user_id_display(self, obj):
+       return obj.user_id
+    user_id_display.short_description = 'User ID'
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at')
