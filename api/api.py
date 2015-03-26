@@ -13,14 +13,25 @@ class UserResource(ModelResource):
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['email', 'password', 'is_staff', 'is_superuser']
+		filtering = {
+			'username': ALL,
+		}
+
+class appUserResource(ModelResource):
+	class Meta:
+		queryset = appUser.objects.all()
+		resource_name = 'appuser'
+		filtering = {
+			'user': ALL,
+		}
 
 class MeditationResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user')
+	user = fields.ForeignKey(appUserResource, 'appuser')
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
 		filtering = {
-		'user': ALL_WITH_RELATIONS,
+		'appuser': ALL_WITH_RELATIONS,
 		}
 
 class ExerciseResource(ModelResource):
@@ -28,9 +39,6 @@ class ExerciseResource(ModelResource):
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
 
-class appUserResource(ModelResource):
-	class Meta:
-		queryset = appUser.objects.all()
-		resource_name = 'appuser'
+
 
 
