@@ -1,5 +1,10 @@
 from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import *
 from django.contrib import admin
+
+from api.api import MeditationResource
+
+meditation_resource = MeditationResource
 
 
 urlpatterns = patterns('',
@@ -9,5 +14,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^backend/', include('api.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^api/', include(meditation_resource.urls)),
+
+    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
 )
