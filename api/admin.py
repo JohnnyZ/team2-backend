@@ -11,9 +11,11 @@ class appUserAdmin(admin.ModelAdmin):
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	fields = ['meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	readonly_fields = ('created_at', 'updated_at')
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
-	fields = ['Exercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	fields = ['excercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	readonly_fields = ('created_at', 'updated_at')
 
 
 # Register your models here.
