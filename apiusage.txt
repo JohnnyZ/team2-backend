@@ -1,10 +1,13 @@
 # All available resources
 https://secure-headland-8362.herokuapp.com/api/v1
 # List of all meditation sessions
-https://secure-headland-8362.herokuapp.com/api/v1/medsession/
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
 # Specific med session
-https://secure-headland-8362.herokuapp.com/api/v1/medsession/1/
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/1/
 # A definition of what a meditation session consists of 
-https://secure-headland-8362.herokuapp.com/api/v1/medsession/schema
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
 # Get multiple meditation sessions 
-https://secure-headland-8362.herokuapp.com/api/v1/medsession/multiple/1;4;5
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
+
+#prettify the json
+curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool

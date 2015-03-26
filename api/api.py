@@ -1,19 +1,10 @@
-from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
 from tastypie.authentication import BasicAuthentication
+from tastypie import fields
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from api.models import * 
 from django.contrib.auth.models import User
-
-class MeditationResource(ModelResource):
-	class Meta:
-		queryset = MeditationSession.objects.all()
-		resource_name = 'meditation_session'
-
-class ExerciseResource(ModelResource):
-	class Meta:
-		queryset = ExerciseSession.objects.all()
-		resource_name = 'exercise_session'
 
 class UserResource(ModelResource):
 	class Meta:
@@ -22,6 +13,20 @@ class UserResource(ModelResource):
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['email', 'password', 'is_staff', 'is_superuser']
+
+class MeditationResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user')
+	class Meta:
+		queryset = MeditationSession.objects.all()
+		resource_name = 'meditation_session'
+		filtering = {
+		'user': ALL_WITH_RELATIONS,
+		}
+
+class ExerciseResource(ModelResource):
+	class Meta:
+		queryset = ExerciseSession.objects.all()
+		resource_name = 'exercise_session'
 
 class appUserResource(ModelResource):
 	class Meta:
