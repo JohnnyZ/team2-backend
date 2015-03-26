@@ -1,5 +1,6 @@
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
+from tastypie.authentication import BasicAuthentication
 from api.models import * 
 from django.contrib.auth.models import User
 
@@ -16,6 +17,8 @@ class ExerciseResource(ModelResource):
 class UserResource(ModelResource):
 	class Meta:
 		queryset = User.objects.all()
+		authentication = BasicAuthentication()
+		throttle = CacheDBThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['email', 'password', 'is_staff', 'is_superuser']
 
