@@ -4,19 +4,19 @@ from django.contrib.auth.models import User
 
 # Need to make edits to this 
 """
-class appUserSerializers(serializers.ModelSerializer):
+class appUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = appUser
 		field = ('user')
 """
 
-class MeditationSerializers(serializers.ModelSerializer):
+class MeditationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MeditationSession
 		# Fields we want to serialize 
 		field = ('meditation_id', 'user', 'percent_completed')
 
-class ExerciseSerializers(serializers.ModelSerializer):
+class ExerciseSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ExerciseSession
 		# Fields we want to serialize 
