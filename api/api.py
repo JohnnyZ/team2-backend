@@ -18,6 +18,7 @@ class UserResource(ModelResource):
 		}
 
 class appUserResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user')
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
