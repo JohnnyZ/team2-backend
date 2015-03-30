@@ -43,7 +43,7 @@ class appUserAdmin(UserAdmin):
     list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 'exercise_time',   )
 
 	def start_date(self, obj):
-    	try:
+		try:
     		start_date = obj.appuser.start_date
     		return start_date
     	except:
@@ -51,7 +51,7 @@ class appUserAdmin(UserAdmin):
 	start_date.short_description = 'Start Date'
 
     def meditation_time(self, obj):
-    	try:
+		try:
     		meditation_time = obj.appuser.meditation_time
     		return meditation_time
     	except:
@@ -59,7 +59,7 @@ class appUserAdmin(UserAdmin):
 	meditation_time.short_description = 'Med Time'
 
     def exercise_day_of_week(self, obj):
-    	try:
+		try:
     		exercise_day_of_week = obj.appuser.exercise_day_of_week
     		return exercise_day_of_week
     	except:
@@ -67,7 +67,7 @@ class appUserAdmin(UserAdmin):
 	exercise_day_of_week.short_description = 'Exercise Day'
 
     def exercise_time(self, obj):
-    	try:
+		try:
     		exercise_time = obj.appuser.exercise_time
     		return exercise_time
     	except:
