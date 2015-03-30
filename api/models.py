@@ -60,7 +60,7 @@ class appUser(models.Model):
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
-	mediation_time = models.DateTimeField()
+	meditation_time = models.DateTimeField()
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
 	exercise_time = models.DateTimeField()
 	created_at = CreationDateTimeField(_('created_at'))
