@@ -27,7 +27,7 @@ class TimeStampedModel(models.Model):
 # Enum GenderType
 class Gender(enum.Enum):
 	# UNKNOWN
-	UNKNOWN = 0
+	NOT_GIVEN = 0
 	MALE = 1
 	FEMALE = 2
 
@@ -58,7 +58,7 @@ class BodyLocation(enum.Enum):
 class appUser(models.Model):
 	user = models.OneToOneField(User)
 	birthday = models.DateField(null=True, blank=True)
-	gender = enum.EnumField(Gender, default=Gender.UNKNOWN)
+	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	mediation_time = models.DateTimeField()
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
