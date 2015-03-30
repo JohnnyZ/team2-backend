@@ -56,10 +56,7 @@ class BodyLocation(enum.Enum):
 
 # Models here 
 class appUser(models.Model):
-	#first_name = models.CharField(max_length=150)
-	#last_name = models.CharField(max_length=150)
-	#email = models.EmailField('email address', unique=True)
-	user = models.ForeignKey(User)
+	user = models.OneToOneField(User)
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.UNKNOWN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
