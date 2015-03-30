@@ -1,18 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
 from api.models import appUser, MeditationSession, ExerciseSession
 
 # Add appUser to user 
 admin.site.unregister(User)
-
-class appUserInline(admin.StackedInline):
-    model = appUser
-
-class appUserAdmin(UserAdmin):
-    inlines = [ appUserInline, ]
-
 
 
 """
@@ -46,6 +38,12 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 
+
+class appUserInline(admin.StackedInline):
+    model = appUser
+
+class appUserAdmin(UserAdmin):
+    inlines = [ appUserInline, ]
 
 # Register your models here.
 #admin.site.register(appUser, appUserAdmin)
