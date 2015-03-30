@@ -36,42 +36,42 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 
 
 class appUserInline(admin.StackedInline):
-    model = appUser
+	model = appUser
 
 class appUserAdmin(UserAdmin):
-    inlines = [ appUserInline, ]
-    list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 'exercise_time',   )
+	inlines = [ appUserInline, ]
+	list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 'exercise_time',   )
 
 	def start_date(self, obj):
 		try:
-    		start_date = obj.appuser.start_date
-    		return start_date
-    	except:
-    		return ""
+			start_date = obj.appuser.start_date
+			return start_date
+		except:
+			return ""
 	start_date.short_description = 'Start Date'
 
-    def meditation_time(self, obj):
+	def meditation_time(self, obj):
 		try:
-    		meditation_time = obj.appuser.meditation_time
-    		return meditation_time
-    	except:
-    		return ""
+			meditation_time = obj.appuser.meditation_time
+			return meditation_time
+		except:
+			return ""
 	meditation_time.short_description = 'Med Time'
 
-    def exercise_day_of_week(self, obj):
+	def exercise_day_of_week(self, obj):
 		try:
-    		exercise_day_of_week = obj.appuser.exercise_day_of_week
-    		return exercise_day_of_week
-    	except:
-    		return ""
+			exercise_day_of_week = obj.appuser.exercise_day_of_week
+			return exercise_day_of_week
+		except:
+			return ""
 	exercise_day_of_week.short_description = 'Exercise Day'
 
-    def exercise_time(self, obj):
+	def exercise_time(self, obj):
 		try:
-    		exercise_time = obj.appuser.exercise_time
-    		return exercise_time
-    	except:
-    		return ""
+			exercise_time = obj.appuser.exercise_time
+			return exercise_time
+		except:
+			return ""
 	exercise_time.short_description = 'Exercise Time'
 
 
