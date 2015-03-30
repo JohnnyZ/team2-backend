@@ -40,7 +40,8 @@ class appUserInline(admin.StackedInline):
 
 class appUserAdmin(UserAdmin):
 	inlines = [ appUserInline, ]
-	list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 'exercise_time',   )
+	list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 
+					'exercise_time', 'created_at', 'updated_at', )
 
 	def start_date(self, obj):
 		try:
@@ -73,6 +74,22 @@ class appUserAdmin(UserAdmin):
 		except:
 			return ""
 	exercise_time.short_description = 'Exercise Time'
+
+	def created_at(self, obj):
+		try:
+			created_at = obj.appuser.created_at
+			return created_at
+		except:
+			return ""
+	created_at.short_description = 'Created at'
+
+	def updated_at(self, obj):
+		try:
+			updated_at = obj.appuser.updated_at
+			return updated_at
+		except:
+			return ""
+	updated_at.short_description = 'Updated at'
 
 
 ## Register models ##
