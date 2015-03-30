@@ -12,7 +12,7 @@ class UserResource(ModelResource):
 		authentication = BasicAuthentication()
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
-		excludes = ['email', 'password', 'is_staff', 'is_superuser']
+		excludes = ['password', 'is_staff', 'is_superuser']
 		filtering = {
 			'username': ALL,
 		}
