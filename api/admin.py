@@ -40,8 +40,16 @@ class appUserInline(admin.StackedInline):
 
 class appUserAdmin(UserAdmin):
     inlines = [ appUserInline, ]
-    list_display = ('start_date', 'mediation_time', 'exercise_day_of_week',
-			'exercise_time', 'created_at', 'updated_at')
+    list_display = ('start_date', )
+
+    def start_date(self, obj):
+    	try:
+    		start_date = obj.appuser.start_date
+    		return start_date
+    	except:
+    		return ""
+
+    start_date.short_description = 'Start Date'
 
 ## Register models ##
 
