@@ -22,6 +22,27 @@ class UserResource(ModelResource):
 			'username': ALL,
 		}
 
+class UserSignUpResource(ModelResource):
+    class Meta:
+        object_class = User
+        resource_name = 'signup'
+        fields = ['username', 'first_name', 'last_name', 'email']
+        allowed_methods = ['post']
+        include_resource_uri = False
+        authentication = Authentication()
+        authorization = Authorization()
+        queryset = User.objects.all()
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        try:
+            bundle = super(UserSignUpResource, self).obj_create(bundle)
+            bundle.obj.set_password(bundle.data.get('password'))
+            bundle.obj.save()
+        except IntegrityError:
+            raise BadRequest('Username already exists')
+
+        return bundle
+
 class appUserResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user')
 	class Meta:

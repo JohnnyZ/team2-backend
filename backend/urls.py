@@ -10,6 +10,7 @@ v1_api.register(MeditationResource())
 v1_api.register(ExerciseResource())
 v1_api.register(UserResource())
 v1_api.register(appUserResource())
+v1_api.register(UserSignUpResource())
 
 
 urlpatterns = patterns('',
