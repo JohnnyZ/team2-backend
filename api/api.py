@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from api.models import *
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
@@ -8,6 +9,7 @@ from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
+
 
 class UserResource(ModelResource):
 	class Meta:
