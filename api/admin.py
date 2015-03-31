@@ -5,7 +5,7 @@ from api.models import appUser, MeditationSession, ExerciseSession
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
-	fields = ['meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	fields = ['user', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
@@ -14,7 +14,7 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
-	fields = ['exercise_id', 'user', 'percent_completed', 'created_at', 'updated_at']
+	fields = ['user', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
