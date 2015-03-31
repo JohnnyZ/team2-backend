@@ -1,5 +1,5 @@
 # All available resources
-https://secure-headland-8362.herokuapp.com/api/v1
+https://secure-headland-8362.herokuapp.com/api/v1/
 # List of all meditation sessions
 https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
 # Specific med session
@@ -11,8 +11,6 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;
 
 #prettify the json
 curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool
-
-
 
 ## Create new user example
 # signUp(User user)
@@ -38,16 +36,10 @@ https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__userna
 # meditate(meditation_id, percent_completed) -> return None
 curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "69"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/4/
 
-
 ## Need to add boolean if it is 100% it is completed 
 # completeExercise(exercise_id) -> return None 
 curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "99"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/5/
 
 ------------------------
-
-# Get all user information for specific user 
-
-------------------------
-
 # Probably going to need 
 Update meditation time etc for each user 
