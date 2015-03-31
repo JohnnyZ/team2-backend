@@ -14,6 +14,14 @@ from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
+class appUserResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user')
+	class Meta:
+		queryset = appUser.objects.all()
+		resource_name = 'appuser'
+		filtering = {
+			'user': ALL,
+		}
 
 class UserResource(ModelResource):
 	class Meta:
@@ -89,15 +97,6 @@ class UserSignUpResource(ModelResource):
 			raise BadRequest('Username already exists')
 
 		return bundle
-
-class appUserResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user')
-	class Meta:
-		queryset = appUser.objects.all()
-		resource_name = 'appuser'
-		filtering = {
-			'user': ALL,
-		}
 
 class MeditationResource(ModelResource):
 	appuser = fields.ForeignKey(appUserResource, 'appuser', full=True, blank=True)

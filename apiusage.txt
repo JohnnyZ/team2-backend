@@ -22,6 +22,8 @@ curl -H "Content-Type: application/json" -d '{"email": "youremail@example.com", 
 # logIn(String username, String password) -> user and session key as cookie
 curl -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
+# logOut
+curl -Hpplication/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
 
 # Send a user ID and get a list of meditation sessions that they own
 meditationSessions(user_id) -> Listof(MeditationSessions)
@@ -34,3 +36,8 @@ meditate(meditation_id, percent_completed) -> void
 
 # I probably need to add a field to ExerciseSession for percent completed 
 completeExercise(exercise_id) -> void
+
+------------------------
+
+# Probably going to need 
+Update meditation time etc for each user 
