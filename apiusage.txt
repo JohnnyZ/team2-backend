@@ -21,7 +21,7 @@ curl -H "Content-Type: application/json" -d '{"email": "jz@gmail.com", "first_na
 curl -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
 # logOut
-curl -Hpplication/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
+curl -H "Content-Type: application/json" https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
 
 ## Send a user ID and get a list of meditation sessions that they own
 # meditationSessions(user_id) -> Listof(MeditationSessions)
@@ -36,10 +36,11 @@ https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__userna
 # meditate(meditation_id, percent_completed) -> return None
 curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "69"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/4/
 
-## Need to add boolean if it is 100% it is completed 
+
 # Do you want to remove it entirely from the database if it is completed? Or just make isComplete? 
 # completeExercise(exercise_id) -> return None 
-curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "99"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/5/
+# 
+https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2 - you can find out what the ID is of the exercise session based off the username and update 
 
 ------------------------
 # Probably going to need 

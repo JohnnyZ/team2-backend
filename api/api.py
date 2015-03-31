@@ -104,6 +104,7 @@ class MeditationResource(ModelResource):
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
+		authentication = Authentication()
 		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
@@ -115,6 +116,7 @@ class ExerciseResource(ModelResource):
 	class Meta:
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
+		authentication = Authentication()
 		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
