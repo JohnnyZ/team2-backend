@@ -15,14 +15,10 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
 class appUserResource(ModelResource):
-	#user = fields.ForeignKey(UserResource, 'user')
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
 		authorization = Authorization()
-		#filtering = {
-		#	'user': ALL,
-		#}
 
 class UserResource(ModelResource):
 	appuser = fields.ToOneField(appUserResource, attribute='appuser', related_name='user', full=True, null=True)
@@ -32,8 +28,8 @@ class UserResource(ModelResource):
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['password', 'is_staff', 'is_superuser']
-
 		allowed_methods = ['get', 'post']
+		
 	def override_urls(self):
 		return [
 			url(r"^(?P<resource_name>%s)/login%s$" %

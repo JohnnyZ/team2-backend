@@ -16,7 +16,7 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 
 # Create new user example
 # signUp(User user)
-curl -H "Content-Type: application/json" -d '{"email": "youremail@example.com", "first_name": "John", "last_name": "Doe", "username": "test-user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
+curl -H "Content-Type: application/json" -d '{"email": "jz@gmail.com", "first_name": "John", "last_name": "Doe", "username": "test_user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
 
 # Authenticate the user into django and allow access to their data 
 # logIn(String username, String password) -> user and session key as cookie
