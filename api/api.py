@@ -15,7 +15,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
 class appUserResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user')
+	#user = fields.ForeignKey(UserResource, 'user')
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
