@@ -19,9 +19,10 @@ class appUserResource(ModelResource):
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
-		filtering = {
-			'user': ALL,
-		}
+		authorization = Authorization()
+		#filtering = {
+		#	'user': ALL,
+		#}
 
 class UserResource(ModelResource):
 	appuser = fields.ToOneField(appUserResource, attribute='appuser', related_name='user', full=True, null=True)
@@ -31,9 +32,7 @@ class UserResource(ModelResource):
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		excludes = ['password', 'is_staff', 'is_superuser']
-		filtering = {
-			'username': ALL,
-		}
+
 		allowed_methods = ['get', 'post']
 	def override_urls(self):
 		return [
