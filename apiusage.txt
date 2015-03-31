@@ -27,15 +27,19 @@ curl -Hpplication/json" -d '{"username": "test_user", "password": "test_password
 
 # Send a user ID and get a list of meditation sessions that they own
 meditationSessions(user_id) -> Listof(MeditationSessions)
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/?user__username=test_user
 
 # Send a user ID and get a list of exercise sessions that they own
 exerciseSessions(user_id) -> Listof(ExerciseSessions)
+https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2
 
 # Update the meditation with how much of the lesson they completed
-meditate(meditation_id, percent_completed) -> void
+# PUT
+meditate(meditation_id, percent_completed) -> return None
 
 # I probably need to add a field to ExerciseSession for percent completed 
-completeExercise(exercise_id) -> void
+# PUT
+completeExercise(exercise_id) -> return None 
 
 ------------------------
 

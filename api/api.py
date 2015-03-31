@@ -105,6 +105,7 @@ class MeditationResource(ModelResource):
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
 		authorization = Authorization()
+		allowed_methods = ['get', 'put']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 		}
@@ -115,6 +116,7 @@ class ExerciseResource(ModelResource):
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
 		authorization = Authorization()
+		allowed_methods = ['get', 'put']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 		}
