@@ -24,6 +24,7 @@ class appUserResource(ModelResource):
 		}
 
 class UserResource(ModelResource):
+	appuser = fields.ToOneField(appUserResource, attribute='appuser', related_name='user', full=True, null=True)
 	class Meta:
 		queryset = User.objects.all()
 		authentication = BasicAuthentication()
@@ -33,6 +34,7 @@ class UserResource(ModelResource):
 		filtering = {
 			'username': ALL,
 		}
+		allowed_methods = ['get', 'post']
 	def override_urls(self):
 		return [
 			url(r"^(?P<resource_name>%s)/login%s$" %
