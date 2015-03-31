@@ -67,14 +67,12 @@ class appUser(models.Model):
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 class MeditationSession(models.Model):
-	meditation_id = models.IntegerField()
 	user = models.ForeignKey(User)
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 class ExerciseSession(models.Model):
-	exercise_id = models.IntegerField()
 	user = models.ForeignKey(User)
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
