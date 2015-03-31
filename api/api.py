@@ -31,6 +31,7 @@ class UserResource(ModelResource):
 		excludes = ['password', 'is_staff', 'is_superuser', 'is_active']
 		filtering = {
 			'username': ALL,
+			'id': ALL,
 		}
 
 	def override_urls(self):
@@ -99,18 +100,22 @@ class UserSignUpResource(ModelResource):
 		return bundle
 
 class MeditationResource(ModelResource):
-	appuser = fields.ForeignKey(appUserResource, 'appuser', full=True, blank=True)
+	user = fields.ForeignKey(UserResource, 'user')
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
 		filtering = {
-		'appuser': ALL_WITH_RELATIONS,
+			'user': ALL_WITH_RELATIONS,
 		}
 
 class ExerciseResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user')
 	class Meta:
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
+		filtering = {
+			'user': ALL_WITH_RELATIONS,
+		}
 
 
 
