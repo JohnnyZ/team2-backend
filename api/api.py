@@ -100,7 +100,7 @@ class UserSignUpResource(ModelResource):
 		return bundle
 
 class MeditationResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user')
+	user = fields.ToOneField(UserResource, 'user')
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
@@ -110,7 +110,7 @@ class MeditationResource(ModelResource):
 		}
 
 class ExerciseResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user')
+	user = fields.ToOneField(UserResource, 'user')
 	class Meta:
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
