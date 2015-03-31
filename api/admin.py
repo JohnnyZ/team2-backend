@@ -13,8 +13,8 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
-	list_display = ('id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
-	fields = ['user', 'percent_completed', 'created_at', 'updated_at']
+	list_display = ('id', 'user_id_display', 'user', 'created_at', 'updated_at')
+	fields = ['user', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
