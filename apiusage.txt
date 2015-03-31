@@ -11,3 +11,9 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;
 
 #prettify the json
 curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool
+
+
+
+# Create new user example
+# signUp(User user)
+curl -H "Content-Type: application/json" -d '{"email": "youremail@example.com", "first_name": "John", "last_name": "Doe", "username": "test-user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
