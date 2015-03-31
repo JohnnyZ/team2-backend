@@ -3,19 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from api.models import appUser, MeditationSession, ExerciseSession
 
-
-class appUserAdmin2(admin.ModelAdmin):
-	list_display = ('user_id_display', 'user', 'start_date', 'meditation_time', 'exercise_day_of_week',
-			'exercise_time', 'created_at', 'updated_at')
-	fields = ['user', 'start_date', 'meditation_time', 'exercise_day_of_week',
-			'exercise_time', 'created_at', 'updated_at']
-	readonly_fields = ('created_at', 'updated_at')
-
-	def user_id_display(self, obj):
-		return obj.user_id
-	user_id_display.short_description = 'User ID'
-
-
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['meditation_id', 'user', 'percent_completed', 'created_at', 'updated_at']
@@ -42,6 +29,7 @@ class appUserAdmin(UserAdmin):
 	inlines = [ appUserInline, ]
 	list_display = ('id', 'username', 'first_name', 'last_name', 'start_date', 'meditation_time', 'exercise_day_of_week', 
 					'exercise_time', 'created_at', 'updated_at', )
+	readonly_fields = ('created_at', 'updated_at')
 
 	def start_date(self, obj):
 		try:
@@ -94,7 +82,6 @@ class appUserAdmin(UserAdmin):
 
 ## Register models ##
 
-admin.site.register(appUser, appUserAdmin2)
 # Add appUser to user 
 admin.site.unregister(User)
 admin.site.register(User, appUserAdmin)
