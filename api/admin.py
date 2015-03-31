@@ -40,7 +40,7 @@ class appUserInline(admin.StackedInline):
 
 class appUserAdmin(UserAdmin):
 	inlines = [ appUserInline, ]
-	list_display = ('id', 'username', 'start_date', 'meditation_time', 'exercise_day_of_week', 
+	list_display = ('id', 'username', 'first_name', 'last_name', 'start_date', 'meditation_time', 'exercise_day_of_week', 
 					'exercise_time', 'created_at', 'updated_at', )
 
 	def start_date(self, obj):

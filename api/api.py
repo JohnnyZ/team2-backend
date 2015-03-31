@@ -1,12 +1,16 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.conf.urls import url
 from api.models import *
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
 from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication, Authentication
+from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie import fields
+from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
