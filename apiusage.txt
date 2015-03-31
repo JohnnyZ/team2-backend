@@ -17,3 +17,20 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 # Create new user example
 # signUp(User user)
 curl -H "Content-Type: application/json" -d '{"email": "youremail@example.com", "first_name": "John", "last_name": "Doe", "username": "test-user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
+
+# Authenticate the user into django and allow access to their data 
+# logIn(String username, String password) -> user and session key as cookie
+curl -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
+
+
+# Send a user ID and get a list of meditation sessions that they own
+meditationSessions(user_id) -> Listof(MeditationSessions)
+
+# # Send a user ID and get a list of exercise sessions that they own
+exerciseSessions(user_id) -> Listof(ExerciseSessions)
+
+# Update the meditation with how much of the lesson they completed
+meditate(meditation_id, percent_completed) -> void
+
+# I probably need to add a field to ExerciseSession for percent completed 
+completeExercise(exercise_id) -> void
