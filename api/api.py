@@ -104,6 +104,7 @@ class MeditationResource(ModelResource):
 	class Meta:
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
+		authorization = Authorization()
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 		}
@@ -113,6 +114,7 @@ class ExerciseResource(ModelResource):
 	class Meta:
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
+		authorization = Authorization()
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 		}
