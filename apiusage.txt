@@ -14,32 +14,34 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 
 
 
-# Create new user example
+## Create new user example
 # signUp(User user)
 curl -H "Content-Type: application/json" -d '{"email": "jz@gmail.com", "first_name": "John", "last_name": "Doe", "username": "test_user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
 
-# Authenticate the user into django and allow access to their data 
+## Authenticate the user into django and allow access to their data 
 # logIn(String username, String password) -> user and session key as cookie
 curl -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
 # logOut
 curl -Hpplication/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
 
-# Send a user ID and get a list of meditation sessions that they own
-meditationSessions(user_id) -> Listof(MeditationSessions)
+## Send a user ID and get a list of meditation sessions that they own
+# meditationSessions(user_id) -> Listof(MeditationSessions)
 https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/?user__username=test_user
 
-# Send a user ID and get a list of exercise sessions that they own
-exerciseSessions(user_id) -> Listof(ExerciseSessions)
+## Send a user ID and get a list of exercise sessions that they own
+# exerciseSessions(user_id) -> Listof(ExerciseSessions)
 https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2
 
-# Update the meditation with how much of the lesson they completed
-# PUT
-meditate(meditation_id, percent_completed) -> return None
+## Update the meditation with how much of the lesson they completed
+# PATCH
+# meditate(meditation_id, percent_completed) -> return None
+curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "69"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/4/
 
-# I probably need to add a field to ExerciseSession for percent completed 
-# PUT
-completeExercise(exercise_id) -> return None 
+
+## Need to add boolean if it is 100% it is completed 
+# completeExercise(exercise_id) -> return None 
+curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "99"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/5/
 
 ------------------------
 
