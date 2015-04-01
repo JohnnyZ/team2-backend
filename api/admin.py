@@ -4,8 +4,8 @@ from django.contrib.auth.admin import UserAdmin
 from api.models import appUser, MeditationSession, ExerciseSession
 
 class MeditationSessionAdmin(admin.ModelAdmin):
-	list_display = ('id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
-	fields = ['user', 'percent_completed', 'created_at', 'updated_at']
+	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
+	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
@@ -13,8 +13,8 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
-	list_display = ('id', 'user_id_display', 'user', 'created_at', 'updated_at')
-	fields = ['user', 'created_at', 'updated_at']
+	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
+	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
