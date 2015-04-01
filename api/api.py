@@ -109,6 +109,7 @@ class MeditationResource(ModelResource):
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
+			'id': ALL_WITH_RELATIONS,
 		}
 
 class ExerciseResource(ModelResource):
@@ -121,6 +122,7 @@ class ExerciseResource(ModelResource):
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
+			'id': ALL_WITH_RELATIONS,
 		}
 
 
