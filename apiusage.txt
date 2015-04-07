@@ -15,14 +15,14 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 ## Create new user example
 # signUp(User user)
 # Logins in automatically after and sends key 
-curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "test_user56", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
+curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser100", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
 
 ## Authenticate the user into django and allow access to their data 
 # logIn(String username, String password) -> user and session key as cookie
-curl -v -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
+curl -v -H "Content-Type: application/json" -d '{"username": "testuser99", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
 # logOut
-curl -H "Content-Type: application/json" https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
+curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
 
 ## Send a user ID and get a list of meditation sessions that they own
 # meditationSessions(user_id) -> Listof(MeditationSessions)
@@ -30,7 +30,11 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/?user__user
 
 ## Send a user ID and get a list of exercise sessions that they own
 # exerciseSessions(user_id) -> Listof(ExerciseSessions)
-https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2
+https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+
+# Get 
+curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+
 
 ## Update the meditation with how much of the lesson they completed
 # PATCH
@@ -47,7 +51,7 @@ https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__userna
 curl --cookie "sessionid=m7bppczm6l882q137hmo1ns1afnxt7ty" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 # Test user 
-curl --cookie "sessionid=wc2xjg5tbf80jm9xh4cow73uy3wu34is" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "100"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "101"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 ------------------------
 # Probably going to need 
