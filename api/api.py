@@ -100,7 +100,6 @@ class UserSignUpResource(ModelResource):
 			user = authenticate(username=username, password=password)
 			if user:
 				if user.is_active:
-					print bundle.request 
 					login(bundle.request, user)
 		except IntegrityError:
 			raise BadRequest('Username already exists')
