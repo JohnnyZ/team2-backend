@@ -14,7 +14,7 @@ from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
-def login(username, password):
+def login(request, username, password):
 	user = authenticate(username=username, password=password)
 	if user:
 		if user.is_active:
@@ -71,8 +71,8 @@ class UserResource(ModelResource):
 		username = data.get('username', '')
 		password = data.get('password', '')
 
-		login(username, password)
-		
+		login(request, username, password)
+
 	def logout(self, request, **kwargs):
 		self.method_check(request, allowed=['get'])
 		if request.user and request.user.is_authenticated():
