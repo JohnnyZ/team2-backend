@@ -90,7 +90,7 @@ class UserSignUpResource(ModelResource):
 		authorization = Authorization()
 		queryset = User.objects.all()
 
-	def obj_create(self, bundle, request, **kwargs):
+	def obj_create(self, bundle, request=None, **kwargs):
 		try:
 			bundle = super(UserSignUpResource, self).obj_create(bundle)
 			password = bundle.data.get('password')
@@ -100,17 +100,17 @@ class UserSignUpResource(ModelResource):
 			user = authenticate(username=username, password=password)
 			if user:
 				if user.is_active:
-					login(request, user)
-					return self.create_response(request, {
+					login(bundle.request, user)
+					return self.create_response(bundle.request, {
 						'success': True
 					})
 				else:
-					return self.create_response(request, {
+					return self.create_response(bundle.request, {
 						'success': False,
 						'reason': 'disabled',
 						}, HttpForbidden )
 			else:
-				return self.create_response(request, {
+				return self.create_response(bundle.request, {
 					'success': False,
 					'reason': 'incorrect',
 					}, HttpUnauthorized )
