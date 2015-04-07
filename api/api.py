@@ -90,7 +90,7 @@ class UserSignUpResource(ModelResource):
 		authorization = Authorization()
 		queryset = User.objects.all()
 
-	def obj_create(self, bundle, request=None, **kwargs):
+	def obj_create(self, bundle, request, **kwargs):
 		try:
 			bundle = super(UserSignUpResource, self).obj_create(bundle)
 			password = bundle.data.get('password')
