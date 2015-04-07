@@ -49,8 +49,6 @@ curl --cookie "sessionid=m7bppczm6l882q137hmo1ns1afnxt7ty" -v -H "Content-Type: 
 # Test user 
 curl --cookie "sessionid=wc2xjg5tbf80jm9xh4cow73uy3wu34is" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "100"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
-
-curl -v -H "Content-Type: application/json" -d '{"username": "admin", "password": "kfc3ms2"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 ------------------------
 # Probably going to need 
 Update meditation time etc for each user 
