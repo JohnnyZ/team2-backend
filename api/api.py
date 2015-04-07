@@ -112,7 +112,7 @@ class MeditationResource(ModelResource):
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
 		authentication = Authentication()
-		authorization = DjangoAuthorization()
+		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
@@ -125,7 +125,7 @@ class ExerciseResource(ModelResource):
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
 		authentication = Authentication()
-		authorization = DjangoAuthorization()
+		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,

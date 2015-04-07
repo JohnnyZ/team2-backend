@@ -43,7 +43,7 @@ curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"perc
 # - need to create exercise_id for the specific user_id 
 https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2 - you can find out what the ID is of the exercise session based off the username and update 
 
-curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+curl --cookie "sessionid=92a1ud13ct96k2o7y004c582fbzact1w" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 ------------------------
 # Probably going to need 
