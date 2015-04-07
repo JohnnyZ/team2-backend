@@ -37,14 +37,20 @@ https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__userna
 # meditate(meditation_id, percent_completed) -> return None
 curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "69"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/4/
 
-
+------------------------------------
 # Do you want to remove it entirely from the database if it is completed? Or just make isComplete? 
 # completeExercise(exercise_id) -> return None 
 # - need to create exercise_id for the specific user_id 
 https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2 - you can find out what the ID is of the exercise session based off the username and update 
 
-curl --cookie "sessionid=92a1ud13ct96k2o7y004c582fbzact1w" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+# admin 
+curl --cookie "sessionid=m7bppczm6l882q137hmo1ns1afnxt7ty" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
+# Test user 
+curl --cookie "sessionid=wc2xjg5tbf80jm9xh4cow73uy3wu34is" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "100"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+
+
+curl -v -H "Content-Type: application/json" -d '{"username": "admin", "password": "kfc3ms2"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 ------------------------
 # Probably going to need 
 Update meditation time etc for each user 

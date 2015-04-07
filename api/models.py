@@ -79,6 +79,9 @@ class ExerciseSession(models.Model):
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
+	class Meta:
+		unique_together = ("user", "exercise_id")
+
 """
 class Assessment(models.Model):
 	start_time = models.DateTimeField()
