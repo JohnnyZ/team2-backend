@@ -14,6 +14,25 @@ from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
+def login(username, password):
+	user = authenticate(username=username, password=password)
+	if user:
+		if user.is_active:
+			login(request, user)
+			return self.create_response(request, {
+				'success': True
+			})
+		else:
+			return self.create_response(request, {
+				'success': False,
+				'reason': 'disabled',
+				}, HttpForbidden )
+	else:
+		return self.create_response(request, {
+			'success': False,
+			'reason': 'incorrect',
+			}, HttpUnauthorized )
+
 class appUserResource(ModelResource):
 	class Meta:
 		queryset = appUser.objects.all()
@@ -52,24 +71,8 @@ class UserResource(ModelResource):
 		username = data.get('username', '')
 		password = data.get('password', '')
 
-		user = authenticate(username=username, password=password)
-		if user:
-			if user.is_active:
-				login(request, user)
-				return self.create_response(request, {
-					'success': True
-				})
-			else:
-				return self.create_response(request, {
-					'success': False,
-					'reason': 'disabled',
-					}, HttpForbidden )
-		else:
-			return self.create_response(request, {
-				'success': False,
-				'reason': 'incorrect',
-				}, HttpUnauthorized )
-
+		login(username, password)
+		
 	def logout(self, request, **kwargs):
 		self.method_check(request, allowed=['get'])
 		if request.user and request.user.is_authenticated():
