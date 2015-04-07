@@ -14,24 +14,6 @@ from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
-def loginUser(request, username, password):
-	user = authenticate(username=username, password=password)
-	if user:
-		if user.is_active:
-			login(request, user)
-			return self.create_response(request, {
-				'success': True
-			})
-		else:
-			return self.create_response(request, {
-				'success': False,
-				'reason': 'disabled',
-				}, HttpForbidden )
-	else:
-		return self.create_response(request, {
-			'success': False,
-			'reason': 'incorrect',
-			}, HttpUnauthorized )
 
 class appUserResource(ModelResource):
 	class Meta:
@@ -71,7 +53,24 @@ class UserResource(ModelResource):
 		username = data.get('username', '')
 		password = data.get('password', '')
 
-		loginUser(request, username, password)
+		user = authenticate(username=username, password=password)
+		if user:
+			if user.is_active:
+				login(request, user)
+				return self.create_response(request, {
+					'success': True
+				})
+			else:
+				return self.create_response(request, {
+					'success': False,
+					'reason': 'disabled',
+					}, HttpForbidden )
+		else:
+			return self.create_response(request, {
+				'success': False,
+				'reason': 'incorrect',
+				}, HttpUnauthorized )
+
 	def logout(self, request, **kwargs):
 		self.method_check(request, allowed=['get'])
 		if request.user and request.user.is_authenticated():
@@ -94,8 +93,27 @@ class UserSignUpResource(ModelResource):
 	def obj_create(self, bundle, request=None, **kwargs):
 		try:
 			bundle = super(UserSignUpResource, self).obj_create(bundle)
+			password = bundle.data.get('password')
+			username = bundle.data.get('username')
 			bundle.obj.set_password(bundle.data.get('password'))
 			bundle.obj.save()
+			user = authenticate(username=username, password=password)
+			if user:
+				if user.is_active:
+					login(request, user)
+					return self.create_response(request, {
+						'success': True
+					})
+				else:
+					return self.create_response(request, {
+						'success': False,
+						'reason': 'disabled',
+						}, HttpForbidden )
+			else:
+				return self.create_response(request, {
+					'success': False,
+					'reason': 'incorrect',
+					}, HttpUnauthorized )
 		except IntegrityError:
 			raise BadRequest('Username already exists')
 
