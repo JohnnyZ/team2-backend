@@ -72,7 +72,6 @@ class UserResource(ModelResource):
 		password = data.get('password', '')
 
 		login(request, username, password)
-
 	def logout(self, request, **kwargs):
 		self.method_check(request, allowed=['get'])
 		if request.user and request.user.is_authenticated():
