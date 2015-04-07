@@ -6,7 +6,7 @@ from api.models import *
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
-from tastypie.authorization import Authorization
+from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.authentication import BasicAuthentication, Authentication
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie import fields
@@ -87,7 +87,7 @@ class UserSignUpResource(ModelResource):
 		allowed_methods = ['post']
 		include_resource_uri = False
 		authentication = Authentication()
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
 		queryset = User.objects.all()
 
 	def obj_create(self, bundle, request=None, **kwargs):
@@ -112,7 +112,7 @@ class MeditationResource(ModelResource):
 		queryset = MeditationSession.objects.all()
 		resource_name = 'meditation_session'
 		authentication = Authentication()
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
@@ -125,7 +125,7 @@ class ExerciseResource(ModelResource):
 		queryset = ExerciseSession.objects.all()
 		resource_name = 'exercise_session'
 		authentication = Authentication()
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
 		allowed_methods = ['get', 'put', 'patch']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
