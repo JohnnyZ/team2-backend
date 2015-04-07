@@ -87,7 +87,7 @@ class UserSignUpResource(ModelResource):
 		allowed_methods = ['post']
 		include_resource_uri = False
 		authentication = Authentication()
-		authorization = DjangoAuthorization()
+		authorization = Authorization()
 		queryset = User.objects.all()
 
 	def obj_create(self, bundle, request=None, **kwargs):
