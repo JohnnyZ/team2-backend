@@ -113,7 +113,7 @@ class MeditationResource(ModelResource):
 		resource_name = 'meditation_session'
 		authentication = Authentication()
 		authorization = DjangoAuthorization()
-		allowed_methods = ['get', 'put', 'patch']
+		allowed_methods = ['get', 'put', 'patch', 'post']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
@@ -126,11 +126,14 @@ class ExerciseResource(ModelResource):
 		resource_name = 'exercise_session'
 		authentication = Authentication()
 		authorization = DjangoAuthorization()
-		allowed_methods = ['get', 'put', 'patch']
+		allowed_methods = ['get', 'put', 'patch', 'post']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
+
+	def obj_create(self, bundle, **kwargs):
+		return super(ExerciseResource, self).obj_create(bundle, user=bundle.request.user)
 
 
 

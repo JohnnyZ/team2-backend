@@ -14,11 +14,12 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 
 ## Create new user example
 # signUp(User user)
-curl -H "Content-Type: application/json" -d '{"email": "jz@gmail.com", "first_name": "John", "last_name": "Doe", "username": "test_user", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
+# login automatically after? 
+curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "test_user56", "password": "pwd"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
 
 ## Authenticate the user into django and allow access to their data 
 # logIn(String username, String password) -> user and session key as cookie
-curl -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
+curl -v -H "Content-Type: application/json" -d '{"username": "test_user", "password": "test_password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
 # logOut
 curl -H "Content-Type: application/json" https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
@@ -41,6 +42,8 @@ curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"perc
 # completeExercise(exercise_id) -> return None 
 # - need to create exercise_id for the specific user_id 
 https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2 - you can find out what the ID is of the exercise session based off the username and update 
+
+curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 ------------------------
 # Probably going to need 
