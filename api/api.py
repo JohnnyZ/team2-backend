@@ -76,13 +76,13 @@ class CreateUserResource(ModelResource):
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
-		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		user_bundle = bundle.data.get('user')
-		password = user_bundle.data.get('password')
-		username = user_bundle.data.get('username')
-		user_bundle.obj.set_password(password)
-		user_bundle.obj.save()
-		return bundle
+		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		# user_bundle = bundle.data.get('user')
+		# password = user_bundle.data.get('password')
+		# username = user_bundle.data.get('username')
+		# user_bundle.obj.set_password(password)
+		# user_bundle.obj.save()
+		# return bundle
 
 class UserResource(ModelResource):
 	# We need to store raw password in a virtual field because hydrate method
@@ -116,7 +116,7 @@ class UserResource(ModelResource):
 			# https://github.com/toastdriven/django-tastypie/issues/603
 			# "Cannot resolve keyword 'password' into field." won't occur
  
-			password = bundle.data.pop("password")
+			raw_password = bundle.data.pop("password")
  
 			# Validate password
 			if not validate_password(password):
@@ -133,7 +133,7 @@ class UserResource(ModelResource):
 							 ", one uppercase letter, one special character,"
 							 " and no spaces."))
  
-			bundle.data["password"] = make_password(password)
+			bundle.data["password"] = make_password(raw_password)
  
 		return bundle
  
