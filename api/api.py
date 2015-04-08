@@ -110,7 +110,7 @@ class UserResource(ModelResource):
             # https://github.com/toastdriven/django-tastypie/issues/603
             # "Cannot resolve keyword 'password' into field." won't occur
  
-            password = bundle.data.pop()["password"]
+            password = bundle.data.pop("password")
  
             # Validate password
             if not validate_password(password):
