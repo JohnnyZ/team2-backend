@@ -18,14 +18,14 @@ from tastypie.exceptions import BadRequest
 
 
 class appUserResource(ModelResource):
-	#user = fields.ToOneField(UserResource, 'user')
+	user = fields.ToOneField('api.api.UserResource', attribute='user', related_name='appuser')
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
 		authorization = Authorization()
 
 class UserResource(ModelResource):
-	appuser = fields.ToOneField(appUserResource, attribute='appuser', related_name='user', full=True, null=True)
+	appuser = fields.ToOneField(appUserResource, 'appuser', related_name='user', full=True)
 	class Meta:
 		queryset = User.objects.all()
 		authentication = BasicAuthentication()
