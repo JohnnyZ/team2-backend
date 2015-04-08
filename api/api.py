@@ -17,9 +17,15 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
 
+class appUserResource(ModelResource):
+	#user = fields.ToOneField(UserResource, 'user')
+	class Meta:
+		queryset = appUser.objects.all()
+		resource_name = 'appuser'
+		authorization = Authorization()
 
 class UserResource(ModelResource):
-	appuser = fields.ToOneField('api.appUserResource', attribute='appuser', full=True, null=True)
+	appuser = fields.ToOneField(appUserResource, attribute='appuser', related_name='user', full=True, null=True)
 	class Meta:
 		queryset = User.objects.all()
 		authentication = BasicAuthentication()
@@ -54,6 +60,7 @@ class UserResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
+				app_user = appUser.objects.get(user)
 				user_json = serializers.serialize('json', [ appuser, ])
 				return self.create_response(request, {
 					'success': True,
@@ -77,13 +84,6 @@ class UserResource(ModelResource):
 			return self.create_response(request, { 'success': True })
 		else:
 			return self.create_response(request, { 'success': False }, HttpUnauthorized)
-
-class appUserResource(ModelResource):
-	user = fields.ToOneField(UserResource, 'user')
-	class Meta:
-		queryset = appUser.objects.all()
-		resource_name = 'appuser'
-		authorization = Authorization()
 
 class UserSignUpResource(ModelResource):
 	class Meta:
