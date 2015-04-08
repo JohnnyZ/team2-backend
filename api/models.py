@@ -11,17 +11,17 @@ from django_extensions.db.fields import (CreationDateTimeField, ModificationDate
 # Puts a time stamp on all models that inherit from it 
 class TimeStampedModel(models.Model):
 	# comment 
-    TimeStampedModel
-    An abstract base class model that provides self-managed "created" and
-    "modified" fields.
-    # comment
-    created = CreationDateTimeField(_('created'))
-    modified = ModificationDateTimeField(_('modified'))
+	TimeStampedModel
+	An abstract base class model that provides self-managed "created" and
+	"modified" fields.
+	# comment
+	created = CreationDateTimeField(_('created'))
+	modified = ModificationDateTimeField(_('modified'))
 
-    class Meta:
-        get_latest_by = 'modified'
-        ordering = ('-modified', '-created',)
-        abstract = True
+	class Meta:
+		get_latest_by = 'modified'
+		ordering = ('-modified', '-created',)
+		abstract = True
 """
 
 # Enum GenderType
@@ -89,16 +89,16 @@ class ExerciseSession(models.Model):
 # SIGNALS
 #===========================================================================
 def signals_import():
-    """ 
-    A note on signals.
+	""" 
+	A note on signals.
 
-    The signals need to be imported early on so that they get registered
-    by the application. Putting the signals here makes sure of this since
-    the models package gets imported on the application startup.
-    """
-    from tastypie.models import create_api_key
+	The signals need to be imported early on so that they get registered
+	by the application. Putting the signals here makes sure of this since
+	the models package gets imported on the application startup.
+	"""
+	from tastypie.models import create_api_key
  
-    models.signals.post_save.connect(create_api_key, sender=User)
+	models.signals.post_save.connect(create_api_key, sender=User)
  
 signals_import()
 
@@ -107,7 +107,7 @@ class Assessment(models.Model):
 	start_time = models.DateTimeField()
 	complete_time = models.DateTimeField()
 	created_at = CreationDateTimeField(_('created_at'))
-    updated_at = ModificationDateTimeField(_('updated_at'))
+	updated_at = ModificationDateTimeField(_('updated_at'))
 
 class Question(models.Model):
 	title = models.CharField(max_length=255)
@@ -122,7 +122,7 @@ class Response(models.Model):
 	question_id = models.ForeignKey(Question)
 	question_answer = models.BooleanField()
 	created_at = CreationDateTimeField(_('created_at'))
-    updated_at = ModificationDateTimeField(_('updated_at'))
+	updated_at = ModificationDateTimeField(_('updated_at'))
 """
 
 

@@ -13,8 +13,8 @@ from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.authentication import (
-    Authentication, ApiKeyAuthentication, BasicAuthentication,
-    MultiAuthentication)
+	Authentication, ApiKeyAuthentication, BasicAuthentication,
+	MultiAuthentication)
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie import fields
 from tastypie.utils import trailing_slash
@@ -23,157 +23,152 @@ from tastypie.exceptions import BadRequest
 
 
 class CreateUserResource(ModelResource):
-    user = fields.ForeignKey('api.api.UserResource', 'user', full=True)
+	user = fields.ForeignKey('api.api.UserResource', 'user', full=True)
  
-    class Meta:
-        allowed_methods = ['post']
-        always_return_data = True
-        authentication = Authentication()
-        authorization = Authorization()
-        queryset = UserProfile.objects.all()
-        resource_name = 'create_user'
-        always_return_data = True
+	class Meta:
+		allowed_methods = ['post']
+		always_return_data = True
+		authentication = Authentication()
+		authorization = Authorization()
+		queryset = UserProfile.objects.all()
+		resource_name = 'create_user'
+		always_return_data = True
  
-    def hydrate(self, bundle):
-        REQUIRED_USER_PROFILE_FIELDS = ("birthday", "user")
-        for field in REQUIRED_USER_PROFILE_FIELDS:
-            if field not in bundle.data:
-                raise CustomBadRequest(
-                    code="missing_key",
-                    message="Must provide {missing_key} when creating a user."
-                            .format(missing_key=field))
+	def hydrate(self, bundle):
+		REQUIRED_USER_PROFILE_FIELDS = ("birthday", "user")
+		for field in REQUIRED_USER_PROFILE_FIELDS:
+			if field not in bundle.data:
+				raise CustomBadRequest(
+					code="missing_key",
+					message="Must provide {missing_key} when creating a user."
+							.format(missing_key=field))
  
-        REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
-                                "password")
-        for field in REQUIRED_USER_FIELDS:
-            if field not in bundle.data["user"]:
-                raise CustomBadRequest(
-                    code="missing_key",
-                    message="Must provide {missing_key} when creating a user."
-                            .format(missing_key=field))
-        return bundle
+		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
+								"password")
+		for field in REQUIRED_USER_FIELDS:
+			if field not in bundle.data["user"]:
+				raise CustomBadRequest(
+					code="missing_key",
+					message="Must provide {missing_key} when creating a user."
+							.format(missing_key=field))
+		return bundle
  
-    def obj_create(self, bundle, **kwargs):
-        try:
-            email = bundle.data["user"]["email"]
-            username = bundle.data["user"]["username"]
-            if User.objects.filter(email=email):
-                raise CustomBadRequest(
-                    code="duplicate_exception",
-                    message="That email is already used.")
-            if User.objects.filter(username=username):
-                raise CustomBadRequest(
-                    code="duplicate_exception",
-                    message="That username is already used.")
-        except KeyError as missing_key:
-            raise CustomBadRequest(
-                code="missing_key",
-                message="Must provide {missing_key} when creating a user."
-                        .format(missing_key=missing_key))
-        except User.DoesNotExist:
-            pass
+	def obj_create(self, bundle, **kwargs):
+		try:
+			email = bundle.data["user"]["email"]
+			username = bundle.data["user"]["username"]
+			if User.objects.filter(email=email):
+				raise CustomBadRequest(
+					code="duplicate_exception",
+					message="That email is already used.")
+			if User.objects.filter(username=username):
+				raise CustomBadRequest(
+					code="duplicate_exception",
+					message="That username is already used.")
+		except KeyError as missing_key:
+			raise CustomBadRequest(
+				code="missing_key",
+				message="Must provide {missing_key} when creating a user."
+						.format(missing_key=missing_key))
+		except User.DoesNotExist:
+			pass
  
-        # setting resource_name to `user_profile` here because we want
-        # resource_uri in response to be same as UserProfileResource resource
-        self._meta.resource_name = UserProfileResource._meta.resource_name
-        return super(CreateUserResource, self).obj_create(bundle, **kwargs)
-
-class UserResource(ModelResource):
-    # We need to store raw password in a virtual field because hydrate method
-    # is called multiple times depending on if it's a POST/PUT/PATCH request
-    password = fields.CharField(attribute=None, readonly=True, null=True,
-                                    blank=True)
- 
-    class Meta:
-        # For authentication, allow both basic and api key so that the key
-        # can be grabbed, if needed.
-        authentication = Authentication()
-        authorization = Authorization()
- 
-        # Because this can be updated nested under the UserProfile, it needed
-        # 'put'. No idea why, since patch is supposed to be able to handle
-        # partial updates.
-        allowed_methods = ['get', 'patch', 'put', ]
-        always_return_data = True
-        queryset = User.objects.all()#.select_related("api_key")
-        excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined',
-                    'last_login']
- 
-    #def authorized_read_list(self, object_list, bundle):
-    #    return object_list.filter(id=bundle.request.user.id).select_related()
- 
-    def hydrate(self, bundle):
-        if "password" in bundle.data:
-            # Pop out password and validate it
-            # This will prevent re-validation because hydrate is called
-            # multiple times
-            # https://github.com/toastdriven/django-tastypie/issues/603
-            # "Cannot resolve keyword 'password' into field." won't occur
- 
-            password = bundle.data.pop("password")
- 
-            # Validate password
-            if not validate_password(password):
-                if len(password) < MINIMUM_PASSWORD_LENGTH:
-                    raise CustomBadRequest(
-                        code="invalid_password",
-                        message=(
-                            "Your password should contain at least {length} "
-                            "characters.".format(length=
-                                                 MINIMUM_PASSWORD_LENGTH)))
-                raise CustomBadRequest(
-                    code="invalid_password",
-                    message=("Your password should contain at least one number"
-                             ", one uppercase letter, one special character,"
-                             " and no spaces."))
- 
-            bundle.data["password"] = make_password(password)
- 
-        return bundle
- 
-    def dehydrate(self, bundle):
-        #bundle.data['key'] = bundle.obj.api_key.key
- 
-        try:
-            # Don't return `password` in response.
-            del bundle.data["password"]
-        except KeyError:
-            pass
- 
-        return bundle
- 
- 
-class UserProfileResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user', full=True)
- 
-    class Meta:
-        # For authentication, allow both basic and api key so that the key
-        # can be grabbed, if needed.
-        authentication = Authentication()
-        authorization = Authorization()
-        always_return_data = True
-        allowed_methods = ['get', 'patch', ]
-        detail_allowed_methods = ['get', 'patch', 'put']
-        queryset = UserProfile.objects.all()
-        resource_name = 'user_profile'
- 
-    #def authorized_read_list(self, object_list, bundle):
-    #    return object_list.filter(user=bundle.request.user).select_related()
- 
-    ## Since there is only one user profile object, call get_detail instead
-    def get_list(self, request, **kwargs):
-		kwargs["pk"] = request.user.profile.pk
-		bundle = super(UserProfileResource, self).get_detail(request, **kwargs)
+		# setting resource_name to `user_profile` here because we want
+		# resource_uri in response to be same as UserProfileResource resource
+		self._meta.resource_name = UserProfileResource._meta.resource_name
+		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		password = bundle.data.get('password')
 		username = bundle.data.get('username')
 		bundle.obj.set_password(bundle.data.get('password'))
 		bundle.obj.save()
 		return bundle
-		# user = authenticate(username=username, password=password)
-		# if user:
-		# 	if user.is_active:
-		# 		login(bundle.request, user)
 
+class UserResource(ModelResource):
+	# We need to store raw password in a virtual field because hydrate method
+	# is called multiple times depending on if it's a POST/PUT/PATCH request
+	password = fields.CharField(attribute=None, readonly=True, null=True,
+									blank=True)
+ 
+	class Meta:
+		# For authentication, allow both basic and api key so that the key
+		# can be grabbed, if needed.
+		authentication = Authentication()
+		authorization = Authorization()
+ 
+		# Because this can be updated nested under the UserProfile, it needed
+		# 'put'. No idea why, since patch is supposed to be able to handle
+		# partial updates.
+		allowed_methods = ['get', 'patch', 'put', ]
+		always_return_data = True
+		queryset = User.objects.all()#.select_related("api_key")
+		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined',
+					'last_login']
+ 
+	#def authorized_read_list(self, object_list, bundle):
+	#	return object_list.filter(id=bundle.request.user.id).select_related()
+ 
+	def hydrate(self, bundle):
+		if "password" in bundle.data:
+			# Pop out password and validate it
+			# This will prevent re-validation because hydrate is called
+			# multiple times
+			# https://github.com/toastdriven/django-tastypie/issues/603
+			# "Cannot resolve keyword 'password' into field." won't occur
+ 
+			password = bundle.data.pop("password")
+ 
+			# Validate password
+			if not validate_password(password):
+				if len(password) < MINIMUM_PASSWORD_LENGTH:
+					raise CustomBadRequest(
+						code="invalid_password",
+						message=(
+							"Your password should contain at least {length} "
+							"characters.".format(length=
+												 MINIMUM_PASSWORD_LENGTH)))
+				raise CustomBadRequest(
+					code="invalid_password",
+					message=("Your password should contain at least one number"
+							 ", one uppercase letter, one special character,"
+							 " and no spaces."))
+ 
+			bundle.data["password"] = make_password(password)
+ 
+		return bundle
+ 
+	def dehydrate(self, bundle):
+		#bundle.data['key'] = bundle.obj.api_key.key
+ 
+		try:
+			# Don't return `password` in response.
+			del bundle.data["password"]
+		except KeyError:
+			pass
+ 
+		return bundle
+ 
+ 
+class UserProfileResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user', full=True)
+ 
+	class Meta:
+		# For authentication, allow both basic and api key so that the key
+		# can be grabbed, if needed.
+		authentication = Authentication()
+		authorization = Authorization()
+		always_return_data = True
+		allowed_methods = ['get', 'patch', ]
+		detail_allowed_methods = ['get', 'patch', 'put']
+		queryset = UserProfile.objects.all()
+		resource_name = 'user_profile'
+ 
+	#def authorized_read_list(self, object_list, bundle):
+	#	return object_list.filter(user=bundle.request.user).select_related()
+ 
+	## Since there is only one user profile object, call get_detail instead
+	def get_list(self, request, **kwargs):
+		kwargs["pk"] = request.user.profile.pk
+		return super(UserProfileResource, self).get_detail(request, **kwargs)
 """
 class CreateUserResource(ModelResource):
 	appuser = fields.ToOneField(UserProfileResource, 'appuser', related_name='user', full=True)
