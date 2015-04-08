@@ -77,10 +77,11 @@ class CreateUserResource(ModelResource):
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
 		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		password = bundle.data.get('password')
-		username = bundle.data.get('username')
-		bundle.obj.set_password(bundle.data.get('password'))
-		bundle.obj.save()
+		user_bundle = bundle.data.get('user')
+		password = user_bundle.data.get('password')
+		username = user_bundle.data.get('username')
+		user_bundle.obj.set_password(password)
+		user_bundle.obj.save()
 		return bundle
 
 class UserResource(ModelResource):
