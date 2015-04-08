@@ -58,9 +58,7 @@ class UserResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return self.create_response(request, {
-					'success': True
-				})
+				
 			else:
 				return self.create_response(request, {
 					'success': False,
