@@ -45,7 +45,7 @@ class CreateUserResource(ModelResource):
 							.format(missing_key=field))
  
 		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
-								"password")
+								"raw_password")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data["user"]:
 				raise CustomBadRequest(
@@ -88,7 +88,7 @@ class CreateUserResource(ModelResource):
 class UserResource(ModelResource):
 	# We need to store raw password in a virtual field because hydrate method
 	# is called multiple times depending on if it's a POST/PUT/PATCH request
-	password = fields.CharField(attribute=None, readonly=True, null=True,
+	raw_password = fields.CharField(attribute=None, readonly=True, null=True,
 									blank=True)
  
 	class Meta:
@@ -110,17 +110,17 @@ class UserResource(ModelResource):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
  
 	def hydrate(self, bundle):
-		if "password" in bundle.data:
+		if bundle.data.has_key('raw_password'):#"raw_password" in bundle.data:
 			# Pop out password and validate it
 			# This will prevent re-validation because hydrate is called
 			# multiple times
 			# https://github.com/toastdriven/django-tastypie/issues/603
 			# "Cannot resolve keyword 'password' into field." won't occur
  
-			raw_password = bundle.data.pop("password")
+			raw_password = bundle.data.pop("raw_password")
  
 			# Validate password
-			if not validate_password(password):
+			if not validate_password(raw_password):
 				if len(password) < MINIMUM_PASSWORD_LENGTH:
 					raise CustomBadRequest(
 						code="invalid_password",
@@ -135,8 +135,6 @@ class UserResource(ModelResource):
 							 " and no spaces."))
  
 			bundle.data["password"] = make_password(raw_password)
-			# bundle.obj.set_password(raw_password)
-			# bundle.obj.save()
  
 		return bundle
  
@@ -145,7 +143,7 @@ class UserResource(ModelResource):
  
 		try:
 			# Don't return `password` in response.
-			del bundle.data["password"]
+			del bundle.data["raw_password"]
 		except KeyError:
 			pass
  
