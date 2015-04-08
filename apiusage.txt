@@ -58,4 +58,4 @@ curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: 
 # Probably going to need 
 Update meditation time etc for each user 
 
-curl -v -H "Content-Type: application/json" -X POST --data '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser103", "password": "password", "appuser":{"birthday": "2015-03-30"}}' https://secure-headland-8362.herokuapp.com/api/v1/user/
+curl -v -H "Content-Type: application/json" -X POST --data '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser104", "password": "password", "appuser":{"birthday": "2015-03-30"}}' https://secure-headland-8362.herokuapp.com/api/v1/user/
