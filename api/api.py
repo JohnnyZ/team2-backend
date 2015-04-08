@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.conf.urls import url
 from django.core import serializers
@@ -133,9 +134,9 @@ class UserResource(ModelResource):
 							 ", one uppercase letter, one special character,"
 							 " and no spaces."))
  
-			# bundle.data["password"] = make_password(raw_password)
-			bundle.obj.set_password(raw_password)
-			bundle.obj.save()
+			bundle.data["password"] = make_password(raw_password)
+			# bundle.obj.set_password(raw_password)
+			# bundle.obj.save()
  
 		return bundle
  
