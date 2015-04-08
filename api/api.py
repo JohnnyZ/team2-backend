@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
-
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.conf.urls import url
-from .models import UserProfile
-from .utils import MINIMUM_PASSWORD_LENGTH, validate_password
-from .exceptions import CustomBadRequest
-
 from django.core import serializers
 
+
+from api.models import *
+from api.utils import MINIMUM_PASSWORD_LENGTH, validate_password
+from api.exceptions import CustomBadRequest
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
