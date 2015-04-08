@@ -19,7 +19,7 @@ from tastypie.exceptions import BadRequest
 
 class appUserResource(ModelResource):
 	user = fields.ToOneField('api.api.UserResource', attribute='user', related_name='appuser')
-	birthday = models.DateField(null=True, blank=True)
+	birthday = fields.DateField(null=True, blank=True)
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
