@@ -26,11 +26,11 @@ class appUserResource(ModelResource):
 		authorization = Authorization()
 
 class UserResource(ModelResource):
-	appuser = fields.ToOneField(appUserResource, 'appuser', related_name='user', full=True, null=True)
+	appuser = fields.ToManyField(appUserResource, 'appuser', related_name='user', full=True, null=True)
 	class Meta:
 		queryset = User.objects.all()
 		authentication = Authentication()
-		authroization = Authorization()
+		authorization = Authorization()
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
 		allowed_methods = ['get', 'post']
