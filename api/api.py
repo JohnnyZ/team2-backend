@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.conf.urls import url
 from api.models import *
+from django.core import serializers
+
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
@@ -57,8 +59,10 @@ class UserResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
+				user_json = serializers.serialize('json', [ request.user, ])
 				return self.create_response(request, {
-					'success': True
+					'success': True,
+					'user': user_json
 				})
 			else:
 				return self.create_response(request, {
