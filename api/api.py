@@ -134,7 +134,8 @@ class UserResource(ModelResource):
 							 " and no spaces."))
  
 			# bundle.data["password"] = make_password(raw_password)
-			bundle.set_password(raw_password)
+			bundle.obj.set_password(raw_password)
+			bundle.obj.save()
  
 		return bundle
  
