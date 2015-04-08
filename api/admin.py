@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from api.models import appUser, MeditationSession, ExerciseSession
+from api.models import UserProfile, MeditationSession, ExerciseSession
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
@@ -22,11 +22,11 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 
-class appUserInline(admin.StackedInline):
-	model = appUser
+class UserProfileInline(admin.StackedInline):
+	model = UserProfile
 
-class appUserAdmin(UserAdmin):
-	inlines = [ appUserInline, ]
+class UserProfileAdmin(UserAdmin):
+	inlines = [ UserProfileInline, ]
 	list_display = ('id', 'username', 'first_name', 'last_name', 'start_date', 'meditation_time', 'exercise_day_of_week', 
 					'exercise_time', 'created_at', 'updated_at', )
 	readonly_fields = ('created_at', 'updated_at')
@@ -82,9 +82,9 @@ class appUserAdmin(UserAdmin):
 
 ## Register models ##
 
-# Add appUser to user 
+# Add UserProfile to user 
 admin.site.unregister(User)
-admin.site.register(User, appUserAdmin)
+admin.site.register(User, UserProfileAdmin)
 admin.site.register(MeditationSession, MeditationSessionAdmin)
 admin.site.register(ExerciseSession, ExerciseSessionAdmin)
 

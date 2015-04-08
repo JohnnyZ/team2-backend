@@ -55,8 +55,8 @@ class BodyLocation(enum.Enum):
 	HEAD = 0 
 
 # Models here 
-class appUser(models.Model):
-	user = models.OneToOneField(User)
+class UserProfile(models.Model):
+	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
@@ -65,6 +65,9 @@ class appUser(models.Model):
 	exercise_time = models.TimeField()
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
+
+	def __unicode__(self):
+		return self.user.get_full_name()
 
 class MeditationSession(models.Model):
 	user = models.ForeignKey(User)
@@ -81,6 +84,23 @@ class ExerciseSession(models.Model):
 
 	class Meta:
 		unique_together = ("user", "exercise_id")
+
+#===========================================================================
+# SIGNALS
+#===========================================================================
+def signals_import():
+    """ 
+    A note on signals.
+
+    The signals need to be imported early on so that they get registered
+    by the application. Putting the signals here makes sure of this since
+    the models package gets imported on the application startup.
+    """
+    from tastypie.models import create_api_key
+ 
+    models.signals.post_save.connect(create_api_key, sender=User)
+ 
+signals_import()
 
 """
 class Assessment(models.Model):
