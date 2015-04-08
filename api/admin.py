@@ -33,7 +33,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def start_date(self, obj):
 		try:
-			start_date = obj.userprofile.start_date
+			start_date = obj.profile.start_date
 			return start_date
 		except:
 			return ""
@@ -41,7 +41,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def meditation_time(self, obj):
 		try:
-			meditation_time = obj.userprofile.meditation_time
+			meditation_time = obj.profile.meditation_time
 			return meditation_time
 		except:
 			return ""
@@ -49,7 +49,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def exercise_day_of_week(self, obj):
 		try:
-			exercise_day_of_week = obj.userprofile.exercise_day_of_week
+			exercise_day_of_week = obj.profile.exercise_day_of_week
 			return exercise_day_of_week
 		except:
 			return ""
@@ -57,7 +57,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def exercise_time(self, obj):
 		try:
-			exercise_time = obj.userprofile.exercise_time
+			exercise_time = obj.profile.exercise_time
 			return exercise_time
 		except:
 			return ""
@@ -65,7 +65,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def created_at(self, obj):
 		try:
-			created_at = obj.userprofile.created_at
+			created_at = obj.profile.created_at
 			return created_at
 		except:
 			return ""
@@ -73,7 +73,7 @@ class UserProfileAdmin(UserAdmin):
 
 	def updated_at(self, obj):
 		try:
-			updated_at = obj.userprofile.updated_at
+			updated_at = obj.profile.updated_at
 			return updated_at
 		except:
 			return ""
