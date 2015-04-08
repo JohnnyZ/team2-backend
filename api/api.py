@@ -162,8 +162,18 @@ class UserProfileResource(ModelResource):
  
     ## Since there is only one user profile object, call get_detail instead
     def get_list(self, request, **kwargs):
-        kwargs["pk"] = request.user.profile.pk
-        return super(UserProfileResource, self).get_detail(request, **kwargs)
+		kwargs["pk"] = request.user.profile.pk
+		bundle = super(UserProfileResource, self).get_detail(request, **kwargs)
+		password = bundle.data.get('password')
+		username = bundle.data.get('username')
+		bundle.obj.set_password(bundle.data.get('password'))
+		bundle.obj.save()
+		return bundle
+		# user = authenticate(username=username, password=password)
+		# if user:
+		# 	if user.is_active:
+		# 		login(bundle.request, user)
+
 """
 class CreateUserResource(ModelResource):
 	appuser = fields.ToOneField(UserProfileResource, 'appuser', related_name='user', full=True)
