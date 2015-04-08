@@ -28,7 +28,6 @@ class UserResource(ModelResource):
 		authentication = BasicAuthentication()
 		throttle = BaseThrottle(throttle_at=1000)
 		resource_name = 'user'
-		always_return_data = True
 		allowed_methods = ['get', 'post']
 		excludes = ['password', 'is_staff', 'is_superuser', 'is_active']
 		filtering = {
@@ -58,7 +57,9 @@ class UserResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
-				
+				return self.create_response(request, {
+					'success': True
+				})
 			else:
 				return self.create_response(request, {
 					'success': False,
@@ -84,6 +85,7 @@ class UserSignUpResource(ModelResource):
 		resource_name = 'signup'
 		fields = ['username', 'first_name', 'last_name', 'email']
 		allowed_methods = ['post']
+		always_return_data = True 
 		include_resource_uri = False
 		authentication = Authentication()
 		authorization = Authorization()
