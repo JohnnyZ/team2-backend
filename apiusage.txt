@@ -15,10 +15,11 @@ curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/ap
 ## Create new user example
 # signUp(User user)
 # Logins in automatically after and sends key 
-curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser100", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
+curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser103", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
 
 ## Authenticate the user into django and allow access to their data 
 # logIn(String username, String password) -> user and session key as cookie
+# Get userinformation needed 
 curl -v -H "Content-Type: application/json" -d '{"username": "testuser99", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
 # logOut
@@ -33,7 +34,7 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/?user__user
 https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 # Get 
-curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+curl --cookie "sessionid=EY0SDl77snJtVSnSvKG709Ntj8aRpY06" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 
 ## Update the meditation with how much of the lesson they completed
@@ -56,3 +57,5 @@ curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: 
 ------------------------
 # Probably going to need 
 Update meditation time etc for each user 
+
+curl -v -H "Content-Type: application/json" -X POST --data '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser103", "password": "password", "appuser":{"birthday": "2015-03-30"}}' https://secure-headland-8362.herokuapp.com/api/v1/user/

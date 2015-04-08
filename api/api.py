@@ -19,13 +19,14 @@ from tastypie.exceptions import BadRequest
 
 class appUserResource(ModelResource):
 	user = fields.ToOneField('api.api.UserResource', attribute='user', related_name='appuser')
+	birthday = models.DateField(null=True, blank=True)
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
 		authorization = Authorization()
 
 class UserResource(ModelResource):
-	appuser = fields.ToOneField(appUserResource, 'appuser', related_name='user', full=True)
+	appuser = fields.ToOneField(appUserResource, 'appuser', related_name='user', full=True, null=True)
 	class Meta:
 		queryset = User.objects.all()
 		authentication = BasicAuthentication()
@@ -85,8 +86,9 @@ class UserResource(ModelResource):
 			return self.create_response(request, { 'success': False }, HttpUnauthorized)
 
 class UserSignUpResource(ModelResource):
+	appuser = fields.ToOneField(appUserResource, 'appuser', related_name='user', full=True)
 	class Meta:
-		object_class = appUser
+		object_class = User
 		resource_name = 'signup'
 		fields = ['username', 'first_name', 'last_name', 'email']
 		allowed_methods = ['post']
@@ -94,7 +96,7 @@ class UserSignUpResource(ModelResource):
 		include_resource_uri = False
 		authentication = Authentication()
 		authorization = Authorization()
-		queryset = appUser.objects.all()
+		queryset = User.objects.all()
 
 	def obj_create(self, bundle, request=None, **kwargs):
 		try:
