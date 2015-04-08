@@ -86,7 +86,7 @@ class UserResource(ModelResource):
 
 class UserSignUpResource(ModelResource):
 	class Meta:
-		object_class = User
+		object_class = appUser
 		resource_name = 'signup'
 		fields = ['username', 'first_name', 'last_name', 'email']
 		allowed_methods = ['post']
@@ -94,7 +94,7 @@ class UserSignUpResource(ModelResource):
 		include_resource_uri = False
 		authentication = Authentication()
 		authorization = Authorization()
-		queryset = User.objects.all()
+		queryset = appUser.objects.all()
 
 	def obj_create(self, bundle, request=None, **kwargs):
 		try:
