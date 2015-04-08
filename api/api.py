@@ -18,7 +18,7 @@ from tastypie.exceptions import BadRequest
 
 
 class appUserResource(ModelResource):
-	user = fields.ToOneField(UserResource, 'user')
+	#user = fields.ToOneField(UserResource, 'user')
 	class Meta:
 		queryset = appUser.objects.all()
 		resource_name = 'appuser'
@@ -61,7 +61,7 @@ class UserResource(ModelResource):
 			if user.is_active:
 				login(request, user)
 				app_user = appUser.objects.get(user)
-				user_json = serializers.serialize('json', [ user, ])
+				user_json = serializers.serialize('json', [ app_user, ])
 				return self.create_response(request, {
 					'success': True,
 					'user': user_json
