@@ -60,7 +60,7 @@ class UserResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
-				user_json = serializers.serialize('json', [ appuser, ])
+				user_json = serializers.serialize('json', [ user, ])
 				return self.create_response(request, {
 					'success': True,
 					'user': user_json
