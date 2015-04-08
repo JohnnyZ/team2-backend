@@ -60,9 +60,9 @@ class UserProfile(models.Model):
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
-	meditation_time = models.TimeField()
+	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
-	exercise_time = models.TimeField()
+	exercise_time = models.TimeField(null=True)
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
