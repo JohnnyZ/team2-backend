@@ -110,7 +110,7 @@ class UserResource(ModelResource):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
  
 	def hydrate(self, bundle):
-		if bundle.data.has_key('raw_password'):#"raw_password" in bundle.data:
+		if "raw_password" in bundle.data: #bundle.data.has_key('raw_password'):#
 			# Pop out password and validate it
 			# This will prevent re-validation because hydrate is called
 			# multiple times
