@@ -44,7 +44,7 @@ class CreateUserResource(ModelResource):
                             .format(missing_key=field))
  
         REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
-                                "raw_password")
+                                "password")
         for field in REQUIRED_USER_FIELDS:
             if field not in bundle.data["user"]:
                 raise CustomBadRequest(
@@ -81,7 +81,7 @@ class CreateUserResource(ModelResource):
 class UserResource(ModelResource):
     # We need to store raw password in a virtual field because hydrate method
     # is called multiple times depending on if it's a POST/PUT/PATCH request
-    raw_password = fields.CharField(attribute=None, readonly=True, null=True,
+    password = fields.CharField(attribute=None, readonly=True, null=True,
                                     blank=True)
  
     class Meta:
@@ -103,18 +103,18 @@ class UserResource(ModelResource):
     #    return object_list.filter(id=bundle.request.user.id).select_related()
  
     def hydrate(self, bundle):
-        if "raw_password" in bundle.data:
-            # Pop out raw_password and validate it
+        if "password" in bundle.data:
+            # Pop out password and validate it
             # This will prevent re-validation because hydrate is called
             # multiple times
             # https://github.com/toastdriven/django-tastypie/issues/603
-            # "Cannot resolve keyword 'raw_password' into field." won't occur
+            # "Cannot resolve keyword 'password' into field." won't occur
  
-            raw_password = bundle.data.pop["raw_password"]
+            password = bundle.data.pop["password"]
  
             # Validate password
-            if not validate_password(raw_password):
-                if len(raw_password) < MINIMUM_PASSWORD_LENGTH:
+            if not validate_password(password):
+                if len(password) < MINIMUM_PASSWORD_LENGTH:
                     raise CustomBadRequest(
                         code="invalid_password",
                         message=(
@@ -127,7 +127,7 @@ class UserResource(ModelResource):
                              ", one uppercase letter, one special character,"
                              " and no spaces."))
  
-            bundle.data["password"] = make_password(raw_password)
+            bundle.data["password"] = make_password(password)
  
         return bundle
  
@@ -135,8 +135,8 @@ class UserResource(ModelResource):
         #bundle.data['key'] = bundle.obj.api_key.key
  
         try:
-            # Don't return `raw_password` in response.
-            del bundle.data["raw_password"]
+            # Don't return `password` in response.
+            del bundle.data["password"]
         except KeyError:
             pass
  
