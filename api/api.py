@@ -134,7 +134,7 @@ class UserResource(ModelResource):
 							 ", one uppercase letter, one special character,"
 							 " and no spaces."))
  
-			bundle.data["password"] = make_password(raw_password)
+			bundle.obj.set_password(raw_password)
  
 		return bundle
  
