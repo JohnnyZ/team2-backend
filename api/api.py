@@ -35,23 +35,23 @@ class CreateUserResource(ModelResource):
 		resource_name = 'create_user'
 		always_return_data = True
  
-	# def hydrate(self, bundle):
-	# 	REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
-	# 	for field in REQUIRED_USER_FIELDS:
-	# 		if field not in bundle.data:
-	# 			raise CustomBadRequest(
-	# 				code="missing_key",
-	# 				message="Must provide {missing_key} when creating a user."
-	# 						.format(missing_key=field))
-	# 	return bundle
+	def hydrate(self, bundle):
+		REQUIRED_USER_FIELDS = ("username", "raw_password", "email", "first_name", "last_name", "birthday")
+		for field in REQUIRED_USER_FIELDS:
+			if field not in bundle.data:
+				raise CustomBadRequest(
+					code="missing_key",
+					message="Must provide {missing_key} when creating a user."
+							.format(missing_key=field))
+		return bundle
  
 	def obj_create(self, bundle, **kwargs):
-		raw_password = bundle.data.pop('raw_password')
+		raw_password = bundle.data['raw_password']
 		try:
-			email = bundle.data.pop("email")
-			username = bundle.data.pop("username")
-			first_name = bundle.data.pop("first_name")
-			last_name = bundle.data.pop("last_name")
+			email = bundle.data["email"]
+			username = bundle.data["username"]
+			first_name = bundle.data["first_name"]
+			last_name = bundle.data["last_name"]
 
 			user = {
 				'email': email, 
@@ -62,6 +62,7 @@ class CreateUserResource(ModelResource):
 				}
 			bundle.data['user'] = user
 
+			# Filter for unique objects
 			if User.objects.filter(email=email):
 				raise CustomBadRequest(
 					code="duplicate_exception",
@@ -81,7 +82,7 @@ class CreateUserResource(ModelResource):
 		if not validate_password(raw_password):
 			raise CustomBadRequest(
 				code='invalid_password',
-				message='Your password is invalid.'+raw_password)
+				message='Your password is invalid.')
 
 		## Add password to kwargs
 		#kwargs["password"] = raw_password#make_password(raw_password)

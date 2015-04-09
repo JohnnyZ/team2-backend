@@ -9,6 +9,6 @@ REGEX_VALID_PASSWORD = (
  
  
 def validate_password(password):
-	# if re.match(REGEX_VALID_PASSWORD, password):
+	if re.match(REGEX_VALID_PASSWORD, password):
 		return True
-	# return False
+	return False
