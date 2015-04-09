@@ -69,7 +69,7 @@ class CreateUserResource(ModelResource):
 		if not validate_password(raw_password):
 			raise CustomBadRequest(
 				code='invalid_password',
-				message='Your password is invalid.')
+				message='Your password is invalid.'+raw_password)
 
 		## Add password to kwargs
 		kwargs["password"] = make_password(raw_password)
@@ -146,7 +146,7 @@ class UserResource(ModelResource):
 			if not validate_password(raw_password):
 				raise CustomBadRequest(
 					code='invalid_password',
-					message='Your password is invalid.')
+					message='Your password is invalid1.'+raw_password)
 
 			bundle.obj.set_password(raw_password)
 		except KeyError:
