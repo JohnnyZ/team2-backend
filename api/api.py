@@ -46,6 +46,18 @@ class CreateUserResource(ModelResource):
 					message="Must provide {missing_key} when creating a user."
 							.format(missing_key=field))
 		return bundle
+
+	# Serialization method that serializes the object to json before getting sent back to client
+	def dehydrate(self, bundle): 
+		try:
+			# Don't return "raw_password" in response.
+			del bundle.data["raw_password"]
+			# User data is already included on wrapping UserProfile data after creation
+			del bundle.data["user"]
+		except KeyError:
+			pass
+ 
+		return bundle
  
 	def obj_create(self, bundle, **kwargs):
 		try:
@@ -65,6 +77,7 @@ class CreateUserResource(ModelResource):
 						"characters.".format(length=MINIMUM_PASSWORD_LENGTH)))
 
 			# Separate out the User info into an object nested under the UserProfile bundle
+			# This gets sorted out by the foreign key relation in UserProfileResource
 			user = {
 				'email': email, 
 				'username': username,
@@ -114,7 +127,7 @@ class UserResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
 
-	# Serialization method that serializes the object before getting send back to client
+	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle): 
 		try:
 			# Don't return "password" in response.
@@ -139,16 +152,6 @@ class UserProfileResource(ModelResource):
  
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
-
-	# Serialization method that serializes the object before getting send back to client
-	def dehydrate(self, bundle): 
-		try:
-			# Don't return "raw_password" in response.
-			del bundle.data["raw_password"]
-		except KeyError:
-			pass
- 
-		return bundle
  
 	## Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):

@@ -12,7 +12,7 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;
 #prettify the json
 curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool
 
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack16@catfacts.co", "username": "lotus_user16", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack17@catfacts.co", "username": "lotus_user17", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 
 
