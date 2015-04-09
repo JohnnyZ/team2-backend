@@ -84,7 +84,7 @@ class CreateUserResource(ModelResource):
 			user = {
 				'email': email, 
 				'username': username,
-				'password': raw_password#make_password(raw_password),
+				'password': raw_password,#make_password(raw_password),
 				'first_name': first_name,
 				'last_name': last_name
 				}
@@ -158,7 +158,9 @@ class UserResource(ModelResource):
 				if user.is_active:
 					login(bundle.request, user)
 		except IntegrityError:
-			raise BadRequest(_("A user with that username already exists."))
+			raise CustomBadRequest(
+					code="duplicate_exception",
+					message="That username is already used.")
 		return bundle
  
  
