@@ -113,6 +113,8 @@ class CreateUserResource(ModelResource):
 		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		username = bundle.data.get('username')
+		bundle.obj.set_password(raw_password)
+		bundle.obj.save()
 		user = authenticate(username=username, password=raw_password)
 		if user:
 			if user.is_active:
