@@ -110,7 +110,13 @@ class CreateUserResource(ModelResource):
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
-		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		username = bundle.data.get('username')
+		user = authenticate(username=username, password=raw_password)
+		if user:
+			if user.is_active:
+				login(bundle.request, user)
 
 class UserResource(ModelResource):
  
@@ -122,7 +128,7 @@ class UserResource(ModelResource):
 		# partial updates.
 		allowed_methods = ['get', 'patch', 'put', ]
 		always_return_data = True
-		queryset = User.objects.all()#.select_related("api_key")
+		queryset = User.objects.all()
 		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
 		resource_name = 'user'
  

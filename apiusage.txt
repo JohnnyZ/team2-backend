@@ -31,19 +31,18 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-
 # sample response:
 {
   "birthday": "2015-03-30T00:00:00",
-  "created_at": "2015-04-09T14:24:03.620555",
-  "email": "goooch_attack18@catfacts.co",
+  "created_at": "2015-04-09T14:36:46.618477",
+  "email": "goooch_attack19@catfacts.co",
   "exercise_day_of_week": 0,
   "exercise_time": null,
   "first_name": "John",
-  "gender": 0,
-  "id": 15,
+  "gender": 1,
+  "id": 16,
   "last_name": "Doe",
   "meditation_time": null,
-  "resource_uri": "\/api\/v1\/user_profile\/15\/",
-  "start_date": "2015-04-09T14:24:03.620475",
-  "updated_at": "2015-04-09T14:24:03.670143",
-  "username": "lotus_user18"
+  "start_date": "2015-04-09T14:36:46.618409",
+  "updated_at": "2015-04-09T14:36:46.659953",
+  "username": "lotus_user19"
 }
 
 ######################## Create a user object ########################
