@@ -35,15 +35,15 @@ class CreateUserResource(ModelResource):
 		resource_name = 'create_user'
 		always_return_data = True
  
-	def hydrate(self, bundle):
-		REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
-		for field in REQUIRED_USER_FIELDS:
-			if field not in bundle.data:
-				raise CustomBadRequest(
-					code="missing_key",
-					message="Must provide {missing_key} when creating a user."
-							.format(missing_key=field))
-		return bundle
+	# def hydrate(self, bundle):
+	# 	REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
+	# 	for field in REQUIRED_USER_FIELDS:
+	# 		if field not in bundle.data:
+	# 			raise CustomBadRequest(
+	# 				code="missing_key",
+	# 				message="Must provide {missing_key} when creating a user."
+	# 						.format(missing_key=field))
+	# 	return bundle
  
 	def obj_create(self, bundle, **kwargs):
 		raw_password = bundle.data.pop('password')
