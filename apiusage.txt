@@ -9,10 +9,50 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
 # Get multiple meditation sessions 
 https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
 
+######################## Create a user object ########################
+# api:
+	create_user
+	
+# type:
+	POST
+
+# required fields: 
+	username
+	password
+	email
+	first_name
+	last_name
+	birthday
+	gender
+
+# sample call:
+curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack19@catfacts.co", "username": "lotus_user19", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+
+# sample response:
+{
+  "birthday": "2015-03-30T00:00:00",
+  "created_at": "2015-04-09T14:24:03.620555",
+  "email": "goooch_attack18@catfacts.co",
+  "exercise_day_of_week": 0,
+  "exercise_time": null,
+  "first_name": "John",
+  "gender": 0,
+  "id": 15,
+  "last_name": "Doe",
+  "meditation_time": null,
+  "resource_uri": "\/api\/v1\/user_profile\/15\/",
+  "start_date": "2015-04-09T14:24:03.620475",
+  "updated_at": "2015-04-09T14:24:03.670143",
+  "username": "lotus_user18"
+}
+
+######################## Create a user object ########################
+
+
 #prettify the json
 curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool
 
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack17@catfacts.co", "username": "lotus_user17", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack18@catfacts.co", "username": "lotus_user18", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 
 

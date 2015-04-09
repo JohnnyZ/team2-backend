@@ -38,7 +38,8 @@ class CreateUserResource(ModelResource):
 	# Deal with all the raw json here (bundle.data)
 	def hydrate(self, bundle):
 		# Make sure required fields are included in initial create_user api call
-		REQUIRED_USER_FIELDS = ("username", "raw_password", "email", "first_name", "last_name", "birthday")
+		REQUIRED_USER_FIELDS = ("username", "raw_password", "email", "first_name", "last_name", # User fields
+								"birthday", "gender") # UserProfile fields
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data:
 				raise CustomBadRequest(
@@ -50,10 +51,12 @@ class CreateUserResource(ModelResource):
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle): 
 		try:
+			# TODO: can these be put into excludes in Meta?
 			# Don't return "raw_password" in response.
 			del bundle.data["raw_password"]
 			# User data is already included on wrapping UserProfile data after creation
 			del bundle.data["user"]
+			del bundle.data["resource_uri"]
 		except KeyError:
 			pass
  
@@ -114,7 +117,6 @@ class UserResource(ModelResource):
 	class Meta:
 		authentication = Authentication()
 		authorization = Authorization()
- 
 		# Because this can be updated nested under the UserProfile, it needed
 		# 'put'. No idea why, since patch is supposed to be able to handle
 		# partial updates.
