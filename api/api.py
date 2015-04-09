@@ -84,7 +84,7 @@ class CreateUserResource(ModelResource):
 				message='Your password is invalid.'+raw_password)
 
 		## Add password to kwargs
-		kwargs["password"] = make_password(raw_password)
+		kwargs["password"] = raw_password#make_password(raw_password)
  
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
