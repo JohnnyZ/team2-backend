@@ -46,7 +46,7 @@ class CreateUserResource(ModelResource):
 	# 	return bundle
  
 	def obj_create(self, bundle, **kwargs):
-		raw_password = bundle.data.pop('password')
+		raw_password = bundle.data.pop('raw_password')
 		try:
 			email = bundle.data.pop("email")
 			username = bundle.data.pop("username")
@@ -56,7 +56,7 @@ class CreateUserResource(ModelResource):
 			user = {
 				'email': email, 
 				'username': username,
-				'password': raw_password,
+				'password': make_password(raw_password),
 				'first_name': first_name,
 				'last_name': last_name
 				}
@@ -84,7 +84,7 @@ class CreateUserResource(ModelResource):
 				message='Your password is invalid.'+raw_password)
 
 		## Add password to kwargs
-		kwargs["password"] = raw_password#make_password(raw_password)
+		#kwargs["password"] = raw_password#make_password(raw_password)
  
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
