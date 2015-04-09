@@ -7,7 +7,6 @@ from django.core import serializers
 
 
 from api.models import *
-from api.utils import MINIMUM_PASSWORD_LENGTH, validate_password
 from api.exceptions import CustomBadRequest
 
 from tastypie.serializers import Serializer
@@ -57,20 +56,13 @@ class CreateUserResource(ModelResource):
 			first_name = bundle.data["first_name"]
 			last_name = bundle.data["last_name"]
 
-			# Validate the password with our custom method in utils.py
-			if not validate_password(raw_password):
-				if len(raw_password) < MINIMUM_PASSWORD_LENGTH:
-					raise CustomBadRequest(
-						code="invalid_password",
-						message=(
-							"Your password should contain at least {length} "
-							"characters.".format(length=MINIMUM_PASSWORD_LENGTH)))
+			# Validate the password for length
+			if len(raw_password) < MINIMUM_PASSWORD_LENGTH:
 				raise CustomBadRequest(
 					code="invalid_password",
 					message=(
-						"Your password should contain at least one number"
-						", one uppercase letter, one special character,"
-						" and no spaces."))
+						"Your password should contain at least {length} "
+						"characters.".format(length=MINIMUM_PASSWORD_LENGTH)))
 
 			# Separate out the User info into an object nested under the UserProfile bundle
 			user = {
