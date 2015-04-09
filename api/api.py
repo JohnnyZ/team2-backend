@@ -36,7 +36,7 @@ class CreateUserResource(ModelResource):
 		always_return_data = True
  
 	def hydrate(self, bundle):
-		REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
+		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name", "birthday")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data:
 				raise CustomBadRequest(
