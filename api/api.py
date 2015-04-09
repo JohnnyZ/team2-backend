@@ -65,14 +65,14 @@ class CreateUserResource(ModelResource):
 						message=(
 							"Your password should contain at least {length} "
 							"characters.".format(length=MINIMUM_PASSWORD_LENGTH)))
-	                raise CustomBadRequest(
-						code="invalid_password",
-						message=(
-							"Your password should contain at least one number"
-							", one uppercase letter, one special character,"
-							" and no spaces."))
+				raise CustomBadRequest(
+					code="invalid_password",
+					message=(
+						"Your password should contain at least one number"
+						", one uppercase letter, one special character,"
+						" and no spaces."))
 
-	        # Separate out the User info into an object nested under the UserProfile bundle
+			# Separate out the User info into an object nested under the UserProfile bundle
 			user = {
 				'email': email, 
 				'username': username,
@@ -105,9 +105,6 @@ class CreateUserResource(ModelResource):
 		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
 
 class UserResource(ModelResource):
-	# We need to store raw password in a virtual field because hydrate method
-	# is called multiple times depending on if it's a POST/PUT/PATCH request
-	#raw_password = fields.CharField(attribute=None, readonly=True, null=True,blank=True)
  
 	class Meta:
 		# For authentication, allow both basic and api key so that the key
@@ -121,54 +118,13 @@ class UserResource(ModelResource):
 		allowed_methods = ['get', 'patch', 'put', ]
 		always_return_data = True
 		queryset = User.objects.all()#.select_related("api_key")
-		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined',
-					'last_login']
+		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
 		resource_name = 'user'
  
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
  
 	def hydrate(self, bundle):
-		"""
-		if "raw_password" in bundle.data: #bundle.data.has_key('raw_password'):#
-			# Pop out password and validate it
-			# This will prevent re-validation because hydrate is called
-			# multiple times
-			# https://github.com/toastdriven/django-tastypie/issues/603
-			# "Cannot resolve keyword 'password' into field." won't occur
- 
-			raw_password = bundle.data.pop("raw_password")
- 
-			# Validate password
-			if not validate_password(raw_password):
-				if len(password) < MINIMUM_PASSWORD_LENGTH:
-					raise CustomBadRequest(
-						code="invalid_password",
-						message=(
-							"Your password should contain at least {length} "
-							"characters.".format(length=
-												 MINIMUM_PASSWORD_LENGTH)))
-				raise CustomBadRequest(
-					code="invalid_password",
-					message=("Your password should contain at least one number"
-							 ", one uppercase letter, one special character,"
-							 " and no spaces."))
- 
-			bundle.obj.set_password(raw_password)
- 
-		return bundle
-		
-		try:
-			raw_password = bundle.data.pop('password')
-			if not validate_password(raw_password):
-				raise CustomBadRequest(
-					code='invalid_password',
-					message='Your password is invalid1.'+raw_password)
-
-			bundle.obj.set_password(raw_password)
-		except KeyError:
-			pass
-"""
 		return bundle
 
 	def dehydrate(self, bundle):
@@ -187,8 +143,6 @@ class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
  
 	class Meta:
-		# For authentication, allow both basic and api key so that the key
-		# can be grabbed, if needed.
 		authentication = Authentication()
 		authorization = Authorization()
 		always_return_data = True
@@ -202,6 +156,7 @@ class UserProfileResource(ModelResource):
  
 	## Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
+		# Set the "pk" attribute to point at the actual User object
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).get_detail(request, **kwargs)
 """

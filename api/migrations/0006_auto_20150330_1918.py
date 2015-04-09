@@ -6,14 +6,14 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('api', '0005_auto_20150330_1808'),
-    ]
+	dependencies = [
+		('api', '0005_auto_20150330_1808'),
+	]
 
-    operations = [
-        migrations.RenameField(
-            model_name='appuser',
-            old_name='mediation_time',
-            new_name='meditation_time',
-        ),
-    ]
+	operations = [
+		migrations.RenameField(
+			model_name='appuser',
+			old_name='mediation_time',
+			new_name='meditation_time',
+		),
+	]

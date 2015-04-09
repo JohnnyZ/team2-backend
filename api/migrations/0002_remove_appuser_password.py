@@ -6,13 +6,13 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('api', '0001_initial'),
-    ]
+	dependencies = [
+		('api', '0001_initial'),
+	]
 
-    operations = [
-        migrations.RemoveField(
-            model_name='appuser',
-            name='password',
-        ),
-    ]
+	operations = [
+		migrations.RemoveField(
+			model_name='appuser',
+			name='password',
+		),
+	]
