@@ -50,8 +50,8 @@ class CreateUserResource(ModelResource):
 		try:
 			email = bundle.data.pop("email")
 			username = bundle.data.pop("username")
-			password = bundle.data.pop("first_name")
-			password = bundle.data.pop("last_name")
+			first_name = bundle.data.pop("first_name")
+			last_name = bundle.data.pop("last_name")
 
 			user = {
 				'email': email, 
