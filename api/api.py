@@ -36,16 +36,7 @@ class CreateUserResource(ModelResource):
 		always_return_data = True
  
 	def hydrate(self, bundle):
-		REQUIRED_USER_PROFILE_FIELDS = ("birthday", "user")
-		for field in REQUIRED_USER_PROFILE_FIELDS:
-			if field not in bundle.data:
-				raise CustomBadRequest(
-					code="missing_key",
-					message="Must provide {missing_key} when creating a user."
-							.format(missing_key=field))
- 
-		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
-								"password")
+		REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data["user"]:
 				raise CustomBadRequest(
@@ -56,8 +47,8 @@ class CreateUserResource(ModelResource):
  
 	def obj_create(self, bundle, **kwargs):
 		try:
-			email = bundle.data["user"]["email"]
-			username = bundle.data["user"]["username"]
+			email = bundle.data["email"]
+			username = bundle.data["username"]
 			if User.objects.filter(email=email):
 				raise CustomBadRequest(
 					code="duplicate_exception",
@@ -74,7 +65,7 @@ class CreateUserResource(ModelResource):
 		except User.DoesNotExist:
 			pass
 
-		raw_password = bundle.data["user"]["password"]#.pop('password')
+		raw_password = bundle.data["password"]#.pop('password')
 		if not validate_password(raw_password):
 			raise CustomBadRequest(
 				code='invalid_password',
@@ -162,7 +153,7 @@ class UserResource(ModelResource):
 			pass
 
 		return bundle
- 
+
 	def dehydrate(self, bundle):
 		#bundle.data['key'] = bundle.obj.api_key.key
  
