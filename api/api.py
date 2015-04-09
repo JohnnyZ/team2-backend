@@ -113,12 +113,10 @@ class CreateUserResource(ModelResource):
 		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		username = bundle.data.get('username')
-		bundle.obj.set_password(raw_password)
-		bundle.obj.save()
 		user = authenticate(username=username, password=raw_password)
 		if user:
 			if user.is_active:
-				login(bundle.request, user)
+				login(bundle.request.user.request, user)
 
 class UserResource(ModelResource):
  
@@ -138,7 +136,7 @@ class UserResource(ModelResource):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
 
 	# Serialization method that serializes the object to json before getting sent back to client
-	def dehydrate(self, bundle): 
+	def dehydrate(self, bundle):
 		try:
 			# Don't return "password" in response.
 			del bundle.data["password"]
