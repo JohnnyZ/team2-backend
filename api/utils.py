@@ -4,7 +4,7 @@ MINIMUM_PASSWORD_LENGTH = 6
 REGEX_VALID_PASSWORD = (
 	## Don't allow any spaces, e.g. '\t', '\n' or whitespace etc.
 	r'^(?!.*[\s])'
-	## Minimum 8 characters
+	## Minimum 6 characters
 	'{' + str(MINIMUM_PASSWORD_LENGTH) + ',}$')
  
  

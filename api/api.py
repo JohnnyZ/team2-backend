@@ -34,8 +34,11 @@ class CreateUserResource(ModelResource):
 		queryset = UserProfile.objects.all()
 		resource_name = 'create_user'
 		always_return_data = True
- 
+
+	# Hyrdate is called during the de-serialization phase of a call
+	# Deal with all the raw json here (bundle.data)
 	def hydrate(self, bundle):
+		# Make sure required fields are included in initial create_user api call
 		REQUIRED_USER_FIELDS = ("username", "raw_password", "email", "first_name", "last_name", "birthday")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data:
@@ -46,13 +49,30 @@ class CreateUserResource(ModelResource):
 		return bundle
  
 	def obj_create(self, bundle, **kwargs):
-		raw_password = bundle.data['raw_password']
 		try:
+			# Extract the User data from request
 			email = bundle.data["email"]
 			username = bundle.data["username"]
+			raw_password = bundle.data['raw_password']
 			first_name = bundle.data["first_name"]
 			last_name = bundle.data["last_name"]
 
+			# Validate the password with our custom method in utils.py
+			if not validate_password(raw_password):
+				if len(raw_password) < MINIMUM_PASSWORD_LENGTH:
+					raise CustomBadRequest(
+						code="invalid_password",
+						message=(
+							"Your password should contain at least {length} "
+							"characters.".format(length=MINIMUM_PASSWORD_LENGTH)))
+	                raise CustomBadRequest(
+						code="invalid_password",
+						message=(
+							"Your password should contain at least one number"
+							", one uppercase letter, one special character,"
+							" and no spaces."))
+
+	        # Separate out the User info into an object nested under the UserProfile bundle
 			user = {
 				'email': email, 
 				'username': username,
@@ -78,27 +98,11 @@ class CreateUserResource(ModelResource):
 						.format(missing_key=missing_key))
 		except User.DoesNotExist:
 			pass
-
-		if not validate_password(raw_password):
-			raise CustomBadRequest(
-				code='invalid_password',
-				message='Your password is invalid.')
-
-		## Add password to kwargs
-		#kwargs["password"] = raw_password#make_password(raw_password)
  
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
 		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
-
-
-		# user_bundle = bundle.data.get('user')
-		# password = user_bundle.data.get('password')
-		# username = user_bundle.data.get('username')
-		# user_bundle.obj.set_password(password)
-		# user_bundle.obj.save()
-		# return bundle
 
 class UserResource(ModelResource):
 	# We need to store raw password in a virtual field because hydrate method
