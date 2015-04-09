@@ -152,7 +152,7 @@ class UserResource(ModelResource):
 			bundle.obj.set_password(raw_password)
  
 		return bundle
-		"""
+		
 		try:
 			raw_password = bundle.data.pop('password')
 			if not validate_password(raw_password):
@@ -163,7 +163,7 @@ class UserResource(ModelResource):
 			bundle.obj.set_password(raw_password)
 		except KeyError:
 			pass
-
+"""
 		return bundle
 
 	def dehydrate(self, bundle):
