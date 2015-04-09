@@ -36,7 +36,7 @@ class CreateUserResource(ModelResource):
 		always_return_data = True
  
 	def hydrate(self, bundle):
-		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name", "birthday")
+		REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data:
 				raise CustomBadRequest(
@@ -46,9 +46,22 @@ class CreateUserResource(ModelResource):
 		return bundle
  
 	def obj_create(self, bundle, **kwargs):
+		raw_password = bundle.data.pop('password')
 		try:
-			email = bundle.data["email"]
-			username = bundle.data["username"]
+			email = bundle.data.pop("email")
+			username = bundle.data.pop("username")
+			password = bundle.data.pop("first_name")
+			password = bundle.data.pop("last_name")
+
+			user = {
+				'email': email, 
+				'username': username,
+				'password': raw_password,
+				'first_name': first_name,
+				'last_name': last_name
+				}
+			bundle.data['user'] = user
+
 			if User.objects.filter(email=email):
 				raise CustomBadRequest(
 					code="duplicate_exception",
@@ -65,7 +78,6 @@ class CreateUserResource(ModelResource):
 		except User.DoesNotExist:
 			pass
 
-		raw_password = bundle.data.pop('password')
 		if not validate_password(raw_password):
 			raise CustomBadRequest(
 				code='invalid_password',
