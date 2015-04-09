@@ -86,7 +86,8 @@ class CreateUserResource(ModelResource):
 				'username': username,
 				'password': make_password(raw_password),
 				'first_name': first_name,
-				'last_name': last_name
+				'last_name': last_name,
+				'raw_password': raw_password
 				}
 			bundle.data['user'] = user
 
@@ -110,13 +111,13 @@ class CreateUserResource(ModelResource):
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
-		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		username = bundle.data.get('username')
-		user = authenticate(username=username, password=raw_password)
-		if user:
-			if user.is_active:
-				login(bundle.request.user.request, user)
+		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		# bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		# username = bundle.data.get('username')
+		# user = authenticate(username=username, password=raw_password)
+		# if user:
+		# 	if user.is_active:
+		# 		login(bundle.request.user.request, user)
 
 class UserResource(ModelResource):
  
@@ -137,9 +138,16 @@ class UserResource(ModelResource):
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle):
+		username = bundle.data.get('username')
+		raw_password = bundle.data.get('raw_password')
+		user = authenticate(username=username, password=raw_password)
+		if user:
+			if user.is_active:
+				login(bundle.request, user)
 		try:
-			# Don't return "password" in response.
+			# Don't return "password" or "raw_password" in response.
 			del bundle.data["password"]
+			del bundle.data["raw_password"]
 		except KeyError:
 			pass
  
