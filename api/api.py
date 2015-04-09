@@ -65,7 +65,7 @@ class CreateUserResource(ModelResource):
 		except User.DoesNotExist:
 			pass
 
-		raw_password = bundle.data["password"]#.pop('password')
+		raw_password = bundle.data.pop('password')
 		if not validate_password(raw_password):
 			raise CustomBadRequest(
 				code='invalid_password',
