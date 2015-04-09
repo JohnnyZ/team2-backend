@@ -45,7 +45,7 @@ class CreateUserResource(ModelResource):
 							.format(missing_key=field))
  
 		REQUIRED_USER_FIELDS = ("username", "email", "first_name", "last_name",
-								"raw_password")
+								"password")
 		for field in REQUIRED_USER_FIELDS:
 			if field not in bundle.data["user"]:
 				raise CustomBadRequest(
@@ -73,11 +73,22 @@ class CreateUserResource(ModelResource):
 						.format(missing_key=missing_key))
 		except User.DoesNotExist:
 			pass
+
+		raw_password = bundle.data["user"].pop('password')
+		if not validate_password(raw_password):
+			raise CustomBadRequest(
+				code='invalid_password',
+				message='Your password is invalid.')
+
+		## Add password to kwargs
+		kwargs["password"] = make_password(raw_password)
  
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
 		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+
+
 		# user_bundle = bundle.data.get('user')
 		# password = user_bundle.data.get('password')
 		# username = user_bundle.data.get('username')
