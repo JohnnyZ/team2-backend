@@ -138,12 +138,13 @@ class UserResource(ModelResource):
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle):
-		username = bundle.data.get('username')
-		raw_password = bundle.data.get('raw_password')
-		user = authenticate(username=username, password=raw_password)
-		if user:
-			if user.is_active:
-				login(bundle.request, user)
+		if "raw_password" in bundle.data:
+			username = bundle.data.get('username')
+			raw_password = bundle.data.pop('raw_password')
+			user = authenticate(username=username, password=raw_password)
+			if user:
+				if user.is_active:
+					login(bundle.request, user)
 		try:
 			# Don't return "password" or "raw_password" in response.
 			del bundle.data["password"]
