@@ -38,7 +38,7 @@ class CreateUserResource(ModelResource):
 	def hydrate(self, bundle):
 		REQUIRED_USER_FIELDS = ("username", "password", "email", "first_name", "last_name", "birthday")
 		for field in REQUIRED_USER_FIELDS:
-			if field not in bundle.data["user"]:
+			if field not in bundle.data:
 				raise CustomBadRequest(
 					code="missing_key",
 					message="Must provide {missing_key} when creating a user."
