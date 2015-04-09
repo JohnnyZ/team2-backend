@@ -99,8 +99,6 @@ class CreateUserResource(ModelResource):
 class UserResource(ModelResource):
  
 	class Meta:
-		# For authentication, allow both basic and api key so that the key
-		# can be grabbed, if needed.
 		authentication = Authentication()
 		authorization = Authorization()
  
@@ -115,18 +113,14 @@ class UserResource(ModelResource):
  
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(id=bundle.request.user.id).select_related()
- 
-	def hydrate(self, bundle):
-		return bundle
 
-	def dehydrate(self, bundle):
-		#bundle.data['key'] = bundle.obj.api_key.key
- 
-		#try:
-			# Don't return `password` in response.
-			#del bundle.data["raw_password"]
-		#except KeyError:
-			#pass
+	# Serialization method that serializes the object before getting send back to client
+	def dehydrate(self, bundle): 
+		try:
+			# Don't return "password" in response.
+			del bundle.data["password"]
+		except KeyError:
+			pass
  
 		return bundle
  
@@ -145,6 +139,16 @@ class UserProfileResource(ModelResource):
  
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
+
+	# Serialization method that serializes the object before getting send back to client
+	def dehydrate(self, bundle): 
+		try:
+			# Don't return "raw_password" in response.
+			del bundle.data["raw_password"]
+		except KeyError:
+			pass
+ 
+		return bundle
  
 	## Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
