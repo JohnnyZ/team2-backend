@@ -5,9 +5,9 @@ from django.db import IntegrityError
 from django.conf.urls import url
 from django.core import serializers
 
-
 from api.models import *
 from api.exceptions import CustomBadRequest
+from api.constants import *
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
