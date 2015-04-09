@@ -86,8 +86,7 @@ class CreateUserResource(ModelResource):
 				'username': username,
 				'password': make_password(raw_password),
 				'first_name': first_name,
-				'last_name': last_name,
-				'raw_password': raw_password
+				'last_name': last_name
 				}
 			bundle.data['user'] = user
 
@@ -138,17 +137,14 @@ class UserResource(ModelResource):
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle):
-		if "raw_password" in bundle.data:
-			username = bundle.data.get('username')
-			raw_password = bundle.data.pop('raw_password')
-			user = authenticate(username=username, password=raw_password)
-			if user:
-				if user.is_active:
-					login(bundle.request, user)
+		username = bundle.data.get('username')
+		user = authenticate(username=username, password='password')
+		if user:
+			if user.is_active:
+				login(bundle.request, user)
 		try:
-			# Don't return "password" or "raw_password" in response.
+			# Don't return "password" in response.
 			del bundle.data["password"]
-			del bundle.data["raw_password"]
 		except KeyError:
 			pass
  
