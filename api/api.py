@@ -153,23 +153,26 @@ class UserResource(ModelResource):
  
 		return bundle
 
-	# def obj_create(self, bundle, **kwargs):
-	# 	try:
-	# 		bundle = super(UserResource, self).obj_create(bundle, **kwargs)
-	# 		username = bundle.data.get('username')
-	# 		password = bundle.data.get('password')
+	## Since there is only one user profile object, call get_detail instead
+	def get_list(self, request, **kwargs):
 
-	# 		bundle.obj.set_password(password)
-	# 		bundle.obj.save() 
-	# 		user = authenticate(username=username, password=password)
-	# 		if user:
-	# 			if user.is_active:
-	# 				login(bundle.request, user)
-	# 	except IntegrityError:
-	# 		raise CustomBadRequest(
-	# 				code="duplicate_exception",
-	# 				message="That username is already used.")
-	# 	return bundle
+	# def obj_create(self, bundle, **kwargs):
+		try:
+			bundle = super(UserResource, self).obj_create(bundle, **kwargs)
+			username = bundle.data.get('username')
+			password = bundle.data.get('password')
+
+			bundle.obj.set_password(password)
+			bundle.obj.save() 
+			user = authenticate(username=username, password=password)
+			if user:
+				if user.is_active:
+					login(bundle.request, user)
+		except IntegrityError:
+			raise CustomBadRequest(
+					code="duplicate_exception",
+					message="That username is already used.")
+		return bundle
  
  
 class UserProfileResource(ModelResource):
