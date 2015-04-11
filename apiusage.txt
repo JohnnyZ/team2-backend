@@ -75,7 +75,7 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-
 
 ######################## Log a User in ########################
 # api:
-	login
+	user_profile/login
 
 # type:
 	POST
@@ -89,7 +89,7 @@ curl -v -H "Content-Type: application/json" -X POST --data
 '{
 	"username": "lotus_user40", 
 	"raw_password": "password"
-}' https://secure-headland-8362.herokuapp.com/api/v1/login/
+}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/login/
 
 # sample response:
 	Header:
@@ -125,7 +125,7 @@ curl -v -H "Content-Type: application/json" -X POST --data
 }
 
 Test:
-curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/login/
+curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/login/
 
 ######################## Log a User in ########################
 
