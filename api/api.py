@@ -159,7 +159,7 @@ class UserProfileResource(ModelResource):
 		authorization = Authorization()
 		always_return_data = True
 		allowed_methods = ['get', 'patch', 'post']
-		detail_allowed_methods = ['get', 'patch', 'put']
+		detail_allowed_methods = ['get', 'patch', 'put', 'post']
 		queryset = UserProfile.objects.all()
 		resource_name = 'user_profile'
  
