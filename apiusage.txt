@@ -108,7 +108,7 @@ curl -v -H "Content-Type: application/json" -X POST --data
 
 
 # Test:
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
 
 
 ######################## Log a User In ########################

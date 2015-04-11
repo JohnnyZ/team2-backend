@@ -217,7 +217,7 @@ class UserProfileResource(ModelResource):
 		authentication = Authentication()
 		authorization = Authorization()
 		always_return_data = True
-		allowed_methods = ['get', 'patch', ]
+		allowed_methods = ['get', 'patch', 'put']
 		detail_allowed_methods = ['get', 'patch', 'put']
 		queryset = UserProfile.objects.all()
 		resource_name = 'user_profile'
@@ -225,8 +225,14 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	def obj_create(self, bundle, **kwargs):
-		return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
+	# def obj_create(self, bundle, **kwargs):
+	# 	return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
+
+	def obj_update(self, bundle, request, **kwargs):
+        return super(UserProfileResource, self).obj_update(bundle, request, **kwargs, user=bundle.request.user)
+        # identity_bundle = self.build_identity_bundle(user_bundle)
+        # IdentityResource().obj_update(identity_bundle, request)
+        # return user_bundle
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
