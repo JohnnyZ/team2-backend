@@ -252,7 +252,7 @@ class UserProfileResource(ModelResource):
 	# Deal with all the raw json here (bundle.data)
 	def hydrate(self, bundle):
 		request_method=bundle.request.META['REQUEST_METHOD']
-		if request_method=='POST':
+		if request_method=='PUT':
 			bundle.data["user"] = bundle.request.user
 			return super(UserProfileResource, self).obj_update(bundle, bundle.request, **kwargs)
  
