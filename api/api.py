@@ -181,7 +181,7 @@ class UserResource(ModelResource):
 				# del user_json["password"]
 				# user_response_json = {**user_profile, **user_profile_json}
 				
-				return self.create_response(request,  user.profile.serialize(request, format='application/json'))#user_response_json)
+				return self.create_response(request,  user.profile.serialize(None, request, "application/json"))#user_response_json)
 			else:
 				return self.create_response(request, {
 					'success': False,
