@@ -123,9 +123,9 @@ class CreateUserResource(ModelResource):
 		return bundle
 
 class UserResource(ModelResource):
-	meditation_time = fields.TimeField(attribute = 'profile__meditation_time')
-	exercise_day_of_week = fields.EnumField(DayOfWeek, attribute = 'profile__exercise_day_of_week')
-	exercise_time = fields.TimeField(attribute = 'profile__exercise_time')
+	meditation_time = fields.CharField(attribute = 'profile__meditation_time')
+	exercise_day_of_week = fields.CharField(attribute = 'profile__exercise_day_of_week')
+	exercise_time = fields.CharField(attribute = 'profile__exercise_time')
  
 	class Meta:
 		authentication = Authentication()
