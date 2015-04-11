@@ -228,9 +228,9 @@ class UserProfileResource(ModelResource):
 	def obj_create(self, bundle, **kwargs):
 		return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
 
-	def obj_update(self, bundle, request, **kwargs):
-		bundle.data["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
+	def obj_update(self, bundle, **kwargs):
+		kwargs["pk"] = bundle.request.user.profile.pk
+		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
 		# identity_bundle = self.build_identity_bundle(user_bundle)
 		# IdentityResource().obj_update(identity_bundle, request)
 		# return user_bundle
