@@ -45,7 +45,7 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-
   "username": "lotus_user19"
 }
 
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack30@catfacts.co", "username": "lotus_user30", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack39@catfacts.co", "username": "lotus_user39", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 ######################## Create a user object ########################
 
