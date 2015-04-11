@@ -61,7 +61,8 @@ class CreateUserResource(ModelResource):
 			pass
  
 		return bundle
- 
+
+	# The method responsible for actual user creation
 	def obj_create(self, bundle, **kwargs):
 		try:
 			# Extract the User data from request
@@ -110,12 +111,9 @@ class CreateUserResource(ModelResource):
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
-		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
 		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
 
-		# res = UserResource()
-		# request_bundle = res.build_bundle(request=bundle.request)
-
+		# If successfully created, log the user in and return the sessionid cookie
 		username = bundle.data.get('username')
 		user = authenticate(username=username, password=raw_password)
 		if user:
@@ -142,14 +140,6 @@ class UserResource(ModelResource):
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle):
-		# TODO: The below actualy works - but this shouldn't be in dehydrate
-		# TODO: password is hardcoded as 'password' also....
-		# username = bundle.data.get('username')
-		# user = authenticate(username=username, password='password')
-		# if user:
-		# 	if user.is_active:
-		# 		login(bundle.request, user)
-
 		try:
 			# Don't return "password" in response.
 			del bundle.data["password"]
@@ -160,25 +150,6 @@ class UserResource(ModelResource):
 
 	## Since there is only one user profile object, call get_detail instead
 	# def get_list(self, request, **kwargs):
-
-	# def obj_create(self, bundle, **kwargs):
-		# try:
-		# 	bundle = super(UserResource, self).obj_create(bundle, **kwargs)
-		# 	username = bundle.data.get('username')
-		# 	password = bundle.data.get('password')
-
-		# 	bundle.obj.set_password(password)
-		# 	bundle.obj.save() 
-		# 	user = authenticate(username=username, password=password)
-		# 	if user:
-		# 		if user.is_active:
-		# 			login(bundle.request, user)
-		# except IntegrityError:
-		# 	raise CustomBadRequest(
-		# 			code="duplicate_exception",
-		# 			message="That username is already used.")
-		# return bundle
- 
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
@@ -187,7 +158,7 @@ class UserProfileResource(ModelResource):
 		authentication = Authentication()
 		authorization = Authorization()
 		always_return_data = True
-		allowed_methods = ['get', 'patch', ]
+		allowed_methods = ['get', 'patch', 'post']
 		detail_allowed_methods = ['get', 'patch', 'put']
 		queryset = UserProfile.objects.all()
 		resource_name = 'user_profile'
@@ -195,11 +166,61 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
  
-	## Since there is only one user profile object, call get_detail instead
+	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
 		# Set the "pk" attribute to point at the actual User object
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).get_detail(request, **kwargs)
+
+	# Override urls to allow for login and logout as api calls
+	def override_urls(self):
+		return 
+		[
+			url(r"^(?P<resource_name>%s)/login%s$" %
+				(self._meta.resource_name, trailing_slash()),
+				self.wrap_view('login'), name="api_login"),
+			url(r'^(?P<resource_name>%s)/logout%s$' %
+				(self._meta.resource_name, trailing_slash()),
+				self.wrap_view('logout'), name='api_logout'),
+		]
+
+	def login(self, request, **kwargs):
+		self.method_check(request, allowed=['post'])
+
+		data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+		username = data.get('username', '')
+		password = data.get('password', '')
+
+		user = authenticate(username=username, password=password)
+		if user:
+			if user.is_active:
+				login(request, user)
+				# user_json = serializers.serialize('json', [ user, ])
+				# return self.create_response(request, {
+				# 	'success': True,
+				# 	'user': user_json
+				# })
+			else:
+				return self.create_response(request, {
+					'success': False,
+					'reason': 'disabled',
+					}, HttpForbidden )
+		else:
+			return self.create_response(request, {
+				'success': False,
+				'reason': 'incorrect',
+				}, HttpUnauthorized )
+
+	def logout(self, request, **kwargs):
+		self.method_check(request, allowed=['get'])
+		if request.user and request.user.is_authenticated():
+			logout(request)
+			return self.create_response(request, { 'success': True })
+		else:
+			return self.create_response(request, { 'success': False }, HttpUnauthorized)
+
+
 """
 class CreateUserResource(ModelResource):
 	appuser = fields.ToOneField(UserProfileResource, 'appuser', related_name='user', full=True)

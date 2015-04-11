@@ -26,9 +26,34 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;
 	gender
 
 # sample call:
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack19@catfacts.co", "username": "lotus_user19", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+curl -v -H "Content-Type: application/json" -X POST --data 
+'{
+  "birthday": "2015-03-30",
+  "gender": "1",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "goooch_attack19@catfacts.co",
+  "username": "lotus_user19",
+  "raw_password": "password"
+}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 # sample response:
+	Header:
+< HTTP/1.1 201 CREATED
+< Connection: keep-alive
+* Server gunicorn/19.2.1 is not blacklisted
+< Server: gunicorn/19.2.1
+< Date: Sat, 11 Apr 2015 01:46:40 GMT
+< Transfer-Encoding: chunked
+< X-Frame-Options: SAMEORIGIN
+< Vary: Accept, Cookie
+< Content-Type: application/json
+< Location: https://secure-headland-8362.herokuapp.com/api/v1/user_profile/36/
+< Set-Cookie: sessionid=n1f6nah48rxdtizzx12k25udjjh37fa0; expires=Sat, 25-Apr-2015 01:46:40 GMT; httponly; Max-Age=1209600; Path=/
+< Set-Cookie: csrftoken=HRAXv68fYq1THLQyPBM74CgFQfczOJDW; expires=Sat, 09-Apr-2016 01:46:40 GMT; Max-Age=31449600; Path=/
+< Via: 1.1 vegur
+
+	Body:
 {
   "birthday": "2015-03-30T00:00:00",
   "created_at": "2015-04-09T14:36:46.618477",
@@ -45,9 +70,64 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-
   "username": "lotus_user19"
 }
 
+Test:
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack40@catfacts.co", "username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
-######################## Create a user object ########################
+######################## Log a User in ########################
+# api:
+	login
+
+# type:
+	POST
+
+# required fields: 
+	username
+	password
+
+# sample call:
+curl -v -H "Content-Type: application/json" -X POST --data 
+'{
+	"username": "lotus_user40", 
+	"raw_password": "password"
+}' https://secure-headland-8362.herokuapp.com/api/v1/login/
+
+# sample response:
+	Header:
+< HTTP/1.1 201 CREATED
+< Connection: keep-alive
+* Server gunicorn/19.2.1 is not blacklisted
+< Server: gunicorn/19.2.1
+< Date: Sat, 11 Apr 2015 01:46:40 GMT
+< Transfer-Encoding: chunked
+< X-Frame-Options: SAMEORIGIN
+< Vary: Accept, Cookie
+< Content-Type: application/json
+< Location: https://secure-headland-8362.herokuapp.com/api/v1/user_profile/36/
+< Set-Cookie: sessionid=n1f6nah48rxdtizzx12k25udjjh37fa0; expires=Sat, 25-Apr-2015 01:46:40 GMT; httponly; Max-Age=1209600; Path=/
+< Set-Cookie: csrftoken=HRAXv68fYq1THLQyPBM74CgFQfczOJDW; expires=Sat, 09-Apr-2016 01:46:40 GMT; Max-Age=31449600; Path=/
+< Via: 1.1 vegur
+
+	Body:
+{
+  "birthday": "2015-03-30T00:00:00",
+  "created_at": "2015-04-09T14:36:46.618477",
+  "email": "goooch_attack19@catfacts.co",
+  "exercise_day_of_week": 0,
+  "exercise_time": null,
+  "first_name": "John",
+  "gender": 1,
+  "id": 16,
+  "last_name": "Doe",
+  "meditation_time": null,
+  "start_date": "2015-04-09T14:36:46.618409",
+  "updated_at": "2015-04-09T14:36:46.659953",
+  "username": "lotus_user19"
+}
+
+Test:
+curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/login/
+
+######################## Log a User in ########################
 
 
 #prettify the json
