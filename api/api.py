@@ -251,11 +251,11 @@ class UserProfileResource(ModelResource):
 
 	# Hyrdate is called during the de-serialization phase of a call
 	# Deal with all the raw json here (bundle.data)
-	def hydrate(self, bundle):
-		request_method=bundle.request.META['REQUEST_METHOD']
-		if request_method=='PUT':
-			bundle.data["user"] = bundle.request.user
-			return super(UserProfileResource, self).obj_update(bundle, bundle.request, **kwargs)
+	# def hydrate(self, bundle):
+	# 	request_method=bundle.request.META['REQUEST_METHOD']
+	# 	if request_method=='PUT':
+	# 		bundle.data["user"] = bundle.request.user
+	# 		return super(UserProfileResource, self).obj_update(bundle, bundle.request, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
