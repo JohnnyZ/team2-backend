@@ -82,6 +82,35 @@ curl -v -H "Content-Type: application/json" -X POST --data
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack40@catfacts.co", "username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 
+######################## Update a User Object For Onboarding ########################
+### Update meditation time and exercise time
+
+# api:
+	user_profile
+
+# type:
+	PATCH
+
+# required fields: 
+	meditation_time
+	exercise_day_of_week
+	exercise_time
+
+# sample call:
+curl -v -H "Content-Type: application/json" -X POST --data 
+'{
+  "meditation_time": "11:46:42",
+  "exercise_day_of_week": "1",
+  "exercise_time": "11:46:42"
+}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+
+# sample response:
+
+
+# Test:
+curl -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+
+
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user
 
