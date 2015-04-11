@@ -117,10 +117,11 @@ class CreateUserResource(ModelResource):
 		# request_bundle = res.build_bundle(request=bundle.request)
 
 		username = bundle.data.get('username')
-		user = authenticate(username='lotus_user39', password='password')
-		# if user:
-		# 	if user.is_active:
-		# 		login(request_bundle.request, user)
+		user = authenticate(username=username, password=raw_password)
+		if user:
+			if user.is_active:
+				login(bundle.request, user)
+		return bundle
 
 class UserResource(ModelResource):
  
