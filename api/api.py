@@ -118,9 +118,9 @@ class CreateUserResource(ModelResource):
 
 		username = bundle.data.get('username')
 		user = authenticate(username=username, password=raw_password)
-		if user:
-			if user.is_active:
-				login(request_bundle.request, user)
+		# if user:
+		# 	if user.is_active:
+		# 		login(request_bundle.request, user)
 
 class UserResource(ModelResource):
  
