@@ -10,6 +10,8 @@ https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
 https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
 
 ######################## Create a user object ########################
+### Create a user with given info and send back the sessionid cookie and the user
+
 # api:
 	create_user
 
@@ -74,6 +76,8 @@ Test:
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack40@catfacts.co", "username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 ######################## Log a User in ########################
+### Log given user in and return the sessionid cookie and that user
+
 # api:
 	user_profile/login
 
