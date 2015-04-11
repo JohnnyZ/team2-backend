@@ -110,13 +110,18 @@ class CreateUserResource(ModelResource):
 		# setting resource_name to `user_profile` here because we want
 		# resource_uri in response to be same as UserProfileResource resource
 		self._meta.resource_name = UserProfileResource._meta.resource_name
-		return super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		# bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
-		# username = bundle.data.get('username')
-		# user = authenticate(username=username, password=raw_password)
-		# if user:
-		# 	if user.is_active:
-		# 		login(bundle.request.user.request, user)
+		# return super(CreateUserResource, self).obj_create(bundle, **kwargs)
+
+		bundle = super(CreateUserResource, self).obj_create(bundle, **kwargs)
+		
+		ur = UserResource()
+		ur_bundle = ur.build_bundle(obj=bundle.request.user, request=request)
+
+		username = bundle.data.get('username')
+		user = authenticate(username=username, password=raw_password)
+		if user:
+			if user.is_active:
+				login(ur_bundle.request, user)
 
 class UserResource(ModelResource):
  
@@ -154,25 +159,25 @@ class UserResource(ModelResource):
 		return bundle
 
 	## Since there is only one user profile object, call get_detail instead
-	def get_list(self, request, **kwargs):
+	# def get_list(self, request, **kwargs):
 
 	# def obj_create(self, bundle, **kwargs):
-		try:
-			bundle = super(UserResource, self).obj_create(bundle, **kwargs)
-			username = bundle.data.get('username')
-			password = bundle.data.get('password')
+		# try:
+		# 	bundle = super(UserResource, self).obj_create(bundle, **kwargs)
+		# 	username = bundle.data.get('username')
+		# 	password = bundle.data.get('password')
 
-			bundle.obj.set_password(password)
-			bundle.obj.save() 
-			user = authenticate(username=username, password=password)
-			if user:
-				if user.is_active:
-					login(bundle.request, user)
-		except IntegrityError:
-			raise CustomBadRequest(
-					code="duplicate_exception",
-					message="That username is already used.")
-		return bundle
+		# 	bundle.obj.set_password(password)
+		# 	bundle.obj.save() 
+		# 	user = authenticate(username=username, password=password)
+		# 	if user:
+		# 		if user.is_active:
+		# 			login(bundle.request, user)
+		# except IntegrityError:
+		# 	raise CustomBadRequest(
+		# 			code="duplicate_exception",
+		# 			message="That username is already used.")
+		# return bundle
  
  
 class UserProfileResource(ModelResource):
