@@ -187,7 +187,8 @@ class UserResource(ModelResource):
 				# user_json = resource.serialize(None, r_to_serialize, 'application/json')
 
 				userProfile = UserProfileResource()
-				dehydratedUser = userProfile.full_dehydrate(obj=user.profile)
+				userProfileBundle = userProfile.build_bundle(self, obj=user.profile)
+				dehydratedUser = userProfile.full_dehydrate(bundle=userProfileBundle)
 				
 				return self.create_response(request,  dehydratedUser.data)#user_response_json)
 			else:
