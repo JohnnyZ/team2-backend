@@ -231,106 +231,6 @@ class UserProfileResource(ModelResource):
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).get_detail(request, **kwargs)
 
-"""
-class CreateUserResource(ModelResource):
-	appuser = fields.ToOneField(UserProfileResource, 'appuser', related_name='user', full=True)
-	class Meta:
-		object_class = User
-		resource_name = 'signup'
-		fields = ['username', 'first_name', 'last_name', 'email']
-		allowed_methods = ['post']
-		always_return_data = True 
-		include_resource_uri = False
-		authentication = Authentication()
-		authorization = Authorization()
-		queryset = User.objects.all()
-
-	def obj_create(self, bundle, request=None, **kwargs):
-		try:
-			bundle = super(CreateUserResource, self).obj_create(bundle)
-			password = bundle.data.get('password')
-			username = bundle.data.get('username')
-			bundle.obj.set_password(bundle.data.get('password'))
-			bundle.obj.save()
-			user = authenticate(username=username, password=password)
-			if user:
-				if user.is_active:
-					login(bundle.request, user)
-		except IntegrityError:
-			raise BadRequest('Username already exists')
-
-		return bundle
-
-class UserProfileResource(ModelResource):
-	user = fields.ToOneField('api.api.UserResource', attribute='user', related_name='appuser')
-	birthday = fields.DateField(null=True, blank=True, attribute='birthday')
-	class Meta:
-		queryset = UserProfile.objects.all()
-		resource_name = 'appuser'
-		authorization = Authorization()
-
-class UserResource(ModelResource):
-	appuser = fields.ToManyField(UserProfileResource, 'appuser', related_name='user', full=True, null=True)
-	class Meta:
-		queryset = User.objects.all()
-		authentication = Authentication()
-		authorization = Authorization()
-		throttle = BaseThrottle(throttle_at=1000)
-		resource_name = 'user'
-		allowed_methods = ['get', 'post']
-		excludes = ['password', 'is_staff', 'is_superuser', 'is_active']
-		filtering = {
-			'username': ALL,
-			'id': ALL,
-		}
-
-	def override_urls(self):
-		return [
-			url(r"^(?P<resource_name>%s)/login%s$" %
-				(self._meta.resource_name, trailing_slash()),
-				self.wrap_view('login'), name="api_login"),
-			url(r'^(?P<resource_name>%s)/logout%s$' %
-				(self._meta.resource_name, trailing_slash()),
-				self.wrap_view('logout'), name='api_logout'),
-		]
-
-	def login(self, request, **kwargs):
-		self.method_check(request, allowed=['post'])
-
-		data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-
-		username = data.get('username', '')
-		password = data.get('password', '')
-
-		user = authenticate(username=username, password=password)
-		if user:
-			if user.is_active:
-				login(request, user)
-				user_json = serializers.serialize('json', [ user, ])
-				return self.create_response(request, {
-					'success': True,
-					'user': user_json
-				})
-			else:
-				return self.create_response(request, {
-					'success': False,
-					'reason': 'disabled',
-					}, HttpForbidden )
-		else:
-			return self.create_response(request, {
-				'success': False,
-				'reason': 'incorrect',
-				}, HttpUnauthorized )
-
-	def logout(self, request, **kwargs):
-		self.method_check(request, allowed=['get'])
-		if request.user and request.user.is_authenticated():
-			logout(request)
-			return self.create_response(request, { 'success': True })
-		else:
-			return self.create_response(request, { 'success': False }, HttpUnauthorized)
-"""
-
 class MeditationResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
 	class Meta:
@@ -352,6 +252,7 @@ class ExerciseResource(ModelResource):
 		authentication = Authentication()
 		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'user', 'meta']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,

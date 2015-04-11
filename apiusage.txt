@@ -75,6 +75,7 @@ curl -v -H "Content-Type: application/json" -X POST --data
 # Test:
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack40@catfacts.co", "username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
+
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user
 
@@ -144,8 +145,41 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_
 # required fields: 
 	[NONE]
 
+# response:
+	failure:
+< HTTP/1.1 401 UNAUTHORIZED
+{"success": false}
+
 # Test:
-curl -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/user/logout/
+curl --cookie "sessionid=sjaooxh4pck3eli4m3y4dvc8wevlwz5z" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/user/logout/
+
+
+######################## Get a List of Exercise Sessions ########################
+### Get all the exercise sessions for the current user
+
+# api:
+	exercise_session
+
+# type:
+	GET
+
+# required fields: 
+	[NONE]
+
+# response:
+	failure:
+< HTTP/1.1 401 UNAUTHORIZED
+{"success": false}
+
+# Test:
+
+curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
+
+
+
+
+
+
 
 
 #prettify the json
