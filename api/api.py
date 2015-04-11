@@ -130,7 +130,7 @@ class UserResource(ModelResource):
 		# Because this can be updated nested under the UserProfile, it needed
 		# 'put'. No idea why, since patch is supposed to be able to handle
 		# partial updates.
-		allowed_methods = ['get', 'patch', 'put', 'post']
+		allowed_methods = ['get', 'patch', 'put', 'post', 'get']
 		always_return_data = True
 		queryset = User.objects.all()
 		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
