@@ -175,10 +175,16 @@ class UserResource(ModelResource):
 			if user.is_active:
 				login(request, user)
 
-				# Format the response json
+				# Format the response json and remove unnecessary fields
 				user_profile_dict = model_to_dict(user.profile)
 				user_dict = model_to_dict(user)
 				del user_dict["password"]
+				del user_dict["user_permissions"]
+				del user_dict["groups"]
+				del user_dict["is_active"]
+				del user_dict["is_staff"]
+				del user_dict["is_superuser"]
+
 				# Merge the two dictionaries
 				user_response_dict = user_profile_dict.copy()
 				user_response_dict.update(user_dict)
