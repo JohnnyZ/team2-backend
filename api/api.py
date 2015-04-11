@@ -176,11 +176,10 @@ class UserResource(ModelResource):
 				login(request, user)
 
 				# Formate the response json
-				# user_profile_json = user.profile.data
-				# user_json = user.data
-				# del user_profile_json["model"]
-				# del user_json["password"]
-				# user_response_json = {**user_profile, **user_profile_json}
+				user_profile_dict = model_to_dict(user.profile)
+				user_dict = model_to_dict(user)
+				del user_dict["password"]
+				user_response_dict = {**user_profile, **user_profile_json}
 
 				# resource = user.profile
 				# r_list = resource.get_object_list(None)
@@ -191,9 +190,9 @@ class UserResource(ModelResource):
 				# userProfileBundle = userProfile.build_bundle(self, obj=user.profile)
 				# dehydratedUser = userProfile.full_dehydrate(bundle=userProfileBundle)
 
-				profile_dict = model_to_dict(user.profile)
+				# profile_dict = model_to_dict(user.profile)
 				
-				return self.create_response(request,  profile_dict)#dehydratedUser.data)#user_response_json)
+				return self.create_response(request,  user_response_dict)
 			else:
 				return self.create_response(request, {
 					'success': False,
