@@ -113,6 +113,8 @@ curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: 
 
 curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"exercise_day_of_week": "1"}' https://secure-headland-8362.herokuapp.com/api/v1/user/65/
 
+curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"exercise_day_of_week": "1"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/update/
+
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user
 

@@ -160,18 +160,7 @@ class UserResource(ModelResource):
 			url(r'^(?P<resource_name>%s)/logout%s$' %
 				(self._meta.resource_name, trailing_slash()),
 				self.wrap_view('logout'), name='api_logout'),
-			url(r'^(?P<resource_name>%s)/update%s$' %
-				(self._meta.resource_name, trailing_slash()),
-				self.wrap_view('update'), name='api_update'),
 		]
-
-	def update(self, request, **kwargs):
-		self.method_check(request, allowed=['put'])
-
-		bundle = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-		bundle["user"] = request.user
-		return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
-		
 
 	def login(self, request, **kwargs):
 		self.method_check(request, allowed=['post'])
@@ -244,6 +233,20 @@ class UserProfileResource(ModelResource):
 		# identity_bundle = self.build_identity_bundle(user_bundle)
 		# IdentityResource().obj_update(identity_bundle, request)
 		# return user_bundle
+
+	def override_urls(self):
+		return [
+			url(r'^(?P<resource_name>%s)/update%s$' %
+				(self._meta.resource_name, trailing_slash()),
+				self.wrap_view('update'), name='api_update'),
+		]
+
+	def update(self, request, **kwargs):
+		self.method_check(request, allowed=['patch'])
+
+		bundle = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+		bundle["user"] = request.user
+		return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
