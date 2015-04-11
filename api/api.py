@@ -175,13 +175,13 @@ class UserResource(ModelResource):
 				login(request, user)
 
 				# Formate the response json
-				user_profile_json = user.profile.data
-				user_json = user.data
-				del user_profile_json["model"]
-				del user_json["password"]
-				user_response_json = {**user_profile, **user_profile_json}
+				# user_profile_json = user.profile.data
+				# user_json = user.data
+				# del user_profile_json["model"]
+				# del user_json["password"]
+				# user_response_json = {**user_profile, **user_profile_json}
 				
-				return self.create_response(request,  user_response_json)
+				return self.create_response(request,  user.profile.data)#user_response_json)
 			else:
 				return self.create_response(request, {
 					'success': False,
