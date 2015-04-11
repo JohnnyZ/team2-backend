@@ -123,9 +123,6 @@ class CreateUserResource(ModelResource):
 		return bundle
 
 class UserResource(ModelResource):
-	# meditation_time = fields.CharField(attribute = 'profile__meditation_time')
-	exercise_day_of_week = fields.CharField(attribute = 'profile__exercise_day_of_week')
-	# exercise_time = fields.CharField(attribute = 'profile__exercise_time')
  
 	class Meta:
 		authentication = Authentication()
@@ -163,10 +160,18 @@ class UserResource(ModelResource):
 			url(r'^(?P<resource_name>%s)/logout%s$' %
 				(self._meta.resource_name, trailing_slash()),
 				self.wrap_view('logout'), name='api_logout'),
-			# url(r'^(?P<resource_name>%s)/update%s$' %
-			# 	(self._meta.resource_name, trailing_slash()),
-			# 	self.wrap_view('update'), name='api_update'),
+			url(r'^(?P<resource_name>%s)/update%s$' %
+				(self._meta.resource_name, trailing_slash()),
+				self.wrap_view('update'), name='api_update'),
 		]
+
+	def update(self, request, **kwargs):
+		self.method_check(request, allowed=['put'])
+
+		bundle = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+		bundle["user"] = request.user
+		return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
+		
 
 	def login(self, request, **kwargs):
 		self.method_check(request, allowed=['post'])
