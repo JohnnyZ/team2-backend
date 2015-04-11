@@ -129,7 +129,7 @@ class UserResource(ModelResource):
 		# Because this can be updated nested under the UserProfile, it needed
 		# 'put'. No idea why, since patch is supposed to be able to handle
 		# partial updates.
-		allowed_methods = ['get', 'patch', 'put', ]
+		allowed_methods = ['get', 'patch', 'put', 'post']
 		always_return_data = True
 		queryset = User.objects.all()
 		excludes = ['is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
@@ -150,32 +150,9 @@ class UserResource(ModelResource):
 
 	## Since there is only one user profile object, call get_detail instead
 	# def get_list(self, request, **kwargs):
- 
-class UserProfileResource(ModelResource):
-	user = fields.ForeignKey(UserResource, 'user', full=True)
- 
-	class Meta:
-		authentication = Authentication()
-		authorization = Authorization()
-		always_return_data = True
-		allowed_methods = ['get', 'patch', 'post']
-		detail_allowed_methods = ['get', 'patch', 'put', 'post']
-		queryset = UserProfile.objects.all()
-		resource_name = 'user_profile'
- 
-	#def authorized_read_list(self, object_list, bundle):
-	#	return object_list.filter(user=bundle.request.user).select_related()
- 
-	# Since there is only one user profile object, call get_detail instead
-	def get_list(self, request, **kwargs):
-		# Set the "pk" attribute to point at the actual User object
-		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).get_detail(request, **kwargs)
 
-	# Override urls to allow for login and logout as api calls
 	def override_urls(self):
-		return 
-		[
+		return [
 			url(r"^(?P<resource_name>%s)/login%s$" %
 				(self._meta.resource_name, trailing_slash()),
 				self.wrap_view('login'), name="api_login"),
@@ -196,11 +173,8 @@ class UserProfileResource(ModelResource):
 		if user:
 			if user.is_active:
 				login(request, user)
-				# user_json = serializers.serialize('json', [ user, ])
-				# return self.create_response(request, {
-				# 	'success': True,
-				# 	'user': user_json
-				# })
+				user_json = serializers.serialize('json', [ user.profile, ])
+				return self.create_response(request,  user_json)
 			else:
 				return self.create_response(request, {
 					'success': False,
@@ -211,15 +185,27 @@ class UserProfileResource(ModelResource):
 				'success': False,
 				'reason': 'incorrect',
 				}, HttpUnauthorized )
-
-	def logout(self, request, **kwargs):
-		self.method_check(request, allowed=['get'])
-		if request.user and request.user.is_authenticated():
-			logout(request)
-			return self.create_response(request, { 'success': True })
-		else:
-			return self.create_response(request, { 'success': False }, HttpUnauthorized)
-
+ 
+class UserProfileResource(ModelResource):
+	user = fields.ForeignKey(UserResource, 'user', full=True)
+ 
+	class Meta:
+		authentication = Authentication()
+		authorization = Authorization()
+		always_return_data = True
+		allowed_methods = ['get', 'patch', ]
+		detail_allowed_methods = ['get', 'patch', 'put']
+		queryset = UserProfile.objects.all()
+		resource_name = 'user_profile'
+ 
+	#def authorized_read_list(self, object_list, bundle):
+	#	return object_list.filter(user=bundle.request.user).select_related()
+ 
+	# Since there is only one user profile object, call get_detail instead
+	def get_list(self, request, **kwargs):
+		# Set the "pk" attribute to point at the actual User object
+		kwargs["pk"] = request.user.profile.pk
+		return super(UserProfileResource, self).get_detail(request, **kwargs)
 
 """
 class CreateUserResource(ModelResource):

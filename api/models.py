@@ -56,7 +56,7 @@ class BodyLocation(enum.Enum):
 
 # Models here 
 class UserProfile(models.Model):
-	user = models.OneToOneField(User, related_name='user_profile')
+	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
