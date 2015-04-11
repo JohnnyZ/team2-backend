@@ -189,17 +189,6 @@ class UserResource(ModelResource):
 				# Merge the two dictionaries
 				user_response_dict = user_profile_dict.copy()
 				user_response_dict.update(user_dict)
-
-				# resource = user.profile
-				# r_list = resource.get_object_list(None)
-				# r_to_serialize = [resource.full_dehydrate(resource.build_bundle(obj=obj)) for obj in r_list]
-				# user_json = resource.serialize(None, r_to_serialize, 'application/json')
-
-				# userProfile = UserProfileResource()
-				# userProfileBundle = userProfile.build_bundle(self, obj=user.profile)
-				# dehydratedUser = userProfile.full_dehydrate(bundle=userProfileBundle)
-
-				# profile_dict = model_to_dict(user.profile)
 				
 				return self.create_response(request,  user_response_dict)
 			else:
@@ -212,6 +201,14 @@ class UserResource(ModelResource):
 				'success': False,
 				'reason': 'incorrect',
 				}, HttpUnauthorized )
+
+	def logout(self, request, **kwargs):
+		self.method_check(request, allowed=['get'])
+		if request.user and request.user.is_authenticated():
+			logout(request)
+			return self.create_response(request, { 'success': True })
+		else:
+			return self.create_response(request, { 'success': False }, HttpUnauthorized)
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
