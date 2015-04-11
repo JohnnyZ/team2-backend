@@ -225,8 +225,8 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	def obj_create(self, bundle, **kwargs):
-		return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
+	# def obj_create(self, bundle, **kwargs):
+	# 	return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
 
 	# def obj_update(self, bundle, request, **kwargs):
 	# 	return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
