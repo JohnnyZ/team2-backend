@@ -186,11 +186,13 @@ class UserResource(ModelResource):
 				# r_to_serialize = [resource.full_dehydrate(resource.build_bundle(obj=obj)) for obj in r_list]
 				# user_json = resource.serialize(None, r_to_serialize, 'application/json')
 
-				userProfile = UserProfileResource()
-				userProfileBundle = userProfile.build_bundle(self, obj=user.profile)
-				dehydratedUser = userProfile.full_dehydrate(bundle=userProfileBundle)
+				# userProfile = UserProfileResource()
+				# userProfileBundle = userProfile.build_bundle(self, obj=user.profile)
+				# dehydratedUser = userProfile.full_dehydrate(bundle=userProfileBundle)
+
+				profile_dict = model_to_dict(user.profile)
 				
-				return self.create_response(request,  dehydratedUser.data)#user_response_json)
+				return self.create_response(request,  profile_dict)#dehydratedUser.data)#user_response_json)
 			else:
 				return self.create_response(request, {
 					'success': False,
