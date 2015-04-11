@@ -253,16 +253,17 @@ class ExerciseResource(ModelResource):
 		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'user', 'meta']
+		always_return_data = True
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
 
-	def obj_create(self, bundle, **kwargs):
-		return super(ExerciseResource, self).obj_create(bundle, user=bundle.request.user)
+	# def obj_create(self, bundle, **kwargs):
+	# 	return super(ExerciseResource, self).obj_create(bundle, user=bundle.request.user)
 
-	def obj_get_list(self, bundle, **kwargs):
-		return super(ExerciseResource, self).obj_get_list(bundle, user=bundle.request.user)
+	# def obj_get_list(self, bundle, **kwargs):
+	# 	return super(ExerciseResource, self).obj_get_list(bundle, user=bundle.request.user)
 
 
 
