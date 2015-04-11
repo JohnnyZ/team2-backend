@@ -178,6 +178,7 @@ class UserResource(ModelResource):
 				# Format the response json and remove unnecessary fields
 				user_profile_dict = model_to_dict(user.profile)
 				user_dict = model_to_dict(user)
+				del user_profile_dict["user"]
 				del user_dict["password"]
 				del user_dict["user_permissions"]
 				del user_dict["groups"]
