@@ -1,13 +1,19 @@
 # All available resources
-https://secure-headland-8362.herokuapp.com/api/v1/
-# List of all meditation sessions
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
-# Specific med session
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/1/
-# A definition of what a meditation session consists of 
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
-# Get multiple meditation sessions 
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
+	https://secure-headland-8362.herokuapp.com/api/v1/
+
+# Create User / Sign Up
+	create_user 			- POST
+# Log In
+	login 					- POST
+# Log Out
+	logout 					- GET
+# Create Exercise Session
+	exercise_session		- POST
+# Get All Completed Exercise Sessions
+	exercise_session		- GET
+# Get Specific Exercise Session
+	exercise_session/1/		- GET
+
 
 ######################## Create a user object ########################
 ### Create a user with given info and send back the sessionid cookie and the user
@@ -164,23 +170,74 @@ curl --cookie "sessionid=sjaooxh4pck3eli4m3y4dvc8wevlwz5z" -v -H "Content-Type: 
 	GET
 
 # required fields: 
-	[NONE]
+	[just the sessionid cookie]
 
 # response:
-	failure:
-< HTTP/1.1 401 UNAUTHORIZED
-{"success": false}
+{
+  "meta": {
+    "limit": 20,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 1
+  },
+  "objects": [
+    {
+      "created_at": "2015-04-11T00:27:19.185783",
+      "exercise_id": 23,
+      "id": 12,
+      "updated_at": "2015-04-11T00:27:19.195535"
+    }
+  ]
+}
 
 # Test:
 
 curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 
+######################## Create an Exercise Sessions ########################
+### Takes in an exercise session id and adds it to the table
+
+# api:
+	exercise_session/
+
+# type:
+	POST
+
+# required fields: 
+	exercise_id
+
+# response:
+< HTTP/1.1 201 CREATED
+
+# Test:
+
+curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "101"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 
 
 
 
+
+
+
+
+
+
+
+
+--------------------------------------------------------OLD----------------------------------------------------------------------
+# All available resources
+https://secure-headland-8362.herokuapp.com/api/v1/
+# List of all meditation sessions
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
+# Specific med session
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/1/
+# A definition of what a meditation session consists of 
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
+# Get multiple meditation sessions 
+https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
 
 #prettify the json
 curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool

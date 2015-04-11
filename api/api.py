@@ -264,7 +264,6 @@ class ExerciseResource(ModelResource):
 			# Remove unneeded fields
 			del bundle.data["resource_uri"]
 			del bundle.data["user"]
-			del bundle.data["meta"]
 		except KeyError:
 			pass
  
