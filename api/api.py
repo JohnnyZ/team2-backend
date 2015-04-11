@@ -180,12 +180,16 @@ class UserResource(ModelResource):
 				# del user_profile_json["model"]
 				# del user_json["password"]
 				# user_response_json = {**user_profile, **user_profile_json}
-				resource = user.profile
-				r_list = resource.get_object_list(None)
-				r_to_serialize = [resource.full_dehydrate(resource.build_bundle(obj=obj)) for obj in r_list]
-				user_json = resource.serialize(None, r_to_serialize, 'application/json')
+
+				# resource = user.profile
+				# r_list = resource.get_object_list(None)
+				# r_to_serialize = [resource.full_dehydrate(resource.build_bundle(obj=obj)) for obj in r_list]
+				# user_json = resource.serialize(None, r_to_serialize, 'application/json')
+
+				userProfile = UserProfile()
+				dehydratedUser = userProfile.full_dehydrate(obj=user.profile)
 				
-				return self.create_response(request,  user_json)#user_response_json)
+				return self.create_response(request,  dehydratedUser)#user_response_json)
 			else:
 				return self.create_response(request, {
 					'success': False,
