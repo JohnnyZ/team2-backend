@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.conf.urls import url
 from django.core import serializers
+from django.forms.models import model_to_dict
 
 from api.models import *
 from api.exceptions import CustomBadRequest
