@@ -175,11 +175,13 @@ class UserResource(ModelResource):
 			if user.is_active:
 				login(request, user)
 
-				# Formate the response json
+				# Format the response json
 				user_profile_dict = model_to_dict(user.profile)
 				user_dict = model_to_dict(user)
 				del user_dict["password"]
-				user_response_dict = {**user_profile_dict, **user_dict}
+				# Merge the two dictionaries
+				user_response_dict = user_profile_dict.copy()
+				user_response_dict.update(user_dict)
 
 				# resource = user.profile
 				# r_list = resource.get_object_list(None)
