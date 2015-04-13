@@ -1,4 +1,4 @@
-# All available resources
+# All available resources 2
 	https://secure-headland-8362.herokuapp.com/api/v1/
 
 # Create User / Sign Up
