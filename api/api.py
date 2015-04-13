@@ -149,9 +149,6 @@ class UserResource(ModelResource):
  
 		return bundle
 
-	## Since there is only one user profile object, call get_detail instead
-	# def get_list(self, request, **kwargs):
-
 	def override_urls(self):
 		return [
 			url(r"^(?P<resource_name>%s)/login%s$" %
@@ -225,37 +222,10 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	def obj_create(self, bundle, **kwargs):
-		return super(UserProfileResource, self).obj_create(bundle, user=bundle.request.user)
-
+	# TODO: Add dehydrate to this class to clean up the output of the PUT call
 	def obj_update(self, bundle, **kwargs):
-		kwargs["pk"] = bundle.request.user.profile.pk
+		kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
 		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
-		# identity_bundle = self.build_identity_bundle(user_bundle)
-		# IdentityResource().obj_update(identity_bundle, request)
-		# return user_bundle
-
-	# def override_urls(self):
-	# 	return [
-	# 		url(r'^(?P<resource_name>%s)/update%s$' %
-	# 			(self._meta.resource_name, trailing_slash()),
-	# 			self.wrap_view('update'), name='api_update'),
-	# 	]
-
-	# def update(self, request, **kwargs):
-	# 	self.method_check(request, allowed=['patch'])
-
-	# 	bundle = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-	# 	bundle["user"] = request.user
-	# 	return super(UserProfileResource, self).obj_update(bundle, request, **kwargs)
-
-	# Hyrdate is called during the de-serialization phase of a call
-	# Deal with all the raw json here (bundle.data)
-	# def hydrate(self, bundle):
-	# 	request_method=bundle.request.META['REQUEST_METHOD']
-	# 	if request_method=='PUT':
-	# 		bundle.data["user"] = bundle.request.user
-	# 		return super(UserProfileResource, self).obj_update(bundle, bundle.request, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):

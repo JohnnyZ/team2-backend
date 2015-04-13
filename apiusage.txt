@@ -1,8 +1,10 @@
-# All available resources
+# All available resources 3
 	https://secure-headland-8362.herokuapp.com/api/v1/
 
 # Create User / Sign Up
 	create_user 			- POST
+# Update User
+	user_profile/:id/		- PUT
 # Log In
 	login 					- POST
 # Log Out
@@ -12,7 +14,7 @@
 # Get All Completed Exercise Sessions
 	exercise_session		- GET
 # Get Specific Exercise Session
-	exercise_session/1/		- GET
+	exercise_session/:id/	- GET
 
 
 ######################## Create a user object ########################
@@ -82,38 +84,36 @@ curl -v -H "Content-Type: application/json" -X POST --data
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack40@catfacts.co", "username": "lotus_user40", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 
-######################## Update a User Object For Onboarding ########################
+######################## Update a User Object For Onboarding (Med/Exercise Time/Day) ########################
 ### Update meditation time and exercise time
 
 # api:
-	user_profile
+	user_profile/:id/
 
 # type:
-	PATCH
+	PUT
 
 # required fields: 
 	meditation_time
 	exercise_day_of_week
 	exercise_time
-	/user_id
 
 # sample call:
-curl -v -H "Content-Type: application/json" -X POST --data 
+curl -v -H "Content-Type: application/json" -X PUT --data 
 '{
   "meditation_time": "11:46:42",
   "exercise_day_of_week": "1",
   "exercise_time": "11:46:42"
-}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
 
 # sample response:
+# TODO: fix this so it's not so fucked up - maybe? w/e, you still get the 200 OK
+< HTTP/1.1 200 OK
 
+{"birthday": "2015-03-30", "created_at": "2015-04-10T21:46:40.457140", "exercise_day_of_week": 1, "exercise_time": "11:46:42", "gender": 1, "id": 36, "meditation_time": "11:46:42", "pk": 36, "resource_uri": "/api/v1/user_profile/36/", "start_date": "2015-04-10T21:46:40.457065", "updated_at": "2015-04-11T14:34:58.054625", "user": {"email": "goooch_attack40@catfacts.co", "first_name": "John", "id": 65, "last_name": "Doe", "resource_uri": "/api/v1/user/65/", "username": "lotus_user40"}}
 
 # Test:
-curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user/65/
-
-curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"exercise_day_of_week": "1"}' https://secure-headland-8362.herokuapp.com/api/v1/user/65/
-
-curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PATCH --data '{"exercise_day_of_week": "1"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
+curl --cookie "sessionid=2wi8ctvzhrfi0sc4rziuxbc5os7dtmjg" -v -H "Content-Type: application/json" -X PUT --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
 
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user
@@ -173,7 +173,7 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_
 
 
 ######################## Log a User Out ########################
-### Log given user in and return the sessionid cookie and that user
+### Log current user out
 
 # api:
 	user/logout
