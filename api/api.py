@@ -332,8 +332,8 @@ class AssessmentResource(ModelResource):
 
 class ResponseResource(ModelResource):
 	assessment = fields.ToOneField(AssessmentResource, 'assessment')
-	multi_select = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', null=True, full=True)
-	body_location = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', null=True, full=True)
+	multi_selects = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', related_name='response', null=True, full=True)
+	body_locations = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', related_name='response', null=True, full=True)
 
 	class Meta:
 		queryset = Response.objects.all()
