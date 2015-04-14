@@ -249,7 +249,27 @@ curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: 
 curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "101"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 
-######################## Create/Update a Meditation Sessions ########################
+######################## Create a Meditation Sessions ########################
+### Takes in an exercise session id and adds it to the table
+
+# api:
+	meditation_session
+
+# type:
+	POST
+
+# required fields: 
+	meditation_id
+	percent_completed
+
+# response:
+< HTTP/1.1 201 CREATED
+
+# Test:
+
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X POST --data '{"percent_completed": ".5", "meditation_id": "3"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
+
+######################## Update a Meditation Sessions ########################
 ### Takes in an exercise session id and adds it to the table
 
 # api:
@@ -262,17 +282,12 @@ curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: 
 	percent_completed
 
 # response:
-< HTTP/1.1 201 CREATED
+< HTTP/1.1 202 ACCEPTED
 
 # Test:
 
-curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": ".5"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/2
 
-
-
-curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user40", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
-
-
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": ".6"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/3/
 
 
 

@@ -240,6 +240,7 @@ class MeditationResource(ModelResource):
 		resource_name = 'meditation_session'
 		authentication = Authentication()
 		authorization = Authorization()
+		always_return_data = True
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'user', 'meta']
 		filtering = {
