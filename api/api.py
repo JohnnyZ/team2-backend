@@ -327,7 +327,7 @@ class AssessmentResource(ModelResource):
 	# This sets the user to be the one from the cookie
 	def dispatch(self, request_type, request, **kwargs):
 		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
-		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
+		return super(AssessmentResource, self).dispatch(request_type, request, **kwargs)
 
 class ResponseResource(ModelResource):
 	assessment = fields.ToOneField(AssessmentResource, 'assessment')
