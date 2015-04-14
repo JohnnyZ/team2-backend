@@ -6,9 +6,9 @@ from django.conf.urls import url
 from django.core import serializers
 from django.forms.models import model_to_dict
 
-from api.models import *
-from api.exceptions import CustomBadRequest
-from api.constants import *
+from .models import *
+from .exceptions import CustomBadRequest
+from .constants import *
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
@@ -312,7 +312,7 @@ class AssessmentResource(ModelResource):
 	responses = fields.ToManyField('api.api.ResponseResource', "response_set", null=True)
 
 	class Meta:
-		queryset = AssessmentResource.objects.all()
+		queryset = Assessment.objects.all()
 		resource_name = 'assessment'
 		authentication = Authentication()
 		authorization = Authorization()
@@ -329,7 +329,7 @@ class ResponseResource(ModelResource):
 	body_location = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', null=True)
 
 	class Meta:
-		queryset = AssessmentResource.objects.all()
+		queryset = Response.objects.all()
 		resource_name = 'response'
 		authentication = Authentication()
 		authorization = Authorization()
@@ -343,7 +343,7 @@ class MultiSelectResponseResource(ModelResource):
 	response = fields.ToOneField(AssessmentResource, 'response')
 
 	class Meta:
-		queryset = AssessmentResource.objects.all()
+		queryset = MultiSelectResponse.objects.all()
 		resource_name = 'multi_select'
 		authentication = Authentication()
 		authorization = Authorization()
@@ -357,7 +357,7 @@ class BodyLocationResponseResource(ModelResource):
 	response = fields.ToOneField(AssessmentResource, 'response')
 
 	class Meta:
-		queryset = AssessmentResource.objects.all()
+		queryset = BodyLocationResponse.objects.all()
 		resource_name = 'body_location'
 		authentication = Authentication()
 		authorization = Authorization()

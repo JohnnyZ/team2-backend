@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from api.models import UserProfile, MeditationSession, ExerciseSession
+from .models import UserProfile, MeditationSession, ExerciseSession
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
