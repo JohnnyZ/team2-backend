@@ -334,11 +334,15 @@ curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"asses
 curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/3/","type":"0","boolean":"False","question_id":"12"},{"assessment":"/api/v1/assessment/3/","type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/2/","type":"0","boolean":"false","question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/3/","type":"0","boolean":0,"question_id":"13"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 
 {"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"},{"assessment":"1","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}
 
+
+
+
+curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"4","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"4", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 
 

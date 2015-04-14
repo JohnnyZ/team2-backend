@@ -348,7 +348,7 @@ class ResponseResource(ModelResource):
 		}
 
 	def obj_create(self, bundle, **kwargs):
-		bundle.data[assessment_id] = get_object_or_404(Assessment, pk=bundle.data['assessment_id'])
+		bundle.data['assessment_id'] = get_object_or_404(Assessment, pk=bundle.data['assessment_id'])
 		super(ResponseResource, self).obj_create(bundle, user=bundle.request.user)
 
 	# This sets the assessment to be the one from the id
