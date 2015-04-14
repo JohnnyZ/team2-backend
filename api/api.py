@@ -346,9 +346,9 @@ class ResponseResource(ModelResource):
 		}
 
 	# This sets the assessment to be the one from the id
-	def dispatch(self, request_type, request, **kwargs):
-		kwargs['assessment'] = get_object_or_404(Assessment, pk=kwargs['assessment_id'])
-		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
+	# def dispatch(self, request_type, request, **kwargs):
+	# 	kwargs['assessment'] = get_object_or_404(Assessment, pk=kwargs['assessment_id'])
+	# 	return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
 class MultiSelectResponseResource(ModelResource):
 	response = fields.ToOneField(ResponseResource, 'response')

@@ -325,7 +325,9 @@ curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: 
 
 curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"},{"assessment":"1","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"1","type":0,"boolean":"0","question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+
+curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{ "assessment":"/api/v1/assessment/1/", "type":0, "boolean":"0", "question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 {"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"},{"assessment":"1","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}
 
