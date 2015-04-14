@@ -310,13 +310,14 @@ class ExerciseResource(ModelResource):
 class AssessmentResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
 	# null = true because there may be no responses on an assessment yet
-	responses = fields.ToManyField('api.api.ResponseResource', "response_set", null=True)
+	responses = fields.ToManyField('api.api.ResponseResource', "response_set", null=True, full=True)
 
 	class Meta:
 		queryset = Assessment.objects.all()
 		resource_name = 'assessment'
 		authentication = Authentication()
 		authorization = Authorization()
+		always_return_data = True
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'user', 'meta']
 		filtering = {
@@ -331,14 +332,15 @@ class AssessmentResource(ModelResource):
 
 class ResponseResource(ModelResource):
 	assessment = fields.ToOneField(AssessmentResource, 'assessment')
-	multi_select = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', null=True)
-	body_location = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', null=True)
+	multi_select = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', null=True, full=True)
+	body_location = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', null=True, full=True)
 
 	class Meta:
 		queryset = Response.objects.all()
 		resource_name = 'response'
 		authentication = Authentication()
 		authorization = Authorization()
+		always_return_data = True
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
@@ -358,6 +360,7 @@ class MultiSelectResponseResource(ModelResource):
 		resource_name = 'multi_select'
 		authentication = Authentication()
 		authorization = Authorization()
+		always_return_data = True
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
@@ -372,6 +375,7 @@ class BodyLocationResponseResource(ModelResource):
 		resource_name = 'body_location'
 		authentication = Authentication()
 		authorization = Authorization()
+		always_return_data = True
 		allowed_methods = ['get', 'put', 'patch', 'post']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
