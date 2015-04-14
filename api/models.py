@@ -26,10 +26,8 @@ class TimeStampedModel(models.Model):
 
 # Enum GenderType
 class Gender(enum.Enum):
-	# UNKNOWN
-	NOT_GIVEN = 0
-	MALE = 1
-	FEMALE = 2
+	MALE = 0
+	FEMALE = 1
 
 # Enum DayOfWeek
 class DayOfWeek(enum.Enum):
@@ -81,7 +79,7 @@ class BodyLocation(enum.Enum):
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
-	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN) # TODO: have it default to null and make 0 male and 1 female
+	gender = enum.EnumField(Gender, default=Gender.MALE)
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)

@@ -319,28 +319,89 @@ curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: 
 curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
 
 
-curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/assessment/1/
 
+######################## Update Assesment With Start Time ########################
+### Update Assessment with start time (right when user opens it)
 
+# api:
+	assessment/:assessment_id
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"},{"assessment":"1","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+# type:
+	PATCH
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"1","type":0,"boolean":"0","question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+# required fields: 
+	start_time
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{ "assessment":"/api/v1/assessment/1/", "type":0, "boolean":"0", "question_id":"12"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+# response:
+{
+   "complete_time":null,
+   "created_at":"2015-04-14T19:38:05.484441",
+   "id":5,
+   "resource_uri":"/api/v1/assessment/5/",
+   "responses":[
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/3/","type":"0","boolean":"False","question_id":"12"},{"assessment":"/api/v1/assessment/3/","type":"4", "question_id":"13", "multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+   ],
+   "start_time":"2015-04-14T18:56:59",
+   "updated_at":"2015-04-14T19:38:14.592931",
+   "user":"/api/v1/user/65/"
+}
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/3/","type":"0","boolean":"False","question_id":"12"},{"assessment":"/api/v1/assessment/3/","type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+# Test:
 
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X PATCH --data '{"start_time": "2015-04-14T18:56:59"}' https://secure-headland-8362.herokuapp.com/api/v1/assessment/5/
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment":"/api/v1/assessment/3/","type":"0","boolean":0,"question_id":"13"}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+# Here are some tests for doing a get on the Assessment
 
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/assessment/4/
 
-{"objects":[{"assessment":"1","type":0,"boolean":"0","question_id":"12"},{"assessment":"1","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}]}
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X POST --data '{"start_time":"2015-04-14T18:56:59"}' https://secure-headland-8362.herokuapp.com/api/v1/assessment/
 
+{"complete_time": null, "created_at": "2015-04-14T19:40:30.518059", "id": 6, "resource_uri": "/api/v1/assessment/6/", "responses": [], "start_time": "2015-04-14T18:56:59", "updated_at": "2015-04-14T19:40:30.596062", "user": "/api/v1/user/65/"}
 
+######################## Set Responses for Assessment ########################
+### Creates the response objects for the particular assessment
 
+# api:
+	response
+
+# type:
+	PATCH
+
+# required fields: 
+	{"objects":[...]} - the assessment_id for each response
+
+# example call
+
+curl -v -H "Content-Type: application/json" -X PATCH --data 
+'{
+   "objects":[
+      {
+         "assessment_id":"4",
+         "type":"0",
+         "boolean":0,
+         "question_id":"12"
+      },
+      {
+         "assessment_id":"4",
+         "type":"4",
+         "question_id":"13",
+         "multi_selects":[
+            {
+               "selection_id":"3"
+            },
+            {
+               "selection_id":"8"
+            }
+         ]
+      }
+   ]
+}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+
+# response:
+
+{"objects": [{"assessment": "/api/v1/assessment/4/", "assessment_id": "4", "body_locations": [], "boolean": false, "created_at": "2015-04-14T19:29:32.627987", "emotion": 0, "id": 16, "multi_selects": [], "number": null, "percent": 0.0, "question_id": 12, "resource_uri": "/api/v1/response/16/", "type": 0, "updated_at": "2015-04-14T19:29:32.665162"}, {"assessment": "/api/v1/assessment/4/", "assessment_id": "4", "body_locations": [], "boolean": true, "created_at": "2015-04-14T19:29:32.675305", "emotion": 0, "id": 17, "multi_selects": [{"id": 3, "resource_uri": "/api/v1/multi_select/3/", "response": "/api/v1/response/17/", "selection_id": 3}, {"id": 4, "resource_uri": "/api/v1/multi_select/4/", "response": "/api/v1/response/17/", "selection_id": 8}], "number": null, "percent": 0.0, "question_id": 13, "resource_uri": "/api/v1/response/17/", "type": 4, "updated_at": "2015-04-14T19:29:32.691491"}]}
+
+# Test:
 
 curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"4","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"4", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
