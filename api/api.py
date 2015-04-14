@@ -262,9 +262,9 @@ class MeditationResource(ModelResource):
 		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
 	def update_in_place(self, request, original_bundle, new_data):
-		if(original_bundle['percent_completed'] < new_data['percent_completed'])
+		if(original_bundle['percent_completed'] < new_data['percent_completed']):
 			return super(MeditationResource, self).update_in_place(request, original_bundle, new_data)
-		else
+		else:
 			raise CustomBadRequest(
 				code="lower_percent",
 				message="precent_completed of {old_percent} is higher than the new value of {new_percent}"

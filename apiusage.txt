@@ -289,7 +289,7 @@ curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: 
 
 # Test:
 
-curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": ".6"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/5/
+curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": ".7"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/5/
 
 
 
