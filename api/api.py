@@ -262,7 +262,7 @@ class MeditationResource(ModelResource):
 		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
 	def update_in_place(self, request, original_bundle, new_data):
-		old_value = original_bundle['percent_completed']
+		old_value = original_bundle.data['percent_completed']
 		new_value = new_data['percent_completed']
 
 		if(old_value < new_value):
