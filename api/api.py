@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.conf.urls import url
 from django.core import serializers
 from django.forms.models import model_to_dict
+from django.shortcuts import get_object_or_404
 
 from .models import *
 from .exceptions import CustomBadRequest
