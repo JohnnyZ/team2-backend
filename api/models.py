@@ -121,7 +121,7 @@ class Assessment(models.Model):
 class Response(models.Model):
 	assessment = models.ForeignKey(Assessment)
 	type = enum.EnumField(ResponseType)
-	boolean = models.BooleanField()
+	boolean = models.BooleanField(default=True)
 	number = models.IntegerField(null=True, blank=True)
 	emotion = enum.EnumField(Emotion)
 	percent = models.FloatField(default=0)
