@@ -345,7 +345,7 @@ class ResponseResource(ModelResource):
 		}
 
 class MultiSelectResponseResource(ModelResource):
-	response = fields.ToOneField(AssessmentResource, 'response')
+	response = fields.ToOneField(ResponseResource, 'response')
 
 	class Meta:
 		queryset = MultiSelectResponse.objects.all()
@@ -359,7 +359,7 @@ class MultiSelectResponseResource(ModelResource):
 		}
 
 class BodyLocationResponseResource(ModelResource):
-	response = fields.ToOneField(AssessmentResource, 'response')
+	response = fields.ToOneField(ResponseResource, 'response')
 
 	class Meta:
 		queryset = BodyLocationResponse.objects.all()
