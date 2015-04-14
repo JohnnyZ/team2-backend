@@ -306,6 +306,63 @@ class ExerciseResource(ModelResource):
 	def obj_get_list(self, bundle, **kwargs):
 		return super(ExerciseResource, self).obj_get_list(bundle, user=bundle.request.user)
 
+class AssessmentResource(ModelResource):
+	user = fields.ToOneField(UserResource, 'user')
+	# null = true because there may be no responses on an assessment yet
+	responses = fields.ToManyField('api.api.ResponseResource', "response_set", null=True)
 
+	class Meta:
+		queryset = AssessmentResource.objects.all()
+		resource_name = 'assessment'
+		authentication = Authentication()
+		authorization = Authorization()
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'user', 'meta']
+		filtering = {
+			'user': ALL_WITH_RELATIONS,
+			'id': ALL_WITH_RELATIONS,
+		}
 
+class ResponseResource(ModelResource):
+	assessment = fields.ToOneField(AssessmentResource, 'assessment')
+	multi_select = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', null=True)
+	body_location = fields.ToManyField('api.api.BodyLocationResponseResource', 'body_location', null=True)
 
+	class Meta:
+		queryset = AssessmentResource.objects.all()
+		resource_name = 'response'
+		authentication = Authentication()
+		authorization = Authorization()
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'meta']
+		filtering = {
+			'id': ALL_WITH_RELATIONS,
+		}
+
+class MultiSelectResponseResource(ModelResource):
+	response = fields.ToOneField(AssessmentResource, 'response')
+
+	class Meta:
+		queryset = AssessmentResource.objects.all()
+		resource_name = 'multi_select'
+		authentication = Authentication()
+		authorization = Authorization()
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'meta']
+		filtering = {
+			'id': ALL_WITH_RELATIONS,
+		}
+
+class BodyLocationResponseResource(ModelResource):
+	response = fields.ToOneField(AssessmentResource, 'response')
+
+	class Meta:
+		queryset = AssessmentResource.objects.all()
+		resource_name = 'body_location'
+		authentication = Authentication()
+		authorization = Authorization()
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'meta']
+		filtering = {
+			'id': ALL_WITH_RELATIONS,
+		}

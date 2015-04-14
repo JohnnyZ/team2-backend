@@ -42,23 +42,46 @@ class DayOfWeek(enum.Enum):
 	SU = 6
 
 class ResponseType(enum.Enum):
-	NO = 0 
-	YES = 1 
-	EMOTION1 = 29
+	BOOLEAN = 0
+	NUMBER = 1
+	EMOTION = 2
+	PERCENT = 3
+	MULTI_SELECT = 4
+	BODY_MAP = 5
 
 class Emotion(enum.Enum):
-	NEUTRAL = 0 
-	MAD = 1 
-	HAPPY = 2
+	UPSET = 0 
+	SAD = 1 
+	DEPRESSED = 2
+	NERVOUS = 3
+	ANXIOUS = 4
+	HAPPY = 5
+	CONTENT = 6
+	EXCITED = 7
+	ENERGETIC = 8
+	RELAXED = 9
+	ALERT = 10
 
 class BodyLocation(enum.Enum):
-	HEAD = 0 
+	HEAD = 0
+	THROAT = 1
+	CHEST = 2
+	STOMACH = 3
+	ARMS = 4
+	HANDS = 5
+	FACE = 6
+	SHOULDERS = 7
+	UPPER_BACK = 8
+	LOWER_BACK = 9
+	THIGHS = 10
+	KNEE = 11
+	FEET = 12
 
 # Models here 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
-	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN)
+	gender = enum.EnumField(Gender, default=Gender.NOT_GIVEN) # TODO: have it default to null and make 0 male and 1 female
 	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
@@ -71,19 +94,50 @@ class UserProfile(models.Model):
 
 class MeditationSession(models.Model):
 	user = models.ForeignKey(User)
-	meditation_id = models.IntegerField(blank=False, null=False)
+	meditation_id = models.IntegerField(blank=False, null=False) # foreign key to local meditation_id
 	percent_completed = models.FloatField()
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 class ExerciseSession(models.Model):
 	user = models.ForeignKey(User)
-	exercise_id = models.IntegerField(blank=False, null=False)
+	exercise_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_idb
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 	class Meta:
 		unique_together = ("user", "exercise_id")
+
+
+### Assessments
+
+class Assessment(models.Model):
+	user = models.ForeignKey(User)
+	start_time = models.DateTimeField()
+	complete_time = models.DateTimeField()
+	created_at = CreationDateTimeField(_('created_at'))
+	updated_at = ModificationDateTimeField(_('updated_at'))
+
+class Response(models.Model):
+	assessment = models.ForeignKey(Assessment)
+	type = enum.EnumField(ResponseType)
+	boolean = models.BooleanField()
+	number = models.IntegerField()
+	emotion = enum.EnumField(Emotion)
+	percent = models.FloatField(default=0)
+	question_id = models.IntegerField(blank=False, null=False) # foreign key to local question_id
+	created_at = CreationDateTimeField(_('created_at'))
+	updated_at = ModificationDateTimeField(_('updated_at'))
+
+class MultiSelectResponse(models.Model):
+	response = models.ForeignKey(Response, related_name="multi_select")
+	selection_id = models.IntegerField(blank=False, null=False) # foreign key to local selection_id
+
+class BodyLocationResponse(models.Model):
+	response = models.ForeignKey(Response, related_name="body_location")
+	body_location = enum.EnumField(BodyLocation)
+
+
 
 #===========================================================================
 # SIGNALS
@@ -101,33 +155,5 @@ def signals_import():
 	models.signals.post_save.connect(create_api_key, sender=User)
  
 signals_import()
-
-"""
-class Assessment(models.Model):
-	start_time = models.DateTimeField()
-	complete_time = models.DateTimeField()
-	created_at = CreationDateTimeField(_('created_at'))
-	updated_at = ModificationDateTimeField(_('updated_at'))
-
-class Question(models.Model):
-	title = models.CharField(max_length=255)
-	question = models.CharField(max_length=255)
-
-class Response(models.Model):
-	user = models.ForeignKey(User)
-	assessment = models.ForeignKey(Assessment)
-	rtype = enum.EnumField(ResponseType, default=ResponseType.NO)
-	emotion = enum.EnumField(Emotion, default=Emotion.NEUTRAL)
-	percent = models.FloatField(default=0)
-	question_id = models.ForeignKey(Question)
-	question_answer = models.BooleanField()
-	created_at = CreationDateTimeField(_('created_at'))
-	updated_at = ModificationDateTimeField(_('updated_at'))
-"""
-
-
-
-
-
 
 
