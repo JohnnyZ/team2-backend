@@ -253,8 +253,18 @@ curl --cookie "sessionid=8hg0a2o3ipdgcp30lcsn4qrdbzmm0xat" -v -H "Content-Type: 
 
 
 
+create assessment nulls
+
+push down assessment id to client
 
 
+
+
+[
+	assessment_id : 5,
+	type : 0,
+	boolean : true
+]
 
 
 

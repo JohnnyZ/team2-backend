@@ -241,10 +241,28 @@ class MeditationResource(ModelResource):
 		authentication = Authentication()
 		authorization = Authorization()
 		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'user', 'meta']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
+
+	# Serialization method that serializes the object to json before getting sent back to client
+	# def dehydrate(self, bundle):
+	# 	try:
+	# 		# Remove unneeded fields
+	# 		del bundle.data["resource_uri"]
+	# 		del bundle.data["user"]
+	# 	except KeyError:
+	# 		pass
+ 
+	# 	return bundle
+
+	# def obj_create(self, bundle, **kwargs):
+	# 	return super(MeditationResource, self).obj_create(bundle, user=bundle.request.user)
+
+	# def obj_get_list(self, bundle, **kwargs):
+	# 	return super(MeditationResource, self).obj_get_list(bundle, user=bundle.request.user)
 
 class ExerciseResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
