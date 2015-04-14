@@ -262,13 +262,16 @@ class MeditationResource(ModelResource):
 		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
 	def update_in_place(self, request, original_bundle, new_data):
-		if(original_bundle['percent_completed'] < new_data['percent_completed']):
+		old_value = original_bundle['percent_completed']
+		new_value = new_data['percent_completed']
+
+		if(old_value < new_value):
 			return super(MeditationResource, self).update_in_place(request, original_bundle, new_data)
 		else:
 			raise CustomBadRequest(
 				code="lower_percent",
 				message="precent_completed of {old_percent} is higher than the new value of {new_percent}"
-						.format(old_percent=original_bundle['percent_completed'], new_percent=new_data['percent_completed']))
+						.format(old_percent=old_value, new_percent=new_value))
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	# def dehydrate(self, bundle):
