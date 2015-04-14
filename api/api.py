@@ -246,6 +246,16 @@ class MeditationResource(ModelResource):
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
+		detail_uri_name = 'meditation_id'
+
+	def prepend_urls(self):
+		return [
+			url(r"^(?P<resource_name>%s)/(?P<meditation_id>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+		]
+
+	def dispatch(self, request_type, request, **kwargs):
+		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
+		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	# def dehydrate(self, bundle):
