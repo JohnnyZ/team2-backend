@@ -113,8 +113,8 @@ class ExerciseSession(models.Model):
 
 class Assessment(models.Model):
 	user = models.ForeignKey(User)
-	start_time = models.DateTimeField()
-	complete_time = models.DateTimeField()
+	start_time = models.DateTimeField(null=True, blank=True)
+	complete_time = models.DateTimeField(null=True, blank=True)
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
@@ -122,7 +122,7 @@ class Response(models.Model):
 	assessment = models.ForeignKey(Assessment)
 	type = enum.EnumField(ResponseType)
 	boolean = models.BooleanField()
-	number = models.IntegerField()
+	number = models.IntegerField(null=True, blank=True)
 	emotion = enum.EnumField(Emotion)
 	percent = models.FloatField(default=0)
 	question_id = models.IntegerField(blank=False, null=False) # foreign key to local question_id
