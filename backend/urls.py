@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # TastyPie
 from tastypie.api import Api
-from api.api import MeditationResource, ExerciseResource, UserResource, UserProfileResource, CreateUserResource
+from api.api import *
 
 v1_api = Api(api_name='v1')
 v1_api.register(MeditationResource())
@@ -12,6 +12,10 @@ v1_api.register(UserResource())
 v1_api.register(UserProfileResource())
 v1_api.register(CreateUserResource())
 
+v1_api.register(AssessmentResource())
+v1_api.register(ResponseResource())
+v1_api.register(MultiSelectResponseResource())
+v1_api.register(BodyLocationResponseResource())
 
 urlpatterns = patterns('',
 	# Examples:
