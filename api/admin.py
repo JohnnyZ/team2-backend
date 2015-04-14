@@ -22,6 +22,33 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 
+class AssessmentAdmin(admin.ModelAdmin):
+	list_display = ('id', 'start_time', 'completed_time', 'user', 'created_at', 'updated_at')
+	fields = ['id', 'user', 'exercise_id', 'created_at', 'updated_at']
+	readonly_fields = ('created_at', 'updated_at')
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
+class ResponseAdmin(admin.ModelAdmin):
+	list_display = ('id', 'assessment_id_display', 'assessment', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
+	fields = ['id', 'assessment', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
+	readonly_fields = ('created_at', 'updated_at')
+
+	def assessment_id_display(self, obj):
+		return obj.assessment_id
+	assessment_id_display.short_description = 'Assessment ID'
+
+class MultiSelectResponseAdmin(admin.ModelAdmin):
+	list_display = ('id', 'response_id_display', 'response', 'selection_id')
+	fields = ['id', 'response', 'selection_id']
+
+	def response_id_display(self,obj):
+		return obj.response_id
+	response_id_display.short_description = 'Response ID'
+
+
 class UserProfileInline(admin.StackedInline):
 	model = UserProfile
 
