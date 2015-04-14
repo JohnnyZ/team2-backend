@@ -314,25 +314,16 @@ curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: 
 
 {"meta": {"limit": 20, "next": null, "offset": 0, "previous": null, "total_count": 3}, "objects": [{"created_at": "2015-04-01T17:33:50.149201", "id": 7, "meditation_id": 2, "percent_completed": 0.5, "resource_uri": "/api/v1/meditation_session/2/", "updated_at": "2015-04-14T13:24:01.447077", "user": "/api/v1/user/65/"}, {"created_at": "2015-04-14T13:27:49.574290", "id": 9, "meditation_id": 3, "percent_completed": 0.6, "resource_uri": "/api/v1/meditation_session/3/", "updated_at": "2015-04-14T13:29:52.003411", "user": "/api/v1/user/65/"}, {"created_at": "2015-04-14T13:32:19.559519", "id": 10, "meditation_id": 5, "percent_completed": 0.7, "resource_uri": "/api/v1/meditation_session/5/", "updated_at": "2015-04-14T14:00:32.460326", "user": "/api/v1/user/65/"}]}
 
+# Test
+
 curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
 
 
 
 
 
-create assessment nulls
 
-push down assessment id to client
-
-
-
-
-[
-	assessment_id : 5,
-	type : 0,
-	boolean : true
-]
-
+{"objects":[{"assessment":"5","type":0,"boolean":"0","question_id":"12"},{"assessment":"5","type":"4","multi_select":{"objects":[{"selection_id":"3"},{"selection_id":"8"}]}}] }
 
 
 
