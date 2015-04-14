@@ -261,6 +261,8 @@ class MeditationResource(ModelResource):
 		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
 		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
 
+	# Override update_in_place which gets called with PATCH
+	# Only allow a larger percentage than the previous
 	def update_in_place(self, request, original_bundle, new_data):
 		old_value = original_bundle.data['percent_completed']
 		new_value = float(new_data['percent_completed'])
@@ -272,23 +274,6 @@ class MeditationResource(ModelResource):
 				code="lower_percent",
 				message="precent_completed of {old_percent} is higher than the new value of {new_percent}"
 						.format(old_percent=old_value, new_percent=new_value))
-
-	# Serialization method that serializes the object to json before getting sent back to client
-	# def dehydrate(self, bundle):
-	# 	try:
-	# 		# Remove unneeded fields
-	# 		del bundle.data["resource_uri"]
-	# 		del bundle.data["user"]
-	# 	except KeyError:
-	# 		pass
- 
-	# 	return bundle
-
-	# def obj_create(self, bundle, **kwargs):
-	# 	return super(MeditationResource, self).obj_create(bundle, user=bundle.request.user)
-
-	# def obj_get_list(self, bundle, **kwargs):
-	# 	return super(MeditationResource, self).obj_get_list(bundle, user=bundle.request.user)
 
 class ExerciseResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
