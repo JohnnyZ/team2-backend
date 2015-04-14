@@ -249,14 +249,26 @@ class MeditationResource(ModelResource):
 		}
 		detail_uri_name = 'meditation_id'
 
+	# This allows us to patch with the meditation_id instead of the meditation_session id
+	# We don't need meditaiton_session id because meditaiton_id and user act as a composite key
 	def prepend_urls(self):
 		return [
 			url(r"^(?P<resource_name>%s)/(?P<meditation_id>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
 		]
 
+	# This sets the user to be the one from the cookie
 	def dispatch(self, request_type, request, **kwargs):
 		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
 		return super(MeditationResource, self).dispatch(request_type, request, **kwargs)
+
+	def update_in_place(self, request, original_bundle, new_data):
+		if(original_bundle['percent_completed'] < new_data['percent_completed'])
+			return super(MeditationResource, self).update_in_place(request, original_bundle, new_data)
+		else
+			raise CustomBadRequest(
+				code="lower_percent",
+				message="precent_completed of {old_percent} is higher than the new value of {new_percent}"
+						.format(old_percent=original_bundle['percent_completed'], new_percent=new_data['percent_completed']))
 
 	# Serialization method that serializes the object to json before getting sent back to client
 	# def dehydrate(self, bundle):
