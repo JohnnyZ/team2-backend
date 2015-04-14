@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile, MeditationSession, ExerciseSession
+from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse
 
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
@@ -23,8 +23,8 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 
 
 class AssessmentAdmin(admin.ModelAdmin):
-	list_display = ('id', 'start_time', 'completed_time', 'user', 'created_at', 'updated_at')
-	fields = ['id', 'user', 'exercise_id', 'created_at', 'updated_at']
+	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
+	fields = ['id', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 
 	def user_id_display(self, obj):
@@ -114,4 +114,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(MeditationSession, MeditationSessionAdmin)
 admin.site.register(ExerciseSession, ExerciseSessionAdmin)
+admin.site.register(Assessment, AssessmentAdmin)
+admin.site.register(Response, ResponseAdmin)
+admin.site.register(MultiSelectResponse, MultiSelectResponseAdmin)
 
