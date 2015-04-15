@@ -10,6 +10,6 @@ logger = logging.getLogger(__name__)
 records = UserProfile.objects.filter(gender=0)
 for record in records:
 	# print("hi")
-	print(record.birthday)
+	# print(record.birthday)
 	# logger.error(user_profile.birthday)
-	# logger.error(user_profile.user.email)
+	logger.error(user_profile.user.email)
