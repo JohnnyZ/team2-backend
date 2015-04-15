@@ -1,13 +1,14 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 # from django.shortcuts import get_object_or_404
 
-from .api import *
+from .models import UserProfile
 
 import logging
 logger = logging.getLogger(__name__)
 
 def dostuff():
-	for user_profile in UserProfile.objects.all():
+	records = UserProfile.objects.filter(gender=0)
+	for record in records:
 		print("hi")
 		# logger.error(user_profile.birthday)
 		# print(user_profile.headline)
