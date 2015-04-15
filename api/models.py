@@ -129,6 +129,9 @@ class Response(models.Model):
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
+	def __unicode__(self):
+		return self.id()
+
 class MultiSelectResponse(models.Model):
 	response = models.ForeignKey(Response, related_name="multi_select")
 	selection_id = models.IntegerField(blank=False, null=False) # foreign key to local selection_id
