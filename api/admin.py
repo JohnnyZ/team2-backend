@@ -52,7 +52,7 @@ class MultiSelectResponseAdmin(admin.ModelAdmin):
 	fields = ['response', 'selection_id']
 
 	def response_id_display(self,obj):
-		return obj.response.question_id
+		return obj.response_id
 	response_id_display.short_description = 'Response ID'
 
 

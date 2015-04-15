@@ -130,7 +130,7 @@ class Response(models.Model):
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 	def __unicode__(self):
-		return self.id()
+		return self.question_id()
 
 class MultiSelectResponse(models.Model):
 	response = models.ForeignKey(Response, related_name="multi_select")
