@@ -59,7 +59,6 @@ class Emotion(enum.Enum):
 	ENERGETIC = 8
 	RELAXED = 9
 	ALERT = 10
-	NONE = 11 
 
 class BodyLocation(enum.Enum):
 	HEAD = 0
@@ -122,7 +121,7 @@ class Response(models.Model):
 	type = enum.EnumField(ResponseType)
 	boolean = models.BooleanField(default=True)
 	number = models.IntegerField(null=True, blank=True)
-	emotion = enum.EnumField(Emotion, default=Emotion.NONE)
+	emotion = enum.EnumField(Emotion)
 	percent = models.FloatField(default=0)
 	question_id = models.IntegerField(blank=False, null=False) # foreign key to local question_id
 	created_at = CreationDateTimeField(_('created_at'))
