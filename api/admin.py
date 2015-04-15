@@ -26,7 +26,7 @@ class AssessmentAdmin(admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
-
+	search_fields = ['user']
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
