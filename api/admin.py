@@ -48,12 +48,16 @@ class ResponseAdmin(admin.ModelAdmin):
 	get_user.short_description = 'User'
 
 class MultiSelectResponseAdmin(admin.ModelAdmin):
-	list_display = ('id', 'response_id_display', 'response', 'selection_id')
+	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
 
 	def response_id_display(self,obj):
 		return obj.response_id
 	response_id_display.short_description = 'Response ID'
+
+	def response_question_id_display(self,obj):
+		return obj.response.question_id
+	response_question_id_display.short_description = 'Question ID'
 
 
 class UserProfileInline(admin.StackedInline):
