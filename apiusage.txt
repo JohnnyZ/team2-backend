@@ -2,20 +2,40 @@
 	https://secure-headland-8362.herokuapp.com/api/v1/
 
 # Create User / Sign Up
-	create_user 			- POST
-# Update User
-	user_profile/:id/		- PUT
-# Log In
-	login 					- POST
-# Log Out
-	logout 					- GET
-# Create Exercise Session
-	exercise_session		- POST
-# Get All Completed Exercise Sessions
-	exercise_session		- GET
-# Get Specific Exercise Session
-	exercise_session/:id/	- GET
+	create_user 						- POST
 
+# Update User
+	user_profile/:id/					- PUT
+
+# Log In
+	login 								- POST
+
+# Log Out
+	logout 								- GET
+
+# Create Exercise Session
+	exercise_session					- POST
+
+# Get All Completed Exercise Sessions
+	exercise_session					- GET
+
+# Get Specific Exercise Session
+	exercise_session/:id/				- GET
+
+# Create Meditaiton Session
+	meditation_session					- POST
+
+# Update a Meditation Session
+	meditation_session/:meditation_id/	- PATCH
+
+# Get All Med Sessions
+	meditation_session					- GET
+
+# Update Assessment w/ start_time
+	assessment/:assessment_id			- PATCH
+
+# Push All Responses
+	response							- PATCH
 
 ######################## Create a user object ########################
 ### Create a user with given info and send back the sessionid cookie and the user
@@ -404,6 +424,19 @@ curl -v -H "Content-Type: application/json" -X PATCH --data
 # Test:
 
 curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"4","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"4", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
