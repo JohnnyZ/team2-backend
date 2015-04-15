@@ -11,5 +11,4 @@ def dostuff():
 	for record in records:
 		print("hi")
 		# logger.error(user_profile.birthday)
-		# print(user_profile.headline)
-		# logger.error(user_profile.headline)
+]		# logger.error(user_profile.user.email)
