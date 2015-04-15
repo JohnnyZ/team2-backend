@@ -43,7 +43,7 @@ class ResponseAdmin(admin.ModelAdmin):
 	assessment_id_display.short_description = 'Assessment ID'
 
 	def get_user(self, obj):
-		return obj.assessment.user_username
+		return obj.assessment.user_id
 	get_user.short_description = 'UserName'
 
 class MultiSelectResponseAdmin(admin.ModelAdmin):
