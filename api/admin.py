@@ -35,7 +35,7 @@ class ResponseAdmin(admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
-	search_fields = ['type', 'percent', 'question_id']
+	search_fields = ['type', 'percent', 'question_id', 'emotion']
 
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
