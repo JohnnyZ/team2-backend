@@ -33,14 +33,18 @@ class AssessmentAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ResponseAdmin(admin.ModelAdmin):
-	list_display = ('id', 'assessment_id_display', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
+	list_display = ('id', 'assessment_id_display','get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
-	search_fields = ['type', 'percent', 'question_id', 'emotion']
+	search_fields = ['type', 'percent', 'question_id', 'emotion', 'assessment__user__username']
 
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
+
+	def get_user(self, obj):
+		return obj.assessment.user.username
+	get_user.short_description = 'UserName'
 
 class MultiSelectResponseAdmin(admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response', 'selection_id')
