@@ -12,4 +12,4 @@ for record in records:
 	# print("hi")
 	# print(record.birthday)
 	# logger.error(user_profile.birthday)
-	logger.error(user_profile.user.email)
+	logger.error(record.user.email)
