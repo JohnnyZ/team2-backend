@@ -122,11 +122,12 @@ class Response(models.Model):
 	type = enum.EnumField(ResponseType)
 	boolean = models.BooleanField(default=True)
 	number = models.IntegerField(null=True, blank=True)
-	emotion = enum.EnumField(Emotion)
+	emotion = enum.EnumField(Emotion, default=Emotion.NONE)
 	percent = models.FloatField(default=0)
 	question_id = models.IntegerField(blank=False, null=False) # foreign key to local question_id
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
+
 
 class MultiSelectResponse(models.Model):
 	response = models.ForeignKey(Response, related_name="multi_select")
@@ -134,7 +135,7 @@ class MultiSelectResponse(models.Model):
 
 class BodyLocationResponse(models.Model):
 	response = models.ForeignKey(Response, related_name="body_location")
-	body_location = enum.EnumField(BodyLocation)
+	body_location = enum.EnumField(BodyLocation, default=BodyLocation.NONE)
 
 
 

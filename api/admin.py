@@ -7,7 +7,7 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
-
+	search_fields = ['user__username']
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
@@ -16,6 +16,7 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
+	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
 		return obj.user_id
@@ -26,27 +27,37 @@ class AssessmentAdmin(admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
-
+	search_fields = ['user__username']
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 
 class ResponseAdmin(admin.ModelAdmin):
-	list_display = ('id', 'assessment_id_display', 'assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
+	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
+	search_fields = ['type', 'percent', 'question_id', 'emotion', 'assessment__user__username']
 
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
 
+	def get_user(self, obj):
+
+		return obj.assessment.user.username 
+	get_user.short_description = 'User'
+
 class MultiSelectResponseAdmin(admin.ModelAdmin):
-	list_display = ('id', 'response_id_display', 'response', 'selection_id')
+	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
 
 	def response_id_display(self,obj):
 		return obj.response_id
 	response_id_display.short_description = 'Response ID'
+
+	def response_question_id_display(self,obj):
+		return obj.response.question_id
+	response_question_id_display.short_description = 'Question ID'
 
 
 class UserProfileInline(admin.StackedInline):
