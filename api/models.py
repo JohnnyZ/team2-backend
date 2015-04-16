@@ -48,39 +48,40 @@ class ResponseType(enum.Enum):
 	BODY_MAP = 5
 
 class Emotion(enum.Enum):
-	UPSET = 0 
-	SAD = 1 
-	DEPRESSED = 2
-	NERVOUS = 3
-	ANXIOUS = 4
-	HAPPY = 5
-	CONTENT = 6
-	EXCITED = 7
-	ENERGETIC = 8
-	RELAXED = 9
-	ALERT = 10
+	NONE = 0
+	UPSET = 1 
+	SAD = 2
+	DEPRESSED = 3
+	NERVOUS = 4
+	ANXIOUS = 5
+	HAPPY = 6
+	CONTENT = 7
+	EXCITED = 8
+	ENERGETIC = 9
+	RELAXED = 10
+	ALERT = 11
 
 class BodyLocation(enum.Enum):
-	HEAD = 0
-	THROAT = 1
-	CHEST = 2
-	STOMACH = 3
-	ARMS = 4
-	HANDS = 5
-	FACE = 6
-	SHOULDERS = 7
-	UPPER_BACK = 8
-	LOWER_BACK = 9
-	THIGHS = 10
-	KNEE = 11
-	FEET = 12
+	NONE = 0
+	HEAD = 1
+	THROAT = 2
+	CHEST = 3
+	STOMACH = 4
+	ARMS = 5
+	HANDS = 6
+	FACE = 7
+	SHOULDERS = 8
+	UPPER_BACK = 9
+	LOWER_BACK = 10
+	THIGHS = 11
+	KNEE = 12
+	FEET = 13
 
 # Models here 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
 	gender = enum.EnumField(Gender, default=Gender.MALE)
-	start_date = models.DateTimeField(default=datetime.now,blank=True)
 	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
 	exercise_time = models.TimeField(null=True)
@@ -99,7 +100,7 @@ class MeditationSession(models.Model):
 
 class ExerciseSession(models.Model):
 	user = models.ForeignKey(User)
-	exercise_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_idb
+	exercise_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
@@ -134,6 +135,20 @@ class MultiSelectResponse(models.Model):
 class BodyLocationResponse(models.Model):
 	response = models.ForeignKey(Response, related_name="body_location")
 	body_location = enum.EnumField(BodyLocation)
+
+
+
+class ExercisePush(models.Model):
+	user = models.ForeignKey(User)
+	sent = CreationDateTimeField(_('created_at'))
+	exercise_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
+
+class AssessmentPush(models.Model):
+	user = models.ForeignKey(User)
+	next_send = models.DateTimeField(null=False, blank=False)
+	sent = CreationDateTimeField(_('created_at'))
+	# link to the assessment that was pushed down? maybe not necessary
+	# assessment_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
 
 
 
