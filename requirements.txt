@@ -1,6 +1,6 @@
-Django==1.7.4
 dj-database-url==0.3.0
 dj-static==0.0.6
+Django==1.8
 django-enumfield==1.2
 django-extensions==1.5.2
 django-tastypie==0.12.1
@@ -12,4 +12,3 @@ python-dateutil==2.4.1
 python-mimeparse==0.1.4
 six==1.9.0
 static3==0.5.1
-setuptools==1.0
