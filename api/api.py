@@ -228,7 +228,7 @@ class UserProfileResource(ModelResource):
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
 	def obj_update(self, bundle, **kwargs):
-		try:
+		'''try:
 			# Extract the APNS Token from request
 			apns_token = bundle.data["apns_token"]
 
@@ -242,7 +242,7 @@ class UserProfileResource(ModelResource):
 			raise CustomBadRequest(
 				code="missing_key",
 				message="Must provide {missing_key} when creating a user."
-						.format(missing_key=missing_key))
+						.format(missing_key=missing_key))'''
 		kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
 		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
  
