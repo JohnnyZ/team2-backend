@@ -4,6 +4,8 @@ from random import randint
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from push_notifications.models import APNSDevice
+
 from .models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment
 from .constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
 
