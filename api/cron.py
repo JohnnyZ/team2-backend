@@ -51,6 +51,8 @@ def createExerciseSessions():
 # Save this into the ExercisePush table
 def sendExercisePush(user, exercise_id):
 	# TODO: send push
+	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
 	exercise_push = ExercisePush(exercise_id=exercise_id)
 	exercise_push.user_id = user.user.id
@@ -60,6 +62,8 @@ def sendExercisePush(user, exercise_id):
 # Save this into the AsessementPush table - schedule the next push
 def sendAssessmentPush(user, assessment_id, is_extended):
 	# TODO: send push
+	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device.send_message("Time for an assessment", extra={"assessment_id": exercise_id, "is_extended":is_extended})
 
 	# Calculate the amount to incrememnt so it's within our range of desired number of assessments
 	minutes_in_day = (END_HOUR - START_HOUR) * 60

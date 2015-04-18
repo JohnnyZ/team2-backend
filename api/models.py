@@ -7,29 +7,12 @@ from django_enumfield import enum
 from django.utils.translation import gettext as _
 from django_extensions.db.fields import (CreationDateTimeField, ModificationDateTimeField,)
 
-"""
-# Puts a time stamp on all models that inherit from it 
-class TimeStampedModel(models.Model):
-	# comment 
-	TimeStampedModel
-	An abstract base class model that provides self-managed "created" and
-	"modified" fields.
-	# comment
-	created = CreationDateTimeField(_('created'))
-	modified = ModificationDateTimeField(_('modified'))
+from push_notifications.models import APNSDevice
 
-	class Meta:
-		get_latest_by = 'modified'
-		ordering = ('-modified', '-created',)
-		abstract = True
-"""
-
-# Enum GenderType
 class Gender(enum.Enum):
 	MALE = 0
 	FEMALE = 1
 
-# Enum DayOfWeek
 class DayOfWeek(enum.Enum):
 	MO = 0
 	TU = 1 
@@ -77,7 +60,11 @@ class BodyLocation(enum.Enum):
 	KNEE = 12
 	FEET = 13
 
-# Models here 
+
+#===========================================================================
+# User Model
+#===========================================================================
+
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, related_name='profile')
 	birthday = models.DateField(null=True, blank=True)
@@ -85,11 +72,16 @@ class UserProfile(models.Model):
 	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
 	exercise_time = models.TimeField(null=True)
+	apns_device = models.ForeignKey(APNSDevice, null=True, blank=True)
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
 	def __unicode__(self):
 		return self.user.get_full_name()
+
+#===========================================================================
+# Meditaiton and Exercise Session Models
+#===========================================================================
 
 class MeditationSession(models.Model):
 	user = models.ForeignKey(User)
@@ -108,7 +100,9 @@ class ExerciseSession(models.Model):
 		unique_together = ("user", "exercise_id")
 
 
-### Assessments
+#===========================================================================
+# Assessment and Response Models
+#===========================================================================
 
 class Assessment(models.Model):
 	user = models.ForeignKey(User)
@@ -138,6 +132,9 @@ class BodyLocationResponse(models.Model):
 	body_location = enum.EnumField(BodyLocation, default=BodyLocation.NONE)
 
 
+#===========================================================================
+# Push Notification Time Log Models
+#===========================================================================
 
 class ExercisePush(models.Model):
 	user = models.ForeignKey(User)
@@ -151,7 +148,14 @@ class AssessmentPush(models.Model):
 	# link to the assessment that was pushed down? maybe not necessary
 	# assessment_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
 
-
+#===========================================================================
+# Pebble Notification Time Log Model
+#===========================================================================
+"""
+class ExerciseReminder(models.Model):
+	user = models.ForeignKey(User)
+	notification_time = models.DateTimeField(null=False, blank=False)
+"""
 
 #===========================================================================
 # SIGNALS

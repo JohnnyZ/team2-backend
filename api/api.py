@@ -23,6 +23,9 @@ from tastypie.utils import trailing_slash
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 
+#===========================================================================
+# User Resources
+#===========================================================================
 
 class CreateUserResource(ModelResource):
 	user = fields.ForeignKey('api.api.UserResource', 'user', full=True)
@@ -225,6 +228,21 @@ class UserProfileResource(ModelResource):
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
 	def obj_update(self, bundle, **kwargs):
+		try:
+			# Extract the APNS Token from request
+			apns_token = bundle.data["apns_token"]
+
+			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
+			# This gets sorted out by the foreign key relation in UserProfileResource
+			apns_device = {
+				'registration_id': apns_token
+				}
+			bundle.data['apns_device'] = apns_device
+		except KeyError as missing_key:
+			raise CustomBadRequest(
+				code="missing_key",
+				message="Must provide {missing_key} when creating a user."
+						.format(missing_key=missing_key))
 		kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
 		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
  
@@ -233,6 +251,11 @@ class UserProfileResource(ModelResource):
 		# Set the "pk" attribute to point at the actual User object
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).get_detail(request, **kwargs)
+
+
+#===========================================================================
+# Meditaiton and Exercise Session Resources
+#===========================================================================
 
 class MeditationResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
@@ -307,6 +330,11 @@ class ExerciseResource(ModelResource):
 	def obj_get_list(self, bundle, **kwargs):
 		return super(ExerciseResource, self).obj_get_list(bundle, user=bundle.request.user)
 
+
+#===========================================================================
+# Assessment and Response Resources
+#===========================================================================
+
 class AssessmentResource(ModelResource):
 	user = fields.ToOneField(UserResource, 'user')
 	# null = true because there may be no responses on an assessment yet
@@ -348,7 +376,16 @@ class ResponseResource(ModelResource):
 		}
 
 	def obj_create(self, bundle, **kwargs):
-		bundle.data['assessment'] = get_object_or_404(Assessment, pk=bundle.data['assessment_id'])
+		assessment = get_object_or_404(Assessment, pk=bundle.data['assessment_id'])
+		bundle.data['assessment'] = assessment
+
+		"""
+		if assessment.user.pk != bundle.request.user.pk:
+			raise CustomBadRequest(
+				code="invalid_user",
+				message="The user doesn't have permission to update this asssesment."
+		"""
+
 		super(ResponseResource, self).obj_create(bundle, user=bundle.request.user)
 
 class MultiSelectResponseResource(ModelResource):
@@ -380,3 +417,24 @@ class BodyLocationResponseResource(ModelResource):
 		filtering = {
 			'id': ALL_WITH_RELATIONS,
 		}
+
+
+#===========================================================================
+# Pebble Notification Time Log Resource
+#===========================================================================
+""" import model
+class ExerciseReminderResource(ModelResource):
+	user = fields.ToOneField(User, 'user')
+
+	class Meta:
+		queryset = ExerciseReminderResource.objects.all()
+		resource_name = 'exercise_reminder'
+		authentication = Authentication()
+		authorization = Authorization()
+		always_return_data = True
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'meta']
+		filtering = {
+			'id': ALL_WITH_RELATIONS,
+		}
+"""
