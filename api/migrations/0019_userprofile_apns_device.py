@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        # ('push_notifications', '0002_auto_20150417_2029'),
+        ('push_notifications', '__latest__'),
         ('api', '0018_auto_20150415_2329'),
     ]
 
