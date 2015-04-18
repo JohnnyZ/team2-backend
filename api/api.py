@@ -379,12 +379,10 @@ class ResponseResource(ModelResource):
 		assessment = get_object_or_404(Assessment, pk=bundle.data['assessment_id'])
 		bundle.data['assessment'] = assessment
 
-		"""
 		if assessment.user.pk != bundle.request.user.pk:
 			raise CustomBadRequest(
 				code="invalid_user",
 				message="The user doesn't have permission to update this asssesment."
-		"""
 
 		super(ResponseResource, self).obj_create(bundle, user=bundle.request.user)
 
