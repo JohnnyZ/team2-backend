@@ -2,9 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django_extensions.db.fields
-from django.conf import settings
-from push_notifications import *
 
 
 class Migration(migrations.Migration):
@@ -18,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='apns_device',
-            field=models.ForeignKey(default=0, to='push_notifications.APNSDevice'),
-            preserve_default=False,
+            field=models.ForeignKey(blank=True, to='push_notifications.APNSDevice', null=True),
+            preserve_default=True,
         ),
     ]
