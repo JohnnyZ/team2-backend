@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-THIS_DIR = os.path.dirname(__file__)
 
 
 # Quick-start development settings - unsuitable for production
@@ -61,7 +60,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
 	# "GCM_API_KEY": "<your api key>",
-	"APNS_CERTIFICATE": os.path.join(BASE_DIR, 'pushcert.pem'), # TODO
+	"APNS_CERTIFICATE": os.path.join(BASE_DIR, 'justbenopass.pem'), # TODO
 }
 
 
