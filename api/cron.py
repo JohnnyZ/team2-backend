@@ -45,7 +45,9 @@ def createExerciseSessions():
 	push.save()
 
 
-
+def sendPush():
+	device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
+	device.send_message("You've got mail")
 
 # Send push to given user and send them down the exercise that it will link to
 # Save this into the ExercisePush table
