@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from push_notifications import *
+from push_notifications.models import APNSDevice
 
 
 class Migration(migrations.Migration):
