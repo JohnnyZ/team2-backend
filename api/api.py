@@ -422,7 +422,7 @@ class BodyLocationResponseResource(ModelResource):
 #===========================================================================
 # Pebble Notification Time Log Resource
 #===========================================================================
-""" import model
+
 class ExerciseReminderResource(ModelResource):
 	user = fields.ToOneField(User, 'user')
 
@@ -437,4 +437,4 @@ class ExerciseReminderResource(ModelResource):
 		filtering = {
 			'id': ALL_WITH_RELATIONS,
 		}
-"""
+
