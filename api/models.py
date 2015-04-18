@@ -72,7 +72,7 @@ class UserProfile(models.Model):
 	meditation_time = models.TimeField(null=True)
 	exercise_day_of_week = enum.EnumField(DayOfWeek, default=DayOfWeek.MO)
 	exercise_time = models.TimeField(null=True)
-	apns_device = models.ForeignKey(APNSDevice, null=True, blank=True)
+	apns_device = models.ForeignKey(APNSDevice)
 	created_at = CreationDateTimeField(_('created_at'))
 	updated_at = ModificationDateTimeField(_('updated_at'))
 
