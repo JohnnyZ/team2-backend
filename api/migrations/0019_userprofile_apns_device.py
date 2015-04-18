@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('push_notifications', '0002_auto__add_field_apnsdevice_date_created__add_field_gcmdevice_date_created'),
+        # ('push_notifications', '0002_auto_20150417_2029'),
         ('api', '0018_auto_20150415_2329'),
     ]
 
