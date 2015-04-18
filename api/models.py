@@ -151,11 +151,11 @@ class AssessmentPush(models.Model):
 #===========================================================================
 # Pebble Notification Time Log Model
 #===========================================================================
-"""
+
 class ExerciseReminder(models.Model):
 	user = models.ForeignKey(User)
 	notification_time = models.DateTimeField(null=False, blank=False)
-"""
+
 
 #===========================================================================
 # SIGNALS

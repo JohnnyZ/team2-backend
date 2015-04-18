@@ -423,11 +423,7 @@ curl -v -H "Content-Type: application/json" -X PATCH --data
 
 # Test:
 
-curl -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"6","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"6", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
-
-
-
-
+curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"6","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"6", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 
 
