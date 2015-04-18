@@ -16,6 +16,7 @@ v1_api.register(AssessmentResource())
 v1_api.register(ResponseResource())
 v1_api.register(MultiSelectResponseResource())
 v1_api.register(BodyLocationResponseResource())
+v1_api.register(ExerciseReminderResource())
 
 urlpatterns = patterns('',
 	# Examples:
