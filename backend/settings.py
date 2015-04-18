@@ -61,7 +61,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
 	# "GCM_API_KEY": "<your api key>",
-	"APNS_CERTIFICATE": os.path.join(BASE_DIR, 'JustBe.pem'), # TODO
+	"APNS_CERTIFICATE": os.path.join(BASE_DIR, 'justbenopass.pem'), # TODO
 }
 
 
