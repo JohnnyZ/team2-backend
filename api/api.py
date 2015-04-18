@@ -432,9 +432,14 @@ class ExerciseReminderResource(ModelResource):
 		authentication = Authentication()
 		authorization = Authorization()
 		always_return_data = True
-		allowed_methods = ['get', 'put', 'patch', 'post']
+		allowed_methods = ['post']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
 			'id': ALL_WITH_RELATIONS,
 		}
+
+		# This sets the user to be the one from the cookie
+	def dispatch(self, request_type, request, **kwargs):
+		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
+		return super(ExerciseReminderResource, self).dispatch(request_type, request, **kwargs)
 
