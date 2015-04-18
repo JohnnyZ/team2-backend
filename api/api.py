@@ -435,6 +435,7 @@ class ExerciseReminderResource(ModelResource):
 		allowed_methods = ['post', 'patch']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
+			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
 
