@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .exceptions import CustomBadRequest
 from .constants import *
+from push_notifications.models import APNSDevice
 
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
@@ -213,6 +214,7 @@ class UserResource(ModelResource):
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
+	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', full=True)
  
 	class Meta:
 		authentication = Authentication()
