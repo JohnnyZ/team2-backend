@@ -427,12 +427,12 @@ class ExerciseReminderResource(ModelResource):
 	user = fields.ToOneField(User, 'user')
 
 	class Meta:
-		queryset = ExerciseReminderResource.objects.all()
+		queryset = ExerciseReminder.objects.all()
 		resource_name = 'exercise_reminder'
 		authentication = Authentication()
 		authorization = Authorization()
 		always_return_data = True
-		allowed_methods = ['post']
+		allowed_methods = ['post', 'patch']
 		excludes = ['resource_uri', 'meta']
 		filtering = {
 			'id': ALL_WITH_RELATIONS,
