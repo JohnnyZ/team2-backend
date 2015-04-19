@@ -442,3 +442,6 @@ class ExerciseReminderResource(ModelResource):
 	def obj_create(self, bundle, **kwargs):
 		return super(ExerciseReminderResource, self).obj_create(bundle, user=bundle.request.user)
 
+	def obj_get_list(self, bundle, **kwargs):
+		return super(ExerciseReminderResource, self).obj_get_list(bundle, user=bundle.request.user)
+
