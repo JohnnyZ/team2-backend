@@ -37,6 +37,9 @@
 # Push All Responses
 	response							- PATCH
 
+# Push All Pebble Logs
+  exercise_reminder     - PATCH
+
 ######################## Create a user object ########################
 ### Create a user with given info and send back the sessionid cookie and the user
 
@@ -426,14 +429,47 @@ curl -v -H "Content-Type: application/json" -X PATCH --data
 curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"assessment_id":"6","type":"0","boolean":0, "question_id":"12"}, {"assessment_id":"6", "type":"4", "question_id":"13", "multi_selects":[{"selection_id":"3"},{"selection_id":"8"}]}]}' https://secure-headland-8362.herokuapp.com/api/v1/response/
 
 
+######################## Push All Exercise/Pebble Notification Times ########################
+### Push Exercise Times from Pebble Vibration log
 
+# api:
+  exercise_reminder
 
-curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X POST --data '{"notification_time" : "2015-04-14T19:29:32"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_reminder/
+# type:
+  PATCH
+
+# required fields: 
+  {"objects":[
+      {
+        "notification_time": ...
+      }]}
+
+# example call----------------
+
+curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X PATCH --data 
+'{
+    "objects":[
+      {
+        "notification_time": "2015-04-14T23:29:32"
+      },
+      {
+        "notification_time": "2015-04-14T22:29:32"
+      }
+    ]
+}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_reminder/
+
+# Example Response----------------
+
+{"objects": [{"id": 3, "notification_time": "2015-04-14T20:29:32", "resource_uri": "/api/v1/exercise_reminder/3/", "user": "/api/v1/user/65/"}, {"id": 4, "notification_time": "2015-04-14T23:29:32", "resource_uri": "/api/v1/exercise_reminder/4/", "user": "/api/v1/user/65/"}]}
+
+# Tests----------------
 
 curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X PATCH --data '{"objects":[{"notification_time" : "2015-04-14T20:29:32"},{"notification_time" : "2015-04-14T23:29:32"}]}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_reminder/
 
+curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X POST --data '{"notification_time" : "2015-04-14T19:29:32"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_reminder/
 
 
+############
 
 
 --------------------------------------------------------OLD----------------------------------------------------------------------
