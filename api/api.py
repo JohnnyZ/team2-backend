@@ -431,16 +431,29 @@ class ExerciseReminderResource(ModelResource):
 		resource_name = 'exercise_reminder'
 		authentication = Authentication()
 		authorization = Authorization()
-		allowed_methods = ['get', 'put', 'patch', 'post']
-		excludes = ['resource_uri', 'user', 'meta']
+		always_return_data = True
+		allowed_methods = ['post', 'patch']
+		excludes = ['resource_uri', 'meta']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
 		}
 
-	def obj_create(self, bundle, **kwargs):
-		return super(ExerciseReminderResource, self).obj_create(bundle, user=bundle.request.user)
+	# This sets the user to be the one from the cookie
+	def dispatch(self, request_type, request, **kwargs):
+		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
+		return super(ExerciseReminderResource, self).dispatch(request_type, request, **kwargs)
 
-	def obj_get_list(self, bundle, **kwargs):
-		return super(ExerciseReminderResource, self).obj_get_list(bundle, user=bundle.request.user)
+	# Override update_in_place which gets called with PATCH
+	# Only allow a larger percentage than the previous
+	# def update_in_place(self, request, original_bundle, new_data):
+	# 	old_value = original_bundle.data['percent_completed']
+	# 	new_value = float(new_data['percent_completed'])
+	# 	return super(MeditationResource, self).update_in_place(request, original_bundle, new_data)
+
+	# def obj_create(self, bundle, **kwargs):
+	# 	return super(ExerciseReminderResource, self).obj_create(bundle, user=bundle.request.user)
+
+	# def obj_get_list(self, bundle, **kwargs):
+	# 	return super(ExerciseReminderResource, self).obj_get_list(bundle, user=bundle.request.user)
 
