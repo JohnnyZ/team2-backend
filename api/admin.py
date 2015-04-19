@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse
+from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -138,4 +138,5 @@ admin.site.register(ExerciseSession, ExerciseSessionAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(Response, ResponseAdmin)
 admin.site.register(MultiSelectResponse, MultiSelectResponseAdmin)
+admin.site.register(ExerciseReminder, ExerciseReminderAdmin)
 

@@ -431,9 +431,8 @@ class ExerciseReminderResource(ModelResource):
 		resource_name = 'exercise_reminder'
 		authentication = Authentication()
 		authorization = Authorization()
-		always_return_data = True
-		allowed_methods = ['post', 'patch']
-		excludes = ['resource_uri', 'meta']
+		allowed_methods = ['get', 'put', 'patch', 'post']
+		excludes = ['resource_uri', 'user', 'meta']
 		filtering = {
 			'user': ALL_WITH_RELATIONS,
 			'id': ALL_WITH_RELATIONS,
