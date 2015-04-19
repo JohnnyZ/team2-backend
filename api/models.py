@@ -155,8 +155,6 @@ class AssessmentPush(models.Model):
 class ExerciseReminder(models.Model):
 	user = models.ForeignKey(User)
 	notification_time = models.DateTimeField(null=False, blank=False)
-	created_at = CreationDateTimeField(_('created_at'))
-	updated_at = ModificationDateTimeField(_('updated_at'))
 
 
 #===========================================================================
