@@ -424,7 +424,7 @@ class BodyLocationResponseResource(ModelResource):
 #===========================================================================
 
 class ExerciseReminderResource(ModelResource):
-	user = fields.ToOneField(User, 'user')
+	user = fields.ToOneField(UserResource, 'user')
 
 	class Meta:
 		queryset = ExerciseReminder.objects.all()
@@ -440,9 +440,9 @@ class ExerciseReminderResource(ModelResource):
 		}
 
 	# This sets the user to be the one from the cookie
-	# def dispatch(self, request_type, request, **kwargs):
-	# 	kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
-	# 	return super(ExerciseReminderResource, self).dispatch(request_type, request, **kwargs)
+	def dispatch(self, request_type, request, **kwargs):
+		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
+		return super(ExerciseReminderResource, self).dispatch(request_type, request, **kwargs)
 
 	# Override update_in_place which gets called with PATCH
 	# Only allow a larger percentage than the previous
