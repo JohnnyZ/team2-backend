@@ -431,6 +431,7 @@ curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: 
 curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X POST --data '{"notification_time" : "2015-04-14T19:29:32"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_reminder/
 
 
+curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "109"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
 
 
 

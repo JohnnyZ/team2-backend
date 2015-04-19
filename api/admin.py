@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse
 
+class ExerciseReminderAdmin(admin.ModelAdmin):
+	list_display = ('id', 'notification_time', 'user_id_display', 'user')
+	fields = ['user', 'notification_time']
+	search_fields = ['user__username']
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
+
 class MeditationSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
