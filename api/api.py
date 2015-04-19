@@ -439,8 +439,6 @@ class ExerciseReminderResource(ModelResource):
 			'id': ALL_WITH_RELATIONS,
 		}
 
-		# This sets the user to be the one from the cookie
-	def dispatch(self, request_type, request, **kwargs):
-		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
-		return super(ExerciseReminderResource, self).dispatch(request_type, request, **kwargs)
+	def obj_create(self, bundle, **kwargs):
+		return super(ExerciseReminderResource, self).obj_create(bundle, user=bundle.request.user)
 
