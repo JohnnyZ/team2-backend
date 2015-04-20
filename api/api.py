@@ -249,10 +249,10 @@ class UserProfileResource(ModelResource):
 			# Extract the APNS Token from request
 			# apns_token = data["apns_token"]
 
-			if request.method == "PUT":
+			# if request.method == "PUT":
 				apns_token = request.PUT["apns_token"]
-			elif request.method == "PATCH":
-				apns_token = request.PATCH["apns_token"]
+			# elif request.method == "PATCH":
+			# 	apns_token = request.PATCH["apns_token"]
 
 			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
 			# This gets sorted out by the foreign key relation in UserProfileResource
