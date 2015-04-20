@@ -270,7 +270,7 @@ class UserProfileResource(ModelResource):
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
 	def obj_update(self, bundle, **kwargs):
-		try:
+		# try:
 		# 	# Extract the APNS Token from request
 		# 	apns_token = bundle.data["apns_token"]
 
