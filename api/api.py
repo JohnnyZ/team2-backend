@@ -251,7 +251,7 @@ class UserProfileResource(ModelResource):
 			apns_token = bundle.data["apns_token"]
 
 			apns_device = {
-				'registration_id': apns_token
+				'registration_id': apns_token,
 				'user': bundle.request.user
 				}
 
