@@ -250,7 +250,7 @@ class UserProfileResource(ModelResource):
 			# apns_token = data["apns_token"]
 
 			# if request.method == "PUT":
-				apns_token = request.PUT["apns_token"]
+			apns_token = request.PUT["apns_token"]
 			# elif request.method == "PATCH":
 			# 	apns_token = request.PATCH["apns_token"]
 
