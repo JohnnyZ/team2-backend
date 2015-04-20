@@ -243,6 +243,7 @@ class UserProfileResource(ModelResource):
  
 	# 	return bundle
 
+	# Override patch_list since it's just one
 	def patch_list(self, request, **kwargs):
 		'''
 		try:
@@ -267,18 +268,6 @@ class UserProfileResource(ModelResource):
 				message="Must provide {missing_key} when creating a user."
 						.format(missing_key=missing_key))
 '''
-		# apns_device = {
-		# 	'registration_id': "a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"
-		# 	}
-		# kwargs["apns_device"] = apns_device
-
-		# res = UserProfileResource()
-  #   	request_bundle = res.build_bundle(request=request)
-
-  #   	apns_token = request_bundle.data["apns_token"]
-  #   	apns_device = {'registration_id': apns_token }
-		# request_bundle.data["apns_device"] = apns_device
-
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).patch_detail(request, **kwargs)
 
@@ -287,7 +276,13 @@ class UserProfileResource(ModelResource):
 	def obj_update(self, bundle, **kwargs):
 		try:
 			apns_token = bundle.data["apns_token"]
-			apns_device = {'registration_id': apns_token }
+			device = APNSDevice(
+				registration_id=apns_token
+				)
+			device.save()
+
+			# apns_device = {'registration_id': apns_token }
+			apns_device = {'pk': device.id }
 			bundle.data["apns_device"] = apns_device
 		except KeyError as missing_key:
 			raise CustomBadRequest(
