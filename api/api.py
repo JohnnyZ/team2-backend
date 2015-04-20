@@ -262,7 +262,7 @@ class UserProfileResource(ModelResource):
 						.format(missing_key=missing_key))
 
 		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).patch_detail(request, **kwargs)
+		return super(UserProfileResource, self).obj_update(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
