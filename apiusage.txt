@@ -139,6 +139,8 @@ curl -v -H "Content-Type: application/json" -X PUT --data
 # Test:
 curl --cookie "sessionid=2ossqt4bxhitxgryvubl6z14lfht0i3b" -v -H "Content-Type: application/json" -X PUT --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
 
+curl --cookie "sessionid=2ossqt4bxhitxgryvubl6z14lfht0i3b" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user
 
