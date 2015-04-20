@@ -239,7 +239,7 @@ class UserProfileResource(ModelResource):
 				'registration_id': apns_token
 				}
 			bundle.data["apns_device"] = apns_device
-			bundle.data["pk"] = request.user.profile.pk
+			bundle.data["objects"] = {[bundle.data]}
 		except KeyError:
 			pass
  
