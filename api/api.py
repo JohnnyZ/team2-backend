@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .exceptions import CustomBadRequest
 from .constants import *
+from push_notifications.api import APNSDeviceResource
 from push_notifications.models import APNSDevice
 
 from tastypie.serializers import Serializer
@@ -217,7 +218,7 @@ class UserResource(ModelResource):
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
-	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', null=True)
+	apns_device = fields.ForeignKey(APNSDeviceResource, 'apns_device', null=True)
  
 	class Meta:
 		authentication = Authentication()
@@ -276,14 +277,15 @@ class UserProfileResource(ModelResource):
 	def obj_update(self, bundle, **kwargs):
 		try:
 			apns_token = bundle.data["apns_token"]
-			device = APNSDevice(
-				registration_id=apns_token,
-				user = bundle.request.user
-				)
-			device.save()
+			
+			# device = APNSDevice(
+			# 	registration_id=apns_token,
+			# 	user = bundle.request.user
+			# 	)
+			# device.save()
 
-			# apns_device = {'registration_id': apns_token }
-			apns_device = {'pk': device.id }
+			apns_device = {'registration_id': apns_token }
+			# apns_device = {'pk': device.id }
 			bundle.data["apns_device"] = apns_device
 		except KeyError as missing_key:
 			raise CustomBadRequest(
