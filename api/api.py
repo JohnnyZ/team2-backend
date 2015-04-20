@@ -231,27 +231,71 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	def hydrate(self, bundle):
-		try:
-			print("hit")
-			apns_token = bundle.data["apns_token"]
-			apns_device = {'registration_id': apns_token }
-			bundle.data["apns_device"] = apns_device
-		except KeyError:
-			pass
-		return bundle
+	# def hydrate(self, bundle):
+	# 	try:
+	# 		apns_token = bundle.data["apns_token"]
+	# 		apns_device = {
+	# 			'registration_id': apns_token
+	# 			}
+	# 		bundle.data["apns_device"] = apns_device
+	# 	except KeyError:
+	# 		pass
+ 
+	# 	return bundle
 
 	def patch_list(self, request, **kwargs):
-		# res = UserProfileResource()
-		# request_bundle = res.build_bundle(request=request)
+		'''
+		try:
+			# data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+			# Extract the APNS Token from request
+			# apns_token = data["apns_token"]
 
-		# apns_token = request_bundle.data["apns_token"]
-		# apns_device = {'registration_id': apns_token }
+			# if request.method == "PUT":
+			apns_token = request.PUT["apns_token"]
+			# elif request.method == "PATCH":
+			# 	apns_token = request.PATCH["apns_token"]
+
+			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
+			# This gets sorted out by the foreign key relation in UserProfileResource
+			apns_device = {
+				'registration_id': apns_token
+				}
+			kwargs["apns_device"] = apns_device
+		except KeyError as missing_key:
+			raise CustomBadRequest(
+				code="missing_key",
+				message="Must provide {missing_key} when creating a user."
+						.format(missing_key=missing_key))
+'''
+		# apns_device = {
+		# 	'registration_id': "a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"
+		# 	}
+		# kwargs["apns_device"] = apns_device
+
+		# res = UserProfileResource()
+  #   	request_bundle = res.build_bundle(request=request)
+
+  #   	apns_token = request_bundle.data["apns_token"]
+  #   	apns_device = {'registration_id': apns_token }
 		# request_bundle.data["apns_device"] = apns_device
-		print("hit")
 
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).patch_detail(request, **kwargs)
+
+
+	# TODO: Add dehydrate to this class to clean up the output of the PUT call
+	def obj_update(self, bundle, **kwargs):
+		try:
+			apns_token = bundle.data["apns_token"]
+	    	apns_device = {'registration_id': apns_token }
+			bundle.data["apns_device"] = apns_device
+		except KeyError as missing_key:
+			raise CustomBadRequest(
+				code="missing_key",
+				message="Must provide {missing_key} when creating a user."
+						.format(missing_key=missing_key))
+		# kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
+		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
