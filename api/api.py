@@ -230,7 +230,7 @@ class UserProfileResource(ModelResource):
  
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
-
+"""
 	# Serialization method that serializes the object to json before getting sent back to client
 	def dehydrate(self, bundle):
 		try:
@@ -265,7 +265,7 @@ class UserProfileResource(ModelResource):
 
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).put_detail(request, **kwargs)
-
+"""
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
 	# def obj_update(self, bundle, **kwargs):
