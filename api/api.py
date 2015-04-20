@@ -235,8 +235,8 @@ class UserProfileResource(ModelResource):
 	# def update_in_place(self, request, original_bundle, new_data):
 
 	def put_detail(self, request, **kwargs):
-		kwargs["pk"] = bundle.request.user.profile.pk
-		return super(UserProfileResource, self).put_detail(bundle, **kwargs)
+		kwargs["pk"] = request.user.profile.pk
+		return super(UserProfileResource, self).put_detail(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
