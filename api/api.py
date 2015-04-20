@@ -231,41 +231,27 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	# Serialization method that serializes the object to json before getting sent back to client
-	def dehydrate(self, bundle):
+	def put_detail(self, request, **kwargs):
 		try:
-			apns_token = bundle.data["apns_token"]
+			self.method_check(request, allowed=['PATCH'])
+			data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+			# Extract the APNS Token from request
+			apns_token = data["apns_token"]
+
+			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
+			# This gets sorted out by the foreign key relation in UserProfileResource
 			apns_device = {
 				'registration_id': apns_token
 				}
-			bundle.data["apns_device"] = apns_device
-			bundle.data["objects"] = {[bundle.data]}
-		except KeyError:
-			pass
- 
-		return bundle
+			kwargs["apns_device"] = apns_device
+		except KeyError as missing_key:
+			raise CustomBadRequest(
+				code="missing_key",
+				message="Must provide {missing_key} when creating a user."
+						.format(missing_key=missing_key))
 
-	# def put_detail(self, request, **kwargs):
-		# try:
-		# 	self.method_check(request, allowed=['PATCH'])
-		# 	data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-		# 	# Extract the APNS Token from request
-		# 	apns_token = data["apns_token"]
-
-		# 	# Separate out the APNSDevice info into an object nested under the UserProfile bundle
-		# 	# This gets sorted out by the foreign key relation in UserProfileResource
-		# 	apns_device = {
-		# 		'registration_id': apns_token
-		# 		}
-		# 	kwargs["apns_device"] = apns_device
-		# except KeyError as missing_key:
-		# 	raise CustomBadRequest(
-		# 		code="missing_key",
-		# 		message="Must provide {missing_key} when creating a user."
-		# 				.format(missing_key=missing_key))
-
-		# kwargs["pk"] = request.user.profile.pk
-		# return super(UserProfileResource, self).put_detail(request, **kwargs)
+		kwargs["pk"] = request.user.profile.pk
+		return super(UserProfileResource, self).put_detail(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
