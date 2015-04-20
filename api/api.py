@@ -287,7 +287,7 @@ class UserProfileResource(ModelResource):
 	def obj_update(self, bundle, **kwargs):
 		try:
 			apns_token = bundle.data["apns_token"]
-	    	apns_device = {'registration_id': apns_token }
+			apns_device = {'registration_id': apns_token }
 			bundle.data["apns_device"] = apns_device
 		except KeyError as missing_key:
 			raise CustomBadRequest(
