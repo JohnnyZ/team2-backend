@@ -217,7 +217,7 @@ class UserResource(ModelResource):
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
-	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', null=True, full=True)
+	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', null=True)
  
 	class Meta:
 		authentication = Authentication()
@@ -277,7 +277,8 @@ class UserProfileResource(ModelResource):
 		try:
 			apns_token = bundle.data["apns_token"]
 			device = APNSDevice(
-				registration_id=apns_token
+				registration_id=apns_token,
+				user = bundle.request.user
 				)
 			device.save()
 
