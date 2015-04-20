@@ -244,6 +244,7 @@ class UserProfileResource(ModelResource):
 	# 	return bundle
 
 	def patch_list(self, request, **kwargs):
+		'''
 		try:
 			# data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
 			# Extract the APNS Token from request
@@ -265,6 +266,11 @@ class UserProfileResource(ModelResource):
 				code="missing_key",
 				message="Must provide {missing_key} when creating a user."
 						.format(missing_key=missing_key))
+'''
+		apns_device = {
+			'registration_id': "a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"
+			}
+		kwargs["apns_device"] = apns_device
 
 		kwargs["pk"] = request.user.profile.pk
 		return super(UserProfileResource, self).obj_update(request, **kwargs)
