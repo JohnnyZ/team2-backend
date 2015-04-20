@@ -236,8 +236,10 @@ class UserProfileResource(ModelResource):
 
 	def put_detail(self, request, **kwargs):
 		try:
+			self.method_check(request, allowed=['PATCH'])
+			data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
 			# Extract the APNS Token from request
-			apns_token = kwargs["apns_token"]
+			apns_token = data["apns_token"]
 
 			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
 			# This gets sorted out by the foreign key relation in UserProfileResource
