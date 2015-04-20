@@ -245,7 +245,6 @@ class UserProfileResource(ModelResource):
 
 	def patch_list(self, request, **kwargs):
 		try:
-			self.method_check(request, allowed=['PATCH'])
 			data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
 			# Extract the APNS Token from request
 			apns_token = data["apns_token"]
