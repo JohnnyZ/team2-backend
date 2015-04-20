@@ -231,16 +231,27 @@ class UserProfileResource(ModelResource):
 	#def authorized_read_list(self, object_list, bundle):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
-	def patch_list(self, request, **kwargs):
-		res = UserProfileResource()
-		request_bundle = res.build_bundle(request=request)
+	def hydrate(self, bundle):
+		try:
+			print("hit")
+			apns_token = bundle.data["apns_token"]
+			apns_device = {'registration_id': apns_token }
+			bundle.data["apns_device"] = apns_device
+		except KeyError:
+			pass
+		return bundle
 
-		apns_token = request_bundle.data["apns_token"]
-		apns_device = {'registration_id': apns_token }
-		request_bundle.data["apns_device"] = apns_device
+	def patch_list(self, request, **kwargs):
+		# res = UserProfileResource()
+		# request_bundle = res.build_bundle(request=request)
+
+		# apns_token = request_bundle.data["apns_token"]
+		# apns_device = {'registration_id': apns_token }
+		# request_bundle.data["apns_device"] = apns_device
+		print("hit")
 
 		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).obj_update(request_bundle, **kwargs)
+		return super(UserProfileResource, self).patch_detail(request, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
