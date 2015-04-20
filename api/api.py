@@ -232,18 +232,18 @@ class UserProfileResource(ModelResource):
 	#	return object_list.filter(user=bundle.request.user).select_related()
 
 	# # Serialization method that serializes the object to json before getting sent back to client
-	# def dehydrate(self, bundle):
-	# 	try:
-	# 		apns_token = bundle.data["apns_token"]
-	# 		apns_device = {
-	# 			'registration_id': apns_token
-	# 			}
-	# 		bundle.data["apns_device"] = apns_device
-	# 		bundle.data["objects"] = {[bundle.data]}
-	# 	except KeyError:
-	# 		pass
+	def dehydrate(self, bundle):
+		try:
+			apns_token = bundle.data["apns_token"]
+			apns_device = {
+				'registration_id': apns_token
+				}
+			bundle.data["apns_device"] = apns_device
+			bundle.data["objects"] = {[bundle.data]}
+		except KeyError:
+			pass
  
-	# 	return bundle
+		return bundle
 
 	def patch_detail(self, request, **kwargs):
 		try:
