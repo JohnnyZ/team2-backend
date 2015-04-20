@@ -217,7 +217,7 @@ class UserResource(ModelResource):
  
 class UserProfileResource(ModelResource):
 	user = fields.ForeignKey(UserResource, 'user', full=True)
-	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', full=True)
+	apns_device = fields.ForeignKey(APNSDevice, 'apns_device', full=True, null=True, full=True)
  
 	class Meta:
 		authentication = Authentication()
