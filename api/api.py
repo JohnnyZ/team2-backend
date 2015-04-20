@@ -65,7 +65,7 @@ class CreateUserResource(ModelResource):
 			del bundle.data["resource_uri"]
 			birthday = bundle.data["birthday"]
 			# only send back date (remove time)
-			bundle.data["birthday"] = birthday[:10]
+			bundle.data["birthday"] = birthday.date()
 		except KeyError:
 			pass
  
