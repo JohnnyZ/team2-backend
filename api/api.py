@@ -245,7 +245,7 @@ class UserProfileResource(ModelResource):
  
 		return bundle
 
-	def put_detail(self, request, **kwargs):
+	# def put_detail(self, request, **kwargs):
 		# try:
 		# 	self.method_check(request, allowed=['PATCH'])
 		# 	data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
