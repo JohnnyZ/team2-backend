@@ -239,12 +239,13 @@ class UserProfileResource(ModelResource):
 				'registration_id': apns_token
 				}
 			bundle.data["apns_device"] = apns_device
+			bundle.data["pk"] = request.user.profile.pk
 		except KeyError:
 			pass
  
 		return bundle
 
-	def put_detail(self, request, **kwargs):
+	# def put_detail(self, request, **kwargs):
 		# try:
 		# 	self.method_check(request, allowed=['PATCH'])
 		# 	data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
@@ -263,8 +264,8 @@ class UserProfileResource(ModelResource):
 		# 		message="Must provide {missing_key} when creating a user."
 		# 				.format(missing_key=missing_key))
 
-		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).put_detail(request, **kwargs)
+		# kwargs["pk"] = request.user.profile.pk
+		# return super(UserProfileResource, self).put_detail(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
