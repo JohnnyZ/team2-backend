@@ -264,8 +264,8 @@ class UserProfileResource(ModelResource):
 		# 		message="Must provide {missing_key} when creating a user."
 		# 				.format(missing_key=missing_key))
 
-		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).put_detail(request, **kwargs)
+		# kwargs["pk"] = request.user.profile.pk
+		# return super(UserProfileResource, self).put_detail(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
