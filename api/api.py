@@ -262,7 +262,7 @@ class UserProfileResource(ModelResource):
 					message="Must provide {missing_key} when creating a user."
 							.format(missing_key=missing_key))
 		else:
-			kwargs["pk"] = request.user.profile.pk
+			kwargs["pk"] = bundle.request.user.profile.pk
 		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
