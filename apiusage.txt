@@ -139,7 +139,7 @@ curl -v -H "Content-Type: application/json" -X PUT --data
 # Test:
 curl --cookie "sessionid=16pi2xntxdj64ye126hv53vpz0dfzru1" -v -H "Content-Type: application/json" -X PUT --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
 
-curl --cookie "sessionid=Frt9DTiGib6viCGKArkYoZtb5q4oZYXz" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42", "apns_token"="a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+curl --cookie "sessionid=Frt9DTiGib6viCGKArkYoZtb5q4oZYXz" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42", "apns_token":"a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
 
 curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user93", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
 
