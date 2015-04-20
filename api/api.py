@@ -63,6 +63,9 @@ class CreateUserResource(ModelResource):
 			# User data is already included on wrapping UserProfile data after creation
 			del bundle.data["user"]
 			del bundle.data["resource_uri"]
+			birthday = bundle.data["birthday"]
+			# only send back date (remove time)
+			bundle.data["birthday"] = birthday[:10]
 		except KeyError:
 			pass
  
