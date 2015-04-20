@@ -141,7 +141,7 @@ curl --cookie "sessionid=16pi2xntxdj64ye126hv53vpz0dfzru1" -v -H "Content-Type: 
 
 curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack94@catfacts.co", "username": "lotus_user94, "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
-curl --cookie "sessionid=c421uumjwune9xp2pd30rogmnx1bomuh" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42", "apns_token":"a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+curl --cookie "sessionid=c421uumjwune9xp2pd30rogmnx1bomuh" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42", "apns_token":"elq4p3nn1tyqk9nu5gnd2w5jx389pw66"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
 
 
 curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user93", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
