@@ -104,7 +104,7 @@ curl -v -H "Content-Type: application/json" -X POST --data
 }
 
 # Test:
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack92@catfacts.co", "username": "lotus_user92", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
+curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "gender": "1", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack93@catfacts.co", "username": "lotus_user93", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
 
 
 ######################## Update a User Object For Onboarding (Med/Exercise Time/Day) ########################
@@ -137,9 +137,12 @@ curl -v -H "Content-Type: application/json" -X PUT --data
 {"birthday": "2015-03-30", "created_at": "2015-04-16T15:59:46.296810", "exercise_day_of_week": 1, "exercise_time": "11:46:42", "gender": 1, "id": 39, "meditation_time": "11:46:42", "pk": 39, "resource_uri": "/api/v1/user_profile/39/", "updated_at": "2015-04-16T16:00:07.838086", "user": {"email": "goooch_attack90@catfacts.co", "first_name": "John", "id": 67, "last_name": "Doe", "resource_uri": "/api/v1/user/67/", "username": "lotus_user90"}}
 
 # Test:
-curl --cookie "sessionid=2ossqt4bxhitxgryvubl6z14lfht0i3b" -v -H "Content-Type: application/json" -X PUT --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
+curl --cookie "sessionid=16pi2xntxdj64ye126hv53vpz0dfzru1" -v -H "Content-Type: application/json" -X PUT --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/65/
 
-curl --cookie "sessionid=2ossqt4bxhitxgryvubl6z14lfht0i3b" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+curl --cookie "sessionid=2ossqt4bxhitxgryvubl6z14lfht0i3b" -v -H "Content-Type: application/json" -X PATCH --data '{"meditation_time": "11:46:42","exercise_day_of_week": "1","exercise_time": "11:46:42", apns_token="a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950"}' https://secure-headland-8362.herokuapp.com/api/v1/user_profile/
+
+curl -v -H "Content-Type: application/json" -X POST --data '{"username": "lotus_user92", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
+
 
 ######################## Log a User In ########################
 ### Log given user in and return the sessionid cookie and that user

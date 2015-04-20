@@ -235,29 +235,45 @@ class UserProfileResource(ModelResource):
 	# def update_in_place(self, request, original_bundle, new_data):
 
 	def put_detail(self, request, **kwargs):
-		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).put_detail(request, **kwargs)
-
-
-	# TODO: Add dehydrate to this class to clean up the output of the PUT call
-	def obj_update(self, bundle, **kwargs):
-		'''try:
+		try:
 			# Extract the APNS Token from request
-			apns_token = bundle.data["apns_token"]
+			apns_token = kwargs["apns_token"]
 
 			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
 			# This gets sorted out by the foreign key relation in UserProfileResource
 			apns_device = {
 				'registration_id': apns_token
 				}
-			bundle.data['apns_device'] = apns_device
+			kwargs['apns_device'] = apns_device
 		except KeyError as missing_key:
 			raise CustomBadRequest(
 				code="missing_key",
 				message="Must provide {missing_key} when creating a user."
-						.format(missing_key=missing_key))'''
-		kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
-		return super(UserProfileResource, self).obj_update(bundle, **kwargs)
+						.format(missing_key=missing_key))
+
+		kwargs["pk"] = request.user.profile.pk
+		return super(UserProfileResource, self).put_detail(request, **kwargs)
+
+
+	# TODO: Add dehydrate to this class to clean up the output of the PUT call
+	# def obj_update(self, bundle, **kwargs):
+	# 	try:
+	# 		# Extract the APNS Token from request
+	# 		apns_token = bundle.data["apns_token"]
+
+	# 		# Separate out the APNSDevice info into an object nested under the UserProfile bundle
+	# 		# This gets sorted out by the foreign key relation in UserProfileResource
+	# 		apns_device = {
+	# 			'registration_id': apns_token
+	# 			}
+	# 		bundle.data['apns_device'] = apns_device
+	# 	except KeyError as missing_key:
+	# 		raise CustomBadRequest(
+	# 			code="missing_key",
+	# 			message="Must provide {missing_key} when creating a user."
+	# 					.format(missing_key=missing_key))
+	# 	kwargs["pk"] = bundle.request.user.profile.pk # TODO: is this even necessary?
+	# 	return super(UserProfileResource, self).obj_update(bundle, **kwargs)
  
 	# Since there is only one user profile object, call get_detail instead
 	def get_list(self, request, **kwargs):
