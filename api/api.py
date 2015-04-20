@@ -273,7 +273,7 @@ class UserProfileResource(ModelResource):
 		kwargs["apns_device"] = apns_device
 
 		kwargs["pk"] = request.user.profile.pk
-		return super(UserProfileResource, self).obj_update(request, **kwargs)
+		return super(UserProfileResource, self).patch_detail(request, **kwargs)
 
 
 	# TODO: Add dehydrate to this class to clean up the output of the PUT call
