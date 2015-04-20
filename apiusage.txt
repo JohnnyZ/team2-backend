@@ -120,6 +120,7 @@ curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-
 	meditation_time
 	exercise_day_of_week
 	exercise_time
+  apns_token # TODO
 
 # sample call:
 curl -v -H "Content-Type: application/json" -X PUT --data 
@@ -470,71 +471,3 @@ curl --cookie "sessionid=g7wx1vzizumnie7o8ula2fivw56zqgq0" -v -H "Content-Type: 
 
 
 ############
-
-
---------------------------------------------------------OLD----------------------------------------------------------------------
-# All available resources
-https://secure-headland-8362.herokuapp.com/api/v1/
-# List of all meditation sessions
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/
-# Specific med session
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/1/
-# A definition of what a meditation session consists of 
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/schema
-# Get multiple meditation sessions 
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/multiple/1;4;5
-
-#prettify the json
-curl -H "Accept: application/json" https://secure-headland-8362.herokuapp.com/api/v1/appuser/2/ | python -mjson.tool
-
-curl -v -H "Content-Type: application/json" -X POST --data '{"birthday" : "2015-03-30", "first_name": "John", "last_name": "Doe", "email" : "goooch_attack18@catfacts.co", "username": "lotus_user18", "raw_password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/create_user/
-
-
-
-## Create new user example
-# signUp(User user)
-# Logins in automatically after and sends key 
-curl -v -H "Content-Type: application/json" -d '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser103", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/signup/
-
-## Authenticate the user into django and allow access to their data 
-# logIn(String username, String password) -> user and session key as cookie
-# Get userinformation needed 
-curl -v -H "Content-Type: application/json" -d '{"username": "testuser99", "password": "password"}' https://secure-headland-8362.herokuapp.com/api/v1/user/login/
-
-# logOut
-curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" https://secure-headland-8362.herokuapp.com/api/v1/user/logout/ 
-
-## Send a user ID and get a list of meditation sessions that they own
-# meditationSessions(user_id) -> Listof(MeditationSessions)
-https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/?user__username=test_user
-
-## Send a user ID and get a list of exercise sessions that they own
-# exerciseSessions(user_id) -> Listof(ExerciseSessions)
-https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
-
-# Get 
-curl --cookie "sessionid=EY0SDl77snJtVSnSvKG709Ntj8aRpY06" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
-
-
-## Update the meditation with how much of the lesson they completed
-# PATCH
-# meditate(meditation_id, percent_completed) -> return None
-curl --dump-header - -H "Content-Type: application/json" -X PATCH --data '{"percent_completed": "69"}' https://secure-headland-8362.herokuapp.com/api/v1/meditation_session/4/
-
-------------------------------------
-# Do you want to remove it entirely from the database if it is completed? Or just make isComplete? 
-# completeExercise(exercise_id) -> return None 
-# - need to create exercise_id for the specific user_id 
-https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/?user__username=test_user2 - you can find out what the ID is of the exercise session based off the username and update 
-
-# admin 
-curl --cookie "sessionid=m7bppczm6l882q137hmo1ns1afnxt7ty" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "55"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
-
-# Test user 
-curl --cookie "sessionid=khn6sui9ga7rl00znsdfk8sn2jjl910m" -v -H "Content-Type: application/json" -X POST --data '{"exercise_id": "101"}' https://secure-headland-8362.herokuapp.com/api/v1/exercise_session/
-
-------------------------
-# Probably going to need 
-Update meditation time etc for each user 
-
-curl -v -H "Content-Type: application/json" -X POST --data '{"email": "jz26@gmail.com", "first_name": "John6", "last_name": "Doe6", "username": "testuser105", "password": "password", "appuser":{"birthday": "2015-03-30"}}' https://secure-headland-8362.herokuapp.com/api/v1/user/
