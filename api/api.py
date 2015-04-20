@@ -251,10 +251,10 @@ class UserProfileResource(ModelResource):
 
 			# Separate out the APNSDevice info into an object nested under the UserProfile bundle
 			# This gets sorted out by the foreign key relation in UserProfileResource
-			apns_device = {
-				'registration_id': apns_token
-				}
-			kwargs["apns_device"] = apns_device
+			# apns_device = {
+			# 	'registration_id': apns_token
+			# 	}
+			kwargs["apns_device"] = apns_token
 		except KeyError as missing_key:
 			raise CustomBadRequest(
 				code="missing_key",
