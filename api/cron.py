@@ -67,7 +67,7 @@ def sendExercisePush(user, exercise_id):
 def sendAssessmentPush(user, assessment_id, is_extended):
 	# TODO: send push
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time for an assessment", extra={"assessment_id": exercise_id, "is_extended":is_extended})
+	device.send_message("Time for an assessment", extra={"assessment_id": exercise_id, "is_daily":is_extended})
 
 	# Calculate the amount to incrememnt so it's within our range of desired number of assessments
 	minutes_in_day = (END_HOUR - START_HOUR) * 60
@@ -115,12 +115,17 @@ def run_cron():
 		    # check to see if this is their first exercise
 			if exercise_sessions.exists():
 				last_exercise_session = exercise_sessions[0]
-				last_exercise_push = exercise_pushes[0]
-				last_exercise_push_date = last_exercise_push.sent.date()
+				# if a push was sent in the past 1) make sure one wasn't sent today and 2) send push with last_push_exercise+1
+				if exercise_pushes.exists():
+					last_exercise_push = exercise_pushes[0]
+					last_exercise_push_date = last_exercise_push.sent.date()
 
-				# if they've received a push today, don't send another
-				if now_date > last_exercise_push_date:
-					# send the exercise push with the execrcise id to push
+					# if they've received a push today, don't send another
+					if now_date > last_exercise_push_date:
+						# send the exercise push with the execrcise id to push
+						sendExercisePush(user=user, exercise_id=last_exercise_push.exercise_id + 1)
+				# if no push has been sent, base the exercise off the last completed exercise session
+				else:
 					sendExercisePush(user=user, exercise_id=last_exercise_session.exercise_id + 1)
 
 			# they're eligble for first exercise push and haven't received one before
