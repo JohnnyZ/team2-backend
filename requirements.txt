@@ -4,6 +4,7 @@ Django==1.7.4
 django-enumfield==1.2
 django-extensions==1.5.2
 django-push-notifications==1.2.1
+django-import-export==0.2.6
 django-tastypie==0.12.1
 django-toolbelt==0.0.1
 django-uuidfield==0.5.0

@@ -42,6 +42,7 @@ INSTALLED_APPS = (
 	'api',
 	'tastypie',
 	'push_notifications',
+    'import_export',
 )
 
 MIDDLEWARE_CLASSES = (
