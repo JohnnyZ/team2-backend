@@ -130,5 +130,5 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		#do action
-		sendPush("sup")
+		self.sendPush("sup")
 
