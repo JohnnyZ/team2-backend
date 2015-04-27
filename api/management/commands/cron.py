@@ -92,14 +92,14 @@ class Command(BaseCommand):
 						# if they've received a push today, don't send another
 						if now_date > last_exercise_push_date:
 							# send the exercise push with the execrcise id to push
-							sendExercisePush(user=user, exercise_id=last_exercise_push.exercise_id + 1)
+							self.sendExercisePush(user=user, exercise_id=last_exercise_push.exercise_id + 1)
 					# if no push has been sent, base the exercise off the last completed exercise session
 					else:
-						sendExercisePush(user=user, exercise_id=last_exercise_session.exercise_id + 1)
+						self.sendExercisePush(user=user, exercise_id=last_exercise_session.exercise_id + 1)
 
 				# they're eligble for first exercise push and haven't received one before
 				elif not exercise_pushes.exists():
-					sendExercisePush(user=user, exercise_id=0)
+					self.sendExercisePush(user=user, exercise_id=0)
 
 			# if an assessment was sent today, see if they're eligable for another one
 			elif today_assessments.exists():
@@ -113,7 +113,7 @@ class Command(BaseCommand):
 					new_assessment.user_id = user_id
 					new_assessment.save()
 
-					sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=True)
+					self.sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=True)
 
 			# no assessment sent today - check if they're eligable for morning/extended assessment
 			# TODO: this will send the morning one at the same time everyday (START_HOUR) - add variance?
@@ -123,9 +123,9 @@ class Command(BaseCommand):
 				new_assessment.user_id = user_id
 				new_assessment.save()
 
-				sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
+				self.sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
 
 	def handle(self, *args, **options):
 		#do action
-		sendPush("sup")
+		self.sendPush("sup")
 
