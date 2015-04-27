@@ -64,10 +64,9 @@ def sendExercisePush(user, exercise_id):
 
 # Send push to given user and send down the assessment_id and if this is the morning/extended assessment
 # Save this into the AsessementPush table - schedule the next push
-def sendAssessmentPush(user, assessment_id, is_extended):
-	# TODO: send push
+def sendAssessmentPush(user, assessment_id, is_momentary):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time for an assessment", extra={"assessment_id": exercise_id, "is_daily":is_extended})
+	device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
 
 	# Calculate the amount to incrememnt so it's within our range of desired number of assessments
 	minutes_in_day = (END_HOUR - START_HOUR) * 60
@@ -80,6 +79,8 @@ def sendAssessmentPush(user, assessment_id, is_extended):
 
 	assessment_push = AssessmentPush(next_send=datetime.now() + timedelta(minutes=15))
 	assessment_push.user_id = user.user.id
+	assessment_push.assessment_id = assessment_id
+	assessment_push.is_momentary = is_momentary
 	assessment_push.save()
 
 
@@ -139,20 +140,20 @@ def run_cron():
 			# it's past the time of our next send
 			# and before the last send time
 			if aware_now > last_assessment.next_send and now_time < last_possible_send_time:	
-				# create assessment and push it down with the id and is_extended = false (since it's not the morning one)
+				# create assessment and push it down with the id and is_momentary = true (since it's not the morning one)
 				new_assessment = Assessment()
 				new_assessment.user_id = user_id
 				new_assessment.save()
 
-				sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_extended=False)
+				sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=True)
 
 		# no assessment sent today - check if they're eligable for morning/extended assessment
 		# TODO: this will send the morning one at the same time everyday (START_HOUR) - add variance?
 		elif now_time > first_possible_send_time:
-			# create assessment and push it down with the id and is_extended = true (since it is the morning one)
+			# create assessment and push it down with the id and is_momentary = false (since it is the morning one)
 			new_assessment = Assessment()
 			new_assessment.user_id = user_id
 			new_assessment.save()
 
-			sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_extended=True)
+			sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
 

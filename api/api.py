@@ -378,15 +378,24 @@ class AssessmentResource(ModelResource):
 		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
 		return super(AssessmentResource, self).dispatch(request_type, request, **kwargs)
 
-	# def override_urls(self):
-	# 	return [
-	# 		url(r"^(?P<resource_name>%s)/get_pending_assessment%s$" %
-	# 			(self._meta.resource_name, trailing_slash()),
-	# 			self.wrap_view('get_pending_assessment'), name="api_get_pending_assessment")
-	# 	]
+	def override_urls(self):
+		return [
+			url(r"^(?P<resource_name>%s)/get_pending_assessment%s$" %
+				(self._meta.resource_name, trailing_slash()),
+				self.wrap_view('get_pending_assessment'), name="api_get_pending_assessment")
+		]
 
-	# def login(self, request, **kwargs):
+	def get_pending_assessment(self, request, **kwargs):
+		# get the last sent assessment push and if it wasn't completed, then send down id (and if it's momentary)
+		# if the last sent push was completed then send down "no assessment"
+		last_assessment_push = AssessmentPush.objects.filter(user__id=request.user.pk).order_by("-sent")[:1]
+		if(last_assessment_push.exists()):
+			last_assessment = Assessment.objects.filter(pk=last_assessment_push.assessment.pk)[:1]
+			if(last_assessment.exists() and (last_assessment.complete_time is not None)):
+				return self.create_response(request, last_assessment_push)
 		
+		raise CustomBadRequest(code="no_assessment",message="There are no pending assessments.")
+
 
 class ResponseResource(ModelResource):
 	assessment = fields.ToOneField(AssessmentResource, 'assessment')

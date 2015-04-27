@@ -143,7 +143,9 @@ class ExercisePush(models.Model):
 
 class AssessmentPush(models.Model):
 	user = models.ForeignKey(User)
+	assessment = models.ForeignKey(Assessment)
 	next_send = models.DateTimeField(null=False, blank=False)
+	is_momentary = models.BooleanField(default=True)
 	sent = CreationDateTimeField(_('created_at'))
 	# link to the assessment that was pushed down? maybe not necessary
 	# assessment_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
