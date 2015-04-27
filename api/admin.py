@@ -1,11 +1,29 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder
+from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder, AssessmentPush, ExercisePush
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
+	search_fields = ['user__username']
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
+class ExercisePushAdmin(admin.ModelAdmin):
+	list_display = ('id', 'sent', 'exercise_id', 'user_id_display', 'user')
+	fields = ['user', 'sent', 'exercise_id']
+	search_fields = ['user__username']
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
+class AssessmentPushAdmin(admin.ModelAdmin):
+	list_display = ('id', 'assessment', 'next_send', 'is_momentary', 'user_id_display', 'user')
+	fields = ['user', 'assessment', 'next_send', 'is_momentary']
 	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
@@ -139,4 +157,6 @@ admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(Response, ResponseAdmin)
 admin.site.register(MultiSelectResponse, MultiSelectResponseAdmin)
 admin.site.register(ExerciseReminder, ExerciseReminderAdmin)
+admin.site.register(ExercisePush, ExercisePushAdmin)
+admin.site.register(AssessmentPush, AssessmentPushAdmin)
 

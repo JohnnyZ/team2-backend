@@ -393,6 +393,10 @@ curl --cookie "sessionid=0bznhbj2fullol03tovzqqf850o4w8l6" -v -H "Content-Type: 
 
 {"complete_time": null, "created_at": "2015-04-14T19:40:30.518059", "id": 6, "resource_uri": "/api/v1/assessment/6/", "responses": [], "start_time": "2015-04-14T18:56:59", "updated_at": "2015-04-14T19:40:30.596062", "user": "/api/v1/user/65/"}
 
+curl --cookie "sessionid=v7dz8qqiwqp9fnuqw7vc3enpv5jjttdw" -v -H "Content-Type: application/json" -X GET https://secure-headland-8362.herokuapp.com/api/v1/assessment/get_pending_assessment/
+
+v7dz8qqiwqp9fnuqw7vc3enpv5jjttdw
+
 ######################## Set Responses for Assessment ########################
 ### Creates the response objects for the particular assessment
 
