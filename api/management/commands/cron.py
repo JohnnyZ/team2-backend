@@ -13,7 +13,7 @@ from api.constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASS
 import logging
 logger = logging.getLogger(__name__)
 
-class Cron(BaseCommand):
+class Command(BaseCommand):
 
 	def sendPush(msg):
 		device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
