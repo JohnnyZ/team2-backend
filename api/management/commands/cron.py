@@ -15,12 +15,14 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
+	@staticmethod
 	def sendPush(msg):
 		device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
 		device.send_message(msg)
 
 	# Send push to given user and send them down the exercise that it will link to
 	# Save this into the ExercisePush table
+	@staticmethod
 	def sendExercisePush(user, exercise_id):
 		# TODO: send push
 		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
@@ -32,6 +34,7 @@ class Command(BaseCommand):
 
 	# Send push to given user and send down the assessment_id and if this is the morning/extended assessment
 	# Save this into the AsessementPush table - schedule the next push
+	@staticmethod
 	def sendAssessmentPush(user, assessment_id, is_momentary):
 		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
 		device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
@@ -51,7 +54,7 @@ class Command(BaseCommand):
 		assessment_push.is_momentary = is_momentary
 		assessment_push.save()
 
-
+	@staticmethod	
 	def run_cron():
 		all_users = UserProfile.objects.all()
 		for user in all_users:
@@ -127,5 +130,5 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		#do action
-		self.sendPush("sup")
+		sendPush("sup")
 
