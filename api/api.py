@@ -388,10 +388,10 @@ class AssessmentResource(ModelResource):
 	def get_pending_assessment(self, request, **kwargs):
 		# get the last sent assessment push and if it wasn't completed, then send down id (and if it's momentary)
 		# if the last sent push was completed then send down "no assessment"
-		last_assessment_push = AssessmentPush.objects.filter(user__id=request.user.pk).order_by("-sent")[:1]
-		return self.create_response(request, {'user_id':request.user.pk,'last_assessment_push':last_assessment_push})
+		last_assessment_push = AssessmentPush.objects.filter(user__id=request.user.id).order_by("-sent")[:1]
+		# return self.create_response(request, {'user_id':request.user.id,'last_assessment_push':last_assessment_push})
 		if(last_assessment_push.exists()):
-			return self.create_response(request, last_assessment_push)
+			# return self.create_response(request, last_assessment_push)
 			last_assessment = Assessment.objects.filter(pk=last_assessment_push.assessment.pk)[:1]
 			if(last_assessment.exists() and (last_assessment.complete_time is not None)):
 				return self.create_response(request, last_assessment_push)
