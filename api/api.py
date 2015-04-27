@@ -378,6 +378,16 @@ class AssessmentResource(ModelResource):
 		kwargs['user'] = request.user#get_object_or_404(MeditationSession, username=username)
 		return super(AssessmentResource, self).dispatch(request_type, request, **kwargs)
 
+	# def override_urls(self):
+	# 	return [
+	# 		url(r"^(?P<resource_name>%s)/get_pending_assessment%s$" %
+	# 			(self._meta.resource_name, trailing_slash()),
+	# 			self.wrap_view('get_pending_assessment'), name="api_get_pending_assessment")
+	# 	]
+
+	# def login(self, request, **kwargs):
+		
+
 class ResponseResource(ModelResource):
 	assessment = fields.ToOneField(AssessmentResource, 'assessment')
 	multi_selects = fields.ToManyField('api.api.MultiSelectResponseResource', 'multi_select', related_name='response', null=True, full=True)
