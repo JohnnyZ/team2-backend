@@ -396,7 +396,7 @@ class AssessmentResource(ModelResource):
 			last_assessment_obj = last_assessment_query[0]
 			# If it exists and there is no completed time - then there is a pending assessment
 			if(last_assessment_query.exists() and (last_assessment_obj.complete_time is None)):
-				return self.create_response(request, model_to_dict(last_assessment_push)
+				return self.create_response(request, model_to_dict(last_assessment_push))
 		
 		raise CustomBadRequest(code="no_assessment",message="There are no pending assessments.")
 
