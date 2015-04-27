@@ -390,6 +390,7 @@ class AssessmentResource(ModelResource):
 		# if the last sent push was completed then send down "no assessment"
 		last_assessment_push = AssessmentPush.objects.filter(user__id=request.user.pk).order_by("-sent")[:1]
 		if(last_assessment_push.exists()):
+			return self.create_response(request, last_assessment_push)
 			last_assessment = Assessment.objects.filter(pk=last_assessment_push.assessment.pk)[:1]
 			if(last_assessment.exists() and (last_assessment.complete_time is not None)):
 				return self.create_response(request, last_assessment_push)
