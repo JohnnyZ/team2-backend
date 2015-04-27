@@ -389,13 +389,13 @@ class AssessmentResource(ModelResource):
 		# get the last sent assessment push and if it wasn't completed, then send down id (and if it's momentary)
 		# if the last sent push was completed then send down "no assessment"
 		last_assessment_push = AssessmentPush.objects.filter(user__id=request.user.id).order_by("-sent")[:1]
-		# return self.create_response(request, {'user_id':request.user.id,'last_assessment_push':last_assessment_push})
+
 		if(last_assessment_push.exists()):
 			last_assessment_push = last_assessment_push[0]
-			# return self.create_response(request, last_assessment_push)
 			last_assessment_query = Assessment.objects.filter(id=last_assessment_push.assessment_id)[:1]
 			last_assessment_obj = last_assessment_query[0]
-			if(last_assessment_query.exists() and (last_assessment_obj.complete_time is not None)):
+			# If it exists and there is no completed time - then there is a pending assessment
+			if(last_assessment_query.exists() and (last_assessment_obj.complete_time is None)):
 				return self.create_response(request, last_assessment_push)
 		
 		raise CustomBadRequest(code="no_assessment",message="There are no pending assessments.")
