@@ -22,8 +22,8 @@ class ExercisePushAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class AssessmentPushAdmin(admin.ModelAdmin):
-	list_display = ('id', 'assessment', 'next_send', 'is_momentary', 'sent', 'assessment_id_display', 'user_id_display', 'user')
-	fields = ['user', 'assessment', 'next_send', 'is_momentary', 'sent']
+	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
+	fields = ['user', 'assessment', 'next_send', 'is_momentary']
 	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
