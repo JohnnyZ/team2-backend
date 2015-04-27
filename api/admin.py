@@ -22,13 +22,17 @@ class ExercisePushAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class AssessmentPushAdmin(admin.ModelAdmin):
-	list_display = ('id', 'assessment', 'next_send', 'is_momentary', 'user_id_display', 'user')
-	fields = ['user', 'assessment', 'next_send', 'is_momentary']
+	list_display = ('id', 'assessment', 'next_send', 'is_momentary', 'sent', 'assessment_id_display', 'user_id_display', 'user')
+	fields = ['user', 'assessment', 'next_send', 'is_momentary', 'sent']
 	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+
+	def assessment_id_display(self, obj):
+		return obj.assessment_id
+	assessment_id_display.short_description = 'Assessment ID'
 
 
 class MeditationSessionAdmin(admin.ModelAdmin):
