@@ -392,7 +392,7 @@ class AssessmentResource(ModelResource):
 		# return self.create_response(request, {'user_id':request.user.id,'last_assessment_push':last_assessment_push})
 		if(last_assessment_push.exists()):
 			# return self.create_response(request, last_assessment_push)
-			last_assessment = Assessment.objects.filter(pk=last_assessment_push.assessment.pk)[:1]
+			last_assessment = Assessment.objects.filter(id=last_assessment_push.assessment_id)[:1]
 			if(last_assessment.exists() and (last_assessment.complete_time is not None)):
 				return self.create_response(request, last_assessment_push)
 		
