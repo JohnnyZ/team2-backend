@@ -7,8 +7,8 @@ from django.core.management.base import BaseCommand
 
 from push_notifications.models import APNSDevice
 
-from .models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment
-from .constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
+from api.models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment
+from api.constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
 
 import logging
 logger = logging.getLogger(__name__)
