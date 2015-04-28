@@ -150,6 +150,10 @@ class AssessmentPush(models.Model):
 	# link to the assessment that was pushed down? maybe not necessary
 	# assessment_id = models.IntegerField(blank=False, null=False) # foreign key to local exercise_id
 
+class MeditationPush(models.Model):
+	user = models.ForeignKey(User)
+	sent = CreationDateTimeField(_('created_at'))
+
 #===========================================================================
 # Pebble Notification Time Log Model
 #===========================================================================

@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from push_notifications.models import APNSDevice
 
-from .models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment
+from .models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment, MeditationPush
 from .constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
 
 import logging
@@ -50,6 +50,14 @@ def createExerciseSessions():
 def sendPush(msg):
 	device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
 	device.send_message(msg)
+
+def sendMeditationPush(user):
+	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device.send_message("Time to Meditation", extra={})
+
+	med_push = MeditationPush()
+	med_push.user_id = user.user.id
+	med_push.save()
 
 # Send push to given user and send them down the exercise that it will link to
 # Save this into the ExercisePush table
@@ -156,4 +164,7 @@ def run_cron():
 			new_assessment.save()
 
 			sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
+
+		elif not today_meditations.exists() and exercise_pushes.exists() and now_time > user.meditation_time:
+				self.sendMeditationPush(user=user)
 

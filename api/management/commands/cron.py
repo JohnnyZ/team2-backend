@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 
 from push_notifications.models import APNSDevice
 
-from api.models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment
+from api.models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment, MeditationPush
 from api.constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
 
 import logging
@@ -19,6 +19,17 @@ class Command(BaseCommand):
 	def sendPush(msg):
 		device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
 		device.send_message(msg)
+
+	# Send push to given user and send them down the exercise that it will link to
+	# Save this into the ExercisePush table
+	@staticmethod
+	def sendMeditationPush(user):
+		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+		device.send_message("Time to Meditation", extra={})
+
+		med_push = MeditationPush()
+		med_push.user_id = user.user.id
+		med_push.save()
 
 	# Send push to given user and send them down the exercise that it will link to
 	# Save this into the ExercisePush table
@@ -68,6 +79,10 @@ class Command(BaseCommand):
 			now_date = now.date()
 			last_possible_send_time = time(hour=END_HOUR)
 			first_possible_send_time = time(hour=START_HOUR)
+
+			# last meditation push
+			# meditation_pushes = MeditationPush.objects.filter(user__id=user_id).order_by("-sent")
+			today_meditations = MeditationPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
 
 			# get the last exercise push for user (order by sent descending)
 			exercise_sessions = ExerciseSession.objects.filter(user__id=user_id).order_by("-created_at")
@@ -128,7 +143,14 @@ class Command(BaseCommand):
 
 				self.sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
 
+			elif not today_meditations.exists() and exercise_pushes.exists() and now_time > user.meditation_time:
+				self.sendMeditationPush(user=user)
+
+
+
 	def handle(self, *args, **options):
 		#do action
-		self.sendPush("sup")
+		# self.sendPush("sup")
+		self.run_cron()
+
 
