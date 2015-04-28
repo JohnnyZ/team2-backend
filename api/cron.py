@@ -71,6 +71,10 @@ def run_cron():
 		now_date = now.date()
 		last_possible_send_time = time(hour=END_HOUR)
 		first_possible_send_time = time(hour=START_HOUR)
+		
+		# used for querying for assessments sent today
+		today_min = datetime.combine(date.today(), time.min)
+		today_max = datetime.combine(date.today(), time.max)
 		print("hit1")
 
 		# last meditation push
@@ -81,9 +85,6 @@ def run_cron():
 		exercise_sessions = ExerciseSession.objects.filter(user__id=user_id).order_by("-created_at")
 		exercise_pushes = ExercisePush.objects.filter(user__id=user_id).order_by("-sent")
 		print("hit3")
-		# used for querying for assessments sent today
-		today_min = datetime.combine(date.today(), time.min)
-		today_max = datetime.combine(date.today(), time.max)
 		# all assessments sent to this user today
 		today_assessments = AssessmentPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
 
