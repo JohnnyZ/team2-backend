@@ -58,7 +58,7 @@ class Command(BaseCommand):
 		print("would set it to: ")
 		print(datetime.now() + timedelta(minutes=random_interval)) # TODO put this into schedule
 
-		assessment_push = AssessmentPush(next_send=datetime.now() + timedelta(minutes=15))
+		assessment_push = AssessmentPush(next_send=datetime.now() + timedelta(minutes=random_interval))#datetime.now() + timedelta(minutes=15))
 		assessment_push.user_id = user.user.id
 		assessment_push.assessment_id = assessment_id
 		assessment_push.is_momentary = is_momentary
@@ -66,8 +66,7 @@ class Command(BaseCommand):
 
 	@staticmethod	
 	def run_cron():
-		all_users = UserProfile.objects.all()
-		for user in all_users:
+		for user in UserProfile.objects.exclude(apns_device=None):
 
 			user_id = user.user.id
 
@@ -79,6 +78,10 @@ class Command(BaseCommand):
 			last_possible_send_time = time(hour=END_HOUR)
 			first_possible_send_time = time(hour=START_HOUR)
 
+			# used for querying for assessments sent today
+			today_min = datetime.combine(date.today(), time.min)
+			today_max = datetime.combine(date.today(), time.max)
+
 			# last meditation push
 			# meditation_pushes = MeditationPush.objects.filter(user__id=user_id).order_by("-sent")
 			today_meditations = MeditationPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
@@ -87,9 +90,6 @@ class Command(BaseCommand):
 			exercise_sessions = ExerciseSession.objects.filter(user__id=user_id).order_by("-created_at")
 			exercise_pushes = ExercisePush.objects.filter(user__id=user_id).order_by("-sent")
 
-			# used for querying for assessments sent today
-			today_min = datetime.combine(date.today(), time.min)
-			today_max = datetime.combine(date.today(), time.max)
 			# all assessments sent to this user today
 			today_assessments = AssessmentPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
 

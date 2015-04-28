@@ -24,6 +24,8 @@ def sendMeditationPush(user):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
 	device.send_message("Time to Meditate", extra={})
 
+	print("sent med push to: " + user.user.id)
+
 	med_push = MeditationPush()
 	med_push.user_id = user.user.id
 	med_push.save()
@@ -33,6 +35,8 @@ def sendMeditationPush(user):
 def sendExercisePush(user, exercise_id):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
 	device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
+
+	print("sent exer push to: " + user.user.id)
 
 	exercise_push = ExercisePush(exercise_id=exercise_id)
 	exercise_push.user_id = user.user.id
@@ -50,6 +54,8 @@ def sendAssessmentPush(user, assessment_id, is_momentary):
 	min_interval = minutes_in_day / (MAX_ASSESSMENTS_PER_DAY - 1)
 	random_interval = randint(min_interval,max_interval)
 
+	print("sent ass push to: " + user.user.id)
+
 	print("would set it to: ")
 	print(datetime.now() + timedelta(minutes=random_interval)) # TODO put this into schedule
 
@@ -61,7 +67,7 @@ def sendAssessmentPush(user, assessment_id, is_momentary):
 
 def run_cron():
 	for user in UserProfile.objects.exclude(apns_device=None):
-		print("hit0")
+
 		user_id = user.user.id
 
 		dow = datetime.today().weekday()
@@ -71,30 +77,27 @@ def run_cron():
 		now_date = now.date()
 		last_possible_send_time = time(hour=END_HOUR)
 		first_possible_send_time = time(hour=START_HOUR)
-		
+
 		# used for querying for assessments sent today
 		today_min = datetime.combine(date.today(), time.min)
 		today_max = datetime.combine(date.today(), time.max)
-		print("hit1")
 
 		# last meditation push
 		# meditation_pushes = MeditationPush.objects.filter(user__id=user_id).order_by("-sent")
 		today_meditations = MeditationPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
-		print("hit2")
+
 		# get the last exercise push for user (order by sent descending)
 		exercise_sessions = ExerciseSession.objects.filter(user__id=user_id).order_by("-created_at")
 		exercise_pushes = ExercisePush.objects.filter(user__id=user_id).order_by("-sent")
-		print("hit3")
+
 		# all assessments sent to this user today
 		today_assessments = AssessmentPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
-
-		print("hit4")
 
 		# check if eligable for exercise lesson
 		# it's the day of week they specified
 		# and it's past the time they want to receive the push
 		if user.exercise_day_of_week == dow and	user.exercise_time < now_time:		
-
+			print("user id: " + user.user.id + " exercise pushes " + exercise_pushes.exists())
 		    # check to see if this is their first exercise
 			if exercise_sessions.exists():
 				last_exercise_session = exercise_sessions[0]
