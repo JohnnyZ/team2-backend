@@ -24,7 +24,7 @@ class Command(BaseCommand):
 	# Save this into the ExercisePush table
 	@staticmethod
 	def sendMeditationPush(user):
-		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+		device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 		device.send_message("Time to Meditate", extra={})
 
 		med_push = MeditationPush()
@@ -35,7 +35,7 @@ class Command(BaseCommand):
 	# Save this into the ExercisePush table
 	@staticmethod
 	def sendExercisePush(user, exercise_id):
-		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+		device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 		device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
 		exercise_push = ExercisePush(exercise_id=exercise_id)
@@ -46,7 +46,7 @@ class Command(BaseCommand):
 	# Save this into the AsessementPush table - schedule the next push
 	@staticmethod
 	def sendAssessmentPush(user, assessment_id, is_momentary):
-		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+		device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 		device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
 
 		# Calculate the amount to incrememnt so it's within our range of desired number of assessments

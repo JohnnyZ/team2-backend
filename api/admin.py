@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder, AssessmentPush, ExercisePush
+from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder, AssessmentPush, ExercisePush, MeditationPush
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -15,6 +15,15 @@ class ExerciseReminderAdmin(admin.ModelAdmin):
 class ExercisePushAdmin(admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
 	fields = ['user', 'exercise_id']
+	search_fields = ['user__username']
+
+	def user_id_display(self, obj):
+		return obj.user_id
+	user_id_display.short_description = 'User ID'
+
+class MeditationPushAdmin(admin.ModelAdmin):
+	list_display = ('id', 'user_id_display', 'user')
+	fields = ['user']
 	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
@@ -163,4 +172,5 @@ admin.site.register(MultiSelectResponse, MultiSelectResponseAdmin)
 admin.site.register(ExerciseReminder, ExerciseReminderAdmin)
 admin.site.register(ExercisePush, ExercisePushAdmin)
 admin.site.register(AssessmentPush, AssessmentPushAdmin)
+admin.site.register(MeditationPush, MeditationPushAdmin)
 
