@@ -21,7 +21,7 @@ def sendPush(msg):
 # Send push to given user and send them down the exercise that it will link to
 # Save this into the ExercisePush table
 def sendMeditationPush(user):
-	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 	# device.send_message("Time to Meditate", extra={})
 
 	print("sent med push to: " + user.user.id)
@@ -33,7 +33,7 @@ def sendMeditationPush(user):
 # Send push to given user and send them down the exercise that it will link to
 # Save this into the ExercisePush table
 def sendExercisePush(user, exercise_id):
-	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 	# device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
 	print("sent exer push to: " + user.user.id)
@@ -45,7 +45,7 @@ def sendExercisePush(user, exercise_id):
 # Send push to given user and send down the assessment_id and if this is the morning/extended assessment
 # Save this into the AsessementPush table - schedule the next push
 def sendAssessmentPush(user, assessment_id, is_momentary):
-	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
+	device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 	# device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
 
 	# Calculate the amount to incrememnt so it's within our range of desired number of assessments
