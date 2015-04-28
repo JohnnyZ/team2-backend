@@ -25,7 +25,7 @@ class Command(BaseCommand):
 	@staticmethod
 	def sendMeditationPush(user):
 		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-		device.send_message("Time to Meditation", extra={})
+		device.send_message("Time to Meditate", extra={})
 
 		med_push = MeditationPush()
 		med_push.user_id = user.user.id
@@ -35,7 +35,6 @@ class Command(BaseCommand):
 	# Save this into the ExercisePush table
 	@staticmethod
 	def sendExercisePush(user, exercise_id):
-		# TODO: send push
 		device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
 		device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 

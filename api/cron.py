@@ -3,57 +3,26 @@ from random import randint
 
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.management.base import BaseCommand
 
 from push_notifications.models import APNSDevice
 
-from .models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment, MeditationPush
-from .constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
+from api.models import UserProfile, ExercisePush, AssessmentPush, ExerciseSession, Assessment, MeditationPush
+from api.constants import END_HOUR, START_HOUR, MIN_ASSESSMENTS_PER_DAY, MAX_ASSESSMENTS_PER_DAY
 
 import logging
 logger = logging.getLogger(__name__)
-
-def create_user(num, ex_dow, ex_time, med_time):
-	user = User(
-		username="test"+num, 
-		email="test"+num+"@email.com", 
-		first_name="first", 
-		last_name="last")
-	user.save()
-
-	user_id = user.id
-
-	profile = UserProfile(
-		birthday="2015-03-30", 
-		gender="0", 
-		exercise_time=ex_time,
-		exercise_day_of_week=ex_dow, # Sunday
-		meditation_time=med_time)
-
-	profile.user_id = user_id
-	profile.save()
-
-def createnewusers():
-	create_user("7", 3, "13:00:00", "10:00:00")
-	create_user("8", 3, "14:30:00", "10:00:00")
-	create_user("9", 4, "22:00:00", "10:00:00")
-
-def createExerciseSessions():
-	session = ExerciseSession(exercise_id=1, created_at="2015-04-11T00:27:19.185783")
-	session.user_id = 7
-	session.save()
-
-	push = ExercisePush(exercise_id=1, sent="2015-04-9T00:27:19.185783")
-	push.user_id = 7
-	push.save()
 
 
 def sendPush(msg):
 	device = APNSDevice.objects.get(registration_id='a08423188a75a26d3bde67d9a7cfd7cf6b6370e9033d7dc829e2b0d5d1087950')
 	device.send_message(msg)
 
+# Send push to given user and send them down the exercise that it will link to
+# Save this into the ExercisePush table
 def sendMeditationPush(user):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time to Meditation", extra={})
+	device.send_message("Time to Meditate", extra={})
 
 	med_push = MeditationPush()
 	med_push.user_id = user.user.id
@@ -62,7 +31,6 @@ def sendMeditationPush(user):
 # Send push to given user and send them down the exercise that it will link to
 # Save this into the ExercisePush table
 def sendExercisePush(user, exercise_id):
-	# TODO: send push
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
 	device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
@@ -85,12 +53,11 @@ def sendAssessmentPush(user, assessment_id, is_momentary):
 	print("would set it to: ")
 	print(datetime.now() + timedelta(minutes=random_interval)) # TODO put this into schedule
 
-	assessment_push = AssessmentPush(next_send=datetime.now() + timedelta(minutes=15))
+	assessment_push = AssessmentPush(next_send=datetime.now() + timedelta(minutes=random_interval))#datetime.now() + timedelta(minutes=15))
 	assessment_push.user_id = user.user.id
 	assessment_push.assessment_id = assessment_id
 	assessment_push.is_momentary = is_momentary
 	assessment_push.save()
-
 
 def run_cron():
 	all_users = UserProfile.objects.all()
@@ -105,6 +72,10 @@ def run_cron():
 		now_date = now.date()
 		last_possible_send_time = time(hour=END_HOUR)
 		first_possible_send_time = time(hour=START_HOUR)
+
+		# last meditation push
+		# meditation_pushes = MeditationPush.objects.filter(user__id=user_id).order_by("-sent")
+		today_meditations = MeditationPush.objects.filter(user__id=user_id, sent__range=(today_min, today_max)).order_by("-sent")
 
 		# get the last exercise push for user (order by sent descending)
 		exercise_sessions = ExerciseSession.objects.filter(user__id=user_id).order_by("-created_at")
@@ -166,5 +137,6 @@ def run_cron():
 			sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
 
 		elif not today_meditations.exists() and exercise_pushes.exists() and now_time > user.meditation_time:
-				self.sendMeditationPush(user=user)
+			sendMeditationPush(user=user)
+
 

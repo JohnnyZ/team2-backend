@@ -13,8 +13,8 @@ class ExerciseReminderAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ExercisePushAdmin(admin.ModelAdmin):
-	list_display = ('id', 'sent', 'exercise_id', 'user_id_display', 'user')
-	fields = ['user', 'sent', 'exercise_id']
+	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
+	fields = ['user', 'exercise_id']
 	search_fields = ['user__username']
 
 	def user_id_display(self, obj):
