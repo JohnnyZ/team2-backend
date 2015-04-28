@@ -22,7 +22,7 @@ def sendPush(msg):
 # Save this into the ExercisePush table
 def sendMeditationPush(user):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time to Meditate", extra={})
+	# device.send_message("Time to Meditate", extra={})
 
 	print("sent med push to: " + user.user.id)
 
@@ -34,7 +34,7 @@ def sendMeditationPush(user):
 # Save this into the ExercisePush table
 def sendExercisePush(user, exercise_id):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
+	# device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
 	print("sent exer push to: " + user.user.id)
 
@@ -46,7 +46,7 @@ def sendExercisePush(user, exercise_id):
 # Save this into the AsessementPush table - schedule the next push
 def sendAssessmentPush(user, assessment_id, is_momentary):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.apns_token)
-	device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
+	# device.send_message("Time for an assessment", extra={"assessment_id": assessment_id, "is_momentary":is_momentary})
 
 	# Calculate the amount to incrememnt so it's within our range of desired number of assessments
 	minutes_in_day = (END_HOUR - START_HOUR) * 60
@@ -97,7 +97,7 @@ def run_cron():
 		# it's the day of week they specified
 		# and it's past the time they want to receive the push
 		if user.exercise_day_of_week == dow and	user.exercise_time < now_time:		
-			print("user id: " + user.user.id + " exercise pushes " + exercise_pushes.exists())
+
 		    # check to see if this is their first exercise
 			if exercise_sessions.exists():
 				last_exercise_session = exercise_sessions[0]
