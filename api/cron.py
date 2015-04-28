@@ -24,7 +24,7 @@ def sendMeditationPush(user):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 	# device.send_message("Time to Meditate", extra={})
 
-	print("sent med push to: " + user.user.id)
+	print("sent med push to: ", user.user.id)
 
 	med_push = MeditationPush()
 	med_push.user_id = user.user.id
@@ -36,7 +36,7 @@ def sendExercisePush(user, exercise_id):
 	device = APNSDevice.objects.get(registration_id=user.apns_device.registration_id)
 	# device.send_message("Time for this weeks exercise", extra={"exercise_id": exercise_id})
 
-	print("sent exer push to: " + user.user.id)
+	print("sent exer push to: ", user.user.id)
 
 	exercise_push = ExercisePush(exercise_id=exercise_id)
 	exercise_push.user_id = user.user.id
@@ -54,7 +54,7 @@ def sendAssessmentPush(user, assessment_id, is_momentary):
 	min_interval = minutes_in_day / (MAX_ASSESSMENTS_PER_DAY - 1)
 	random_interval = randint(min_interval,max_interval)
 
-	print("sent ass push to: " + user.user.id)
+	print("sent ass push to: ", user.user.id)
 
 	print("would set it to: ")
 	print(datetime.now() + timedelta(minutes=random_interval)) # TODO put this into schedule
