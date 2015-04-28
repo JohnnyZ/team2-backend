@@ -60,8 +60,7 @@ def sendAssessmentPush(user, assessment_id, is_momentary):
 	assessment_push.save()
 
 def run_cron():
-	all_users = UserProfile.objects.all()
-	for user in all_users:
+	for user in UserProfile.objects.exclude(apns_device=None):
 		print("hit0")
 		user_id = user.user.id
 
