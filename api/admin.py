@@ -103,7 +103,7 @@ class ResponseResource(resources.ModelResource):
 		model = Response
 		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 
-class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
+class ResponseAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
