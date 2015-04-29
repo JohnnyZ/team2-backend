@@ -93,6 +93,7 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
+	assessment_id_display.admin_order_field = 'assessment_id'
 
 	def get_user(self, obj):
 
