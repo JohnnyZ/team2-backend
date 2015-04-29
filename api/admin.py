@@ -5,7 +5,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 
 # Import Export
 from import_export import resources
-from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -66,11 +66,11 @@ class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-#class ExerciseSessionResource(resources.ModelResource):
-#	class Meta:
-#		model = ExerciseSession
+class ExerciseSessionResource(resources.ModelResource):
+	class Meta:
+		model = ExerciseSession
 
-class ExerciseSessionAdmin(ImportExportMixin, admin.ModelAdmin):
+class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -95,16 +95,15 @@ class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
-"""
+
 class ResponseResource(resources.ModelResource):
 	#assessment_id_display = fields.Field(column_name='assessment_id_display')
 
 	class Meta:
 		model = Response
 		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
-"""
 
-class ResponseAdmin(ImportExportMixin, admin.ModelAdmin):
+class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
