@@ -5,7 +5,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 
 # Import Export
 from import_export import resources
-from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
