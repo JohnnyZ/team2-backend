@@ -96,9 +96,9 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	assessment_id_display.admin_order_field = 'assessment_id'
 
 	def get_user(self, obj):
-
-		return obj.assessment.user.username 
+		return obj.assessment.user.username
 	get_user.short_description = 'User'
+	get_user.admin_order_field = 'assessment.user.username'
 
 	# Import_Export
 	resource_class = ResponseResource
