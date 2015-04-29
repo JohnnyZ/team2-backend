@@ -78,8 +78,8 @@ class AssessmentAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ResponseResource(resources.ModelResource):
-	assessment_id_display = fields.Field(column_name='assessment_id_display')
-	
+	#assessment_id_display = fields.Field(column_name='assessment_id_display')
+
 	class Meta:
 		model = Response
 		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
