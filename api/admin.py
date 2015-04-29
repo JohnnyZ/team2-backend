@@ -5,6 +5,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 
 # Import Export
 from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -76,7 +77,12 @@ class AssessmentAdmin(admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 
-class ResponseAdmin(admin.ModelAdmin):
+class ResponseResource(resources.ModelResource):
+
+	class Meta:
+		model = Response
+
+class ResponseAdmin(ImportExportModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -91,10 +97,8 @@ class ResponseAdmin(admin.ModelAdmin):
 		return obj.assessment.user.username 
 	get_user.short_description = 'User'
 
-class ResponseResource(resources.ModelResource):
-
-	class Meta:
-		model = Response
+	# Import_Export
+	resource_class = ResponseResource
 
 class MultiSelectResponseAdmin(admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
