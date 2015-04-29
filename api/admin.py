@@ -15,6 +15,7 @@ class ExerciseReminderAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 class ExercisePushAdmin(admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
@@ -24,6 +25,7 @@ class ExercisePushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 class MeditationPushAdmin(admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user')
@@ -33,6 +35,7 @@ class MeditationPushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 class AssessmentPushAdmin(admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
@@ -42,10 +45,12 @@ class AssessmentPushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
+	assessment_id_display.admin_order_field = 'assessment_id'
 
 
 class MeditationSessionAdmin(admin.ModelAdmin):
@@ -56,6 +61,7 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 class ExerciseSessionAdmin(admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
@@ -66,6 +72,7 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 
 class AssessmentAdmin(admin.ModelAdmin):
@@ -76,6 +83,7 @@ class AssessmentAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 class ResponseResource(resources.ModelResource):
 	#assessment_id_display = fields.Field(column_name='assessment_id_display')
@@ -98,7 +106,7 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	def get_user(self, obj):
 		return obj.assessment.user.username
 	get_user.short_description = 'User'
-	get_user.admin_order_field = 'assessment.user.username'
+	get_user.admin_order_field = 'assessment__user.username'
 
 	# Import_Export
 	resource_class = ResponseResource
