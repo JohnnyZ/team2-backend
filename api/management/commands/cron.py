@@ -118,6 +118,9 @@ class Command(BaseCommand):
 				elif not exercise_pushes.exists():
 					Command.sendExercisePush(user=user, exercise_id=0)
 
+			if not today_meditations.exists() and exercise_pushes.exists() and now_time > user.meditation_time:
+				Command.sendMeditationPush(user=user)
+
 			# if an assessment was sent today, see if they're eligable for another one
 			if today_assessments.exists():
 				last_assessment = today_assessments[0]
@@ -134,16 +137,13 @@ class Command(BaseCommand):
 
 			# no assessment sent today - check if they're eligable for morning/extended assessment
 			# TODO: this will send the morning one at the same time everyday (START_HOUR) - add variance?
-			if now_time > first_possible_send_time:
+			elif now_time > first_possible_send_time:
 				# create assessment and push it down with the id and is_momentary = false (since it is the morning one)
 				new_assessment = Assessment()
 				new_assessment.user_id = user_id
 				new_assessment.save()
 
 				Command.sendAssessmentPush(user=user, assessment_id=new_assessment.id, is_momentary=False)
-
-			if not today_meditations.exists() and exercise_pushes.exists() and now_time > user.meditation_time:
-				Command.sendMeditationPush(user=user)
 
 
 
