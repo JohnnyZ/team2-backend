@@ -66,11 +66,11 @@ class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class ExerciseSessionResource(resources.ModelResource):
-	class Meta:
-		model = ExerciseSession
+#class ExerciseSessionResource(resources.ModelResource):
+#	class Meta:
+#		model = ExerciseSession
 
-class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
+class ExerciseSessionAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
