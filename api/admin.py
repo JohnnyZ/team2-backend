@@ -5,7 +5,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 
 # Import Export
 from import_export import resources
-from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -70,7 +70,7 @@ class ExerciseSessionResource(resources.ModelResource):
 	class Meta:
 		model = ExerciseSession
 
-class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
+class ExerciseSessionAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
