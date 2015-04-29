@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder, AssessmentPush, ExercisePush, MeditationPush
 
+# Import Export
+from import_export import resources
+
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
@@ -87,6 +90,11 @@ class ResponseAdmin(admin.ModelAdmin):
 
 		return obj.assessment.user.username 
 	get_user.short_description = 'User'
+
+class ResponseResource(resources.ModelResource):
+
+	class Meta:
+		model = Response
 
 class MultiSelectResponseAdmin(admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
