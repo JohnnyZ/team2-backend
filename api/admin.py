@@ -83,12 +83,8 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 
 class AssessmentResource(resources.ModelResource):
-	username = fields.Field()
 	class Meta:
 		model = Assessment
-
-	 def dehydrate_username(self, Assessment):
-        return '%s' % (assessment.user.username)
 
 class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
