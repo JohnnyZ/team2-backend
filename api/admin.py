@@ -5,7 +5,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 
 # Import Export
 from import_export import resources
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
 
 class ExerciseReminderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
@@ -78,10 +78,11 @@ class AssessmentAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 
 class ResponseResource(resources.ModelResource):
-
+	
+	
 	class Meta:
 		model = Response
-		#fields = {'id', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at'}
+		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 
 class ResponseAdmin(ImportExportActionModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
