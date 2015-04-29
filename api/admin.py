@@ -81,7 +81,7 @@ class ResponseResource(resources.ModelResource):
 
 	class Meta:
 		model = Response
-		fields = {'id', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at'}
+		#fields = {'id', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at'}
 
 class ResponseAdmin(ImportExportModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
