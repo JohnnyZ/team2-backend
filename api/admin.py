@@ -52,8 +52,11 @@ class AssessmentPushAdmin(admin.ModelAdmin):
 	assessment_id_display.short_description = 'Assessment ID'
 	assessment_id_display.admin_order_field = 'assessment_id'
 
+class MeditationSessionResource(resources.ModelResource):
+	class Meta:
+		model = MeditationSession
 
-class MeditationSessionAdmin(admin.ModelAdmin):
+class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -63,7 +66,11 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class ExerciseSessionAdmin(admin.ModelAdmin):
+class ExerciseSessionResource(resources.ModelResource):
+	class Meta:
+		model = ExerciseSession
+
+class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -75,7 +82,11 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	user_id_display.admin_order_field = 'user_id'
 
 
-class AssessmentAdmin(admin.ModelAdmin):
+class AssessmentResource(resources.ModelResource):
+	class Meta:
+		model = Assessment
+
+class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
