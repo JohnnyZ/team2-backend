@@ -37,7 +37,7 @@ class MeditationPushAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class AssessmentPushAdmin(admin.ModelAdmin):
+class AssessmentPushAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
 	fields = ['user', 'assessment', 'next_send', 'is_momentary']
 	search_fields = ['user__username']
