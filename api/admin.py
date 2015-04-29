@@ -95,13 +95,14 @@ class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
-
-#class ResponseResource(resources.ModelResource):
+"""
+class ResponseResource(resources.ModelResource):
 	#assessment_id_display = fields.Field(column_name='assessment_id_display')
 
-#	class Meta:
-#		model = Response
-#		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
+	class Meta:
+		model = Response
+		fields = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
+"""
 
 class ResponseAdmin(ImportExportMixin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
