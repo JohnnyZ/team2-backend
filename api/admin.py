@@ -125,7 +125,7 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	get_user.admin_order_field = 'assessment__user__username'
 
 	# Import_Export
-	#resource_class = ResponseResource
+	resource_class = ResponseResource
 
 class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
