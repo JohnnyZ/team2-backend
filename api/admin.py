@@ -104,7 +104,9 @@ class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 class ResponseResource(resources.ModelResource):
 	class Meta:
 		model = Response
-		fields = ('')
+		fields = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
+		expect_order = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
+
 
 class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
