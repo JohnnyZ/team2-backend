@@ -61,6 +61,12 @@ class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 	resource_class = MeditationPushResource
 
+class AssessmentPushResource(resources.ModelResource):
+	class Meta:
+		model = AssessmentPush
+		fields = ('id', 'assessment__id', 'next_send', 'is_momentary', 'user__username',)
+		export_order = ('id', 'assessment__id', 'next_send', 'is_momentary', 'user__username',)
+
 class AssessmentPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
 	fields = ['user', 'assessment', 'next_send', 'is_momentary']
@@ -75,6 +81,8 @@ class AssessmentPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
 	assessment_id_display.admin_order_field = 'assessment_id'
+
+	resource_class = AssessmentPushResource
 
 class MeditationSessionResource(resources.ModelResource):
 	class Meta:
