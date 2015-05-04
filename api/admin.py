@@ -69,6 +69,9 @@ class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 class ExerciseSessionResource(resources.ModelResource):
 	class Meta:
 		model = ExerciseSession
+		fields = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
+		export_order = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
+
 
 class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
