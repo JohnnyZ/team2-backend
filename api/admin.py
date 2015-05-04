@@ -83,9 +83,10 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 
 class AssessmentResource(resources.ModelResource):
-	user = Field(attribute='user__username')
+	#user = Field(attribute='user__username')
 	class Meta:
 		model = Assessment
+		fields = ('user__username',)
 
 class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
