@@ -7,6 +7,12 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
 
+class ExerciseReminderResource(resources.ModelResource):
+	class Meta:
+		model = ExerciseReminder
+		fields = ('id', 'notification_time','user__username',)
+		export_order = ('id', 'notification_time','user__username',)
+
 class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
@@ -16,6 +22,8 @@ class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
+
+	resource_class = ExerciseReminderResource
 
 class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
@@ -72,7 +80,6 @@ class ExerciseSessionResource(resources.ModelResource):
 		fields = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
 		export_order = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
 
-
 class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
@@ -85,6 +92,7 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.admin_order_field = 'user_id'
 
 	resource_class = ExerciseSessionResource
+
 class AssessmentResource(resources.ModelResource):
 	class Meta:
 		model = Assessment
