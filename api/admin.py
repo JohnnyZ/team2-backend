@@ -87,6 +87,7 @@ class AssessmentResource(resources.ModelResource):
 	class Meta:
 		model = Assessment
 		fields = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
+		expect_order = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
 
 class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
@@ -99,6 +100,11 @@ class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.admin_order_field = 'user_id'
 
 	resource_class = AssessmentResource
+
+class ResponseResource(resources.ModelResource):
+	class Meta:
+		model = Response
+		fields = ('')
 
 class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
