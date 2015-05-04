@@ -82,8 +82,8 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.admin_order_field = 'user_id'
 
 
-
 class AssessmentResource(resources.ModelResource):
+	#user = Field(attribute='user__username')
 	class Meta:
 		model = Assessment
 		fields = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
@@ -106,6 +106,7 @@ class ResponseResource(resources.ModelResource):
 		model = Response
 		fields = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
 		export_order = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
+
 
 class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
@@ -143,8 +144,6 @@ class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	def response_question_id_display(self,obj):
 		return obj.response.question_id
 	response_question_id_display.short_description = 'Question ID'
-
-	resource_class = MultiSelectResponseResource
 
 
 class UserProfileInline(admin.StackedInline):
