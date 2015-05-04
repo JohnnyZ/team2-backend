@@ -8,7 +8,7 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
 
 class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
-	list_display = ('id', 'notification_time', 'user_id_display', 'user')
+	list_display = ('id', 'notification_time', """'user_id_display',""" 'user')
 	fields = ['user', 'notification_time']
 	search_fields = ['user__username']
 
@@ -57,7 +57,7 @@ class MeditationSessionResource(resources.ModelResource):
 		model = MeditationSession
 
 class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
-	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
+	list_display = ('id', 'meditation_id', """'user_id_display',""" 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 	search_fields = ['user__username']
@@ -74,7 +74,7 @@ class ExerciseSessionResource(resources.ModelResource):
 
 
 class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
-	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
+	list_display = ('id', 'exercise_id', """'user_id_display',""" 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 	search_fields = ['user__username']
@@ -86,14 +86,13 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 	resource_class = ExerciseSessionResource
 class AssessmentResource(resources.ModelResource):
-	#user = Field(attribute='user__username')
 	class Meta:
 		model = Assessment
 		fields = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
 		export_order = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
 
 class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
-	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
+	list_display = ('id', """'user_id_display',""" 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
 	search_fields = ['user__username']
