@@ -130,7 +130,7 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 class MultiSelectResponseResource(resources.ModelResource):
 	class Meta:
 		model = MultiSelectResponse
-		fields = ('id', 'response','selection_id',)
+		fields = ('id', 'response', 'multi_select__question_id', 'selection_id',)
 		export_order = ('id', 'response', 'selection_id',)
 
 class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
