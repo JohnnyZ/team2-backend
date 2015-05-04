@@ -96,8 +96,7 @@ class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-
-class ResponseAdmin(ImportExportMixin, admin.ModelAdmin):
+class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
