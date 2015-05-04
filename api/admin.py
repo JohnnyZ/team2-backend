@@ -12,7 +12,7 @@ class ExerciseReminderResource(resources.ModelResource):
 		model = ExerciseReminder
 		fields = ('id', 'notification_time','user__username',)
 		export_order = ('id', 'notification_time','user__username',)
-		
+
 class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
@@ -25,6 +25,12 @@ class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 	resource_class = ExerciseReminderResource
 
+class ExercisePushResource(resources.ModelResource):
+	class Meta:
+		model = ExercisePush
+		fields = ('id', 'exercise_id','user__username',)
+		export_order = ('id', 'exercise_id','user__username',)
+
 class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
 	fields = ['user', 'exercise_id']
@@ -34,6 +40,8 @@ class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
+
+	resource_class = ExercisePushResource
 
 class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user')
