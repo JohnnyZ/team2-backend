@@ -12,7 +12,7 @@ class ExerciseReminderResource(resources.ModelResource):
 		model = ExerciseReminder
 		fields = ('id', 'notification_time','user__username',)
 		export_order = ('id', 'notification_time','user__username',)
-
+		
 class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
