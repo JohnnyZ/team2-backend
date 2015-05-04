@@ -127,6 +127,12 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	# Import_Export
 	resource_class = ResponseResource
 
+class MultiSelectResponseResource(resources.ModelResource):
+	class Meta:
+		model = MultiSelectResponse
+		fields = ('id', 'response__id', 'response__question__id', 'selection_id',)
+		export_order = ('id', 'response__id', 'response__question__id', 'selection_id',)
+
 class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
@@ -138,6 +144,8 @@ class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	def response_question_id_display(self,obj):
 		return obj.response.question_id
 	response_question_id_display.short_description = 'Question ID'
+
+	resource_class = MultiSelectResponseResource
 
 
 class UserProfileInline(admin.StackedInline):
