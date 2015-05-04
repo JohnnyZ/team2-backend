@@ -83,7 +83,7 @@ class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 
 class AssessmentResource(resources.ModelResource):
-	username = Field(attribute='userprofile__user__username')
+	user = Field(attribute='userprofile__user__username')
 	class Meta:
 		model = Assessment
 
