@@ -7,7 +7,7 @@ from .models import UserProfile, MeditationSession, ExerciseSession, Assessment,
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
 
-class ExerciseReminderAdmin(admin.ModelAdmin):
+class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
 	search_fields = ['user__username']
@@ -17,7 +17,7 @@ class ExerciseReminderAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class ExercisePushAdmin(admin.ModelAdmin):
+class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
 	fields = ['user', 'exercise_id']
 	search_fields = ['user__username']
@@ -27,7 +27,7 @@ class ExercisePushAdmin(admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class MeditationPushAdmin(admin.ModelAdmin):
+class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user')
 	fields = ['user']
 	search_fields = ['user__username']
@@ -115,7 +115,7 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	# Import_Export
 	#resource_class = ResponseResource
 
-class MultiSelectResponseAdmin(admin.ModelAdmin):
+class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
 
@@ -131,7 +131,7 @@ class MultiSelectResponseAdmin(admin.ModelAdmin):
 class UserProfileInline(admin.StackedInline):
 	model = UserProfile
 
-class UserProfileAdmin(UserAdmin):
+class UserProfileAdmin(ImportExportActionModelAdmin, UserAdmin):
 	inlines = [ UserProfileInline, ]
 	list_display = ('id', 'username', 'first_name', 'last_name', 'start_date', 'meditation_time', 'exercise_day_of_week', 
 					'exercise_time', 'created_at', 'updated_at', )
