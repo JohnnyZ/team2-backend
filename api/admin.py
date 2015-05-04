@@ -127,11 +127,6 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	# Import_Export
 	resource_class = ResponseResource
 
-class MultiSelectResponseResource(resources.ModelResource):
-	class Meta:
-		model = MultiSelectResponse
-		fields = ('id', 'response__id', 'response__question__id', 'selection_id',)
-
 class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
