@@ -43,6 +43,12 @@ class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 
 	resource_class = ExercisePushResource
 
+class MeditationPushResource(resources.ModelResource):
+	class Meta:
+		model = MeditationPush
+		fields = ('id', 'user__username',)
+		export_order = ('id', 'user__username',)
+
 class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user')
 	fields = ['user']
@@ -52,6 +58,8 @@ class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
+
+	resource_class = MeditationPushResource
 
 class AssessmentPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
