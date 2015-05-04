@@ -37,7 +37,7 @@ class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	user_id_display.short_description = 'User ID'
 	user_id_display.admin_order_field = 'user_id'
 
-class AssessmentPushAdmin(ImportExportMixin, admin.ModelAdmin):
+class AssessmentPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
 	fields = ['user', 'assessment', 'next_send', 'is_momentary']
 	search_fields = ['user__username']
@@ -130,8 +130,8 @@ class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 class MultiSelectResponseResource(resources.ModelResource):
 	class Meta:
 		model = MultiSelectResponse
-		fields = ('id', 'response', 'multi_select', 'selection_id',)
-		export_order = ('id', 'response', 'multi_select', 'selection_id',)
+		fields = ('id', 'response', 'response__type', 'selection_id',)
+		export_order = ('id', 'response', 'response__type', 'selection_id',)
 
 class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
