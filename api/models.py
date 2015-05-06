@@ -32,17 +32,19 @@ class ResponseType(enum.Enum):
 
 class Emotion(enum.Enum):
 	NONE = 0
-	UPSET = 1 
-	SAD = 2
-	DEPRESSED = 3
-	NERVOUS = 4
-	ANXIOUS = 5
-	HAPPY = 6
-	CONTENT = 7
-	EXCITED = 8
-	ENERGETIC = 9
-	RELAXED = 10
-	ALERT = 11
+	UPSET = 1
+	ANGRY = 2
+	SAD = 3
+	DEPRESSED = 4
+	NERVOUS = 5
+	ANXIOUS = 6
+	HAPPY = 7
+	CONTENT = 8
+	EXCITED = 9
+	ENERGETIC = 10
+	RELAXED = 11
+	ALERT = 12
+	STRESSED = 13
 
 class BodyLocation(enum.Enum):
 	NONE = 0
