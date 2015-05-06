@@ -3,7 +3,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from .models import UserProfile, MeditationSession, ExerciseSession, Assessment, Response, MultiSelectResponse, ExerciseReminder, AssessmentPush, ExercisePush, MeditationPush
 
-class ExerciseReminderAdmin(admin.ModelAdmin):
+# Import Export
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin, ImportExportMixin
+
+class ExerciseReminderResource(resources.ModelResource):
+	class Meta:
+		model = ExerciseReminder
+		fields = ('id', 'notification_time','user__username',)
+		export_order = ('id', 'notification_time','user__username',)
+
+class ExerciseReminderAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'notification_time', 'user_id_display', 'user')
 	fields = ['user', 'notification_time']
 	search_fields = ['user__username']
@@ -11,8 +21,17 @@ class ExerciseReminderAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
-class ExercisePushAdmin(admin.ModelAdmin):
+	resource_class = ExerciseReminderResource
+
+class ExercisePushResource(resources.ModelResource):
+	class Meta:
+		model = ExercisePush
+		fields = ('id', 'exercise_id','user__username',)
+		export_order = ('id', 'exercise_id','user__username',)
+
+class ExercisePushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user')
 	fields = ['user', 'exercise_id']
 	search_fields = ['user__username']
@@ -20,8 +39,17 @@ class ExercisePushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
-class MeditationPushAdmin(admin.ModelAdmin):
+	resource_class = ExercisePushResource
+
+class MeditationPushResource(resources.ModelResource):
+	class Meta:
+		model = MeditationPush
+		fields = ('id', 'user__username',)
+		export_order = ('id', 'user__username',)
+
+class MeditationPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user')
 	fields = ['user']
 	search_fields = ['user__username']
@@ -29,8 +57,17 @@ class MeditationPushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
-class AssessmentPushAdmin(admin.ModelAdmin):
+	resource_class = MeditationPushResource
+
+class AssessmentPushResource(resources.ModelResource):
+	class Meta:
+		model = AssessmentPush
+		fields = ('id', 'assessment__id', 'next_send', 'is_momentary', 'user__username',)
+		export_order = ('id', 'assessment__id', 'next_send', 'is_momentary', 'user__username',)
+
+class AssessmentPushAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'next_send', 'is_momentary', 'user_id_display', 'user')
 	fields = ['user', 'assessment', 'next_send', 'is_momentary']
 	search_fields = ['user__username']
@@ -38,13 +75,20 @@ class AssessmentPushAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
+	assessment_id_display.admin_order_field = 'assessment_id'
 
+	resource_class = AssessmentPushResource
 
-class MeditationSessionAdmin(admin.ModelAdmin):
+class MeditationSessionResource(resources.ModelResource):
+	class Meta:
+		model = MeditationSession
+
+class MeditationSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'meditation_id', 'user_id_display', 'user', 'percent_completed', 'created_at', 'updated_at')
 	fields = ['user', 'meditation_id', 'percent_completed', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -52,8 +96,15 @@ class MeditationSessionAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
-class ExerciseSessionAdmin(admin.ModelAdmin):
+class ExerciseSessionResource(resources.ModelResource):
+	class Meta:
+		model = ExerciseSession
+		fields = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
+		export_order = ('id', 'exercise_id', 'user__username', 'created_at', 'updated_at')
+
+class ExerciseSessionAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'exercise_id', 'user_id_display', 'user', 'created_at', 'updated_at')
 	fields = ['user', 'exercise_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -62,9 +113,17 @@ class ExerciseSessionAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
+	resource_class = ExerciseSessionResource
 
-class AssessmentAdmin(admin.ModelAdmin):
+class AssessmentResource(resources.ModelResource):
+	class Meta:
+		model = Assessment
+		fields = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
+		export_order = ('id', 'user__username', 'start_time', 'complete_time', 'created_at', 'updated_at',)
+
+class AssessmentAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'user_id_display', 'user', 'start_time', 'complete_time', 'created_at', 'updated_at')
 	fields = ['user', 'start_time', 'complete_time', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -72,8 +131,17 @@ class AssessmentAdmin(admin.ModelAdmin):
 	def user_id_display(self, obj):
 		return obj.user_id
 	user_id_display.short_description = 'User ID'
+	user_id_display.admin_order_field = 'user_id'
 
-class ResponseAdmin(admin.ModelAdmin):
+	resource_class = AssessmentResource
+
+class ResponseResource(resources.ModelResource):
+	class Meta:
+		model = Response
+		fields = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
+		export_order = ('id', 'assessment__id', 'assessment__user__username', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at',)
+
+class ResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'assessment_id_display', 'get_user', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at')
 	fields = ['assessment', 'type', 'boolean', 'number', 'emotion', 'percent', 'question_id', 'created_at', 'updated_at']
 	readonly_fields = ('created_at', 'updated_at')
@@ -82,13 +150,22 @@ class ResponseAdmin(admin.ModelAdmin):
 	def assessment_id_display(self, obj):
 		return obj.assessment_id
 	assessment_id_display.short_description = 'Assessment ID'
+	assessment_id_display.admin_order_field = 'assessment_id'
 
 	def get_user(self, obj):
-
-		return obj.assessment.user.username 
+		return obj.assessment.user.username
 	get_user.short_description = 'User'
+	get_user.admin_order_field = 'assessment__user__username'
 
-class MultiSelectResponseAdmin(admin.ModelAdmin):
+	resource_class = ResponseResource
+
+class MultiSelectResponseResource(resources.ModelResource):
+	class Meta:
+		model = MultiSelectResponse
+		fields = ('id', 'response', 'response__question_id', 'selection_id',)
+		export_order = ('id', 'response', 'response__question_id', 'selection_id',)
+
+class MultiSelectResponseAdmin(ImportExportActionModelAdmin, admin.ModelAdmin):
 	list_display = ('id', 'response_id_display', 'response_question_id_display', 'selection_id')
 	fields = ['response', 'selection_id']
 
@@ -100,11 +177,13 @@ class MultiSelectResponseAdmin(admin.ModelAdmin):
 		return obj.response.question_id
 	response_question_id_display.short_description = 'Question ID'
 
+	resource_class = MultiSelectResponseResource
+
 
 class UserProfileInline(admin.StackedInline):
 	model = UserProfile
 
-class UserProfileAdmin(UserAdmin):
+class UserProfileAdmin(ImportExportActionModelAdmin, UserAdmin):
 	inlines = [ UserProfileInline, ]
 	list_display = ('id', 'username', 'first_name', 'last_name', 'start_date', 'meditation_time', 'exercise_day_of_week', 
 					'exercise_time', 'created_at', 'updated_at', )
